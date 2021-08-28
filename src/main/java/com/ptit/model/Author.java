@@ -7,10 +7,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
 
 
 @Entity
 @Table(name="author")
+@AllArgsConstructor
+@NoArgsConstructor
 public class Author {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
