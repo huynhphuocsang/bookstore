@@ -9,55 +9,25 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
-import org.hibernate.annotations.BatchSize;
-import org.hibernate.validator.constraints.NotBlank;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-
-
 @Entity
-@Table(name="author")
-@AllArgsConstructor
+@Table(name="publishing_company")
 @NoArgsConstructor
-@Getter
+@AllArgsConstructor
 @Setter
-public class Author {
+@Getter
+public class PublishingCompany {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="id_author")
-	private long idAuthor; 
+	@Column(name="id_company")
+	private long idCompany; 
 	
-	
+	@Column(name="company_name",length=45)
 	@NotEmpty
-	@Column(name="author_name",length=50)
-	private String name; 
-	
+	private String name;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
