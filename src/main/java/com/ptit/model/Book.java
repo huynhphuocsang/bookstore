@@ -58,6 +58,10 @@ public class Book {
 	@ManyToOne
 	@JoinColumn(name="id_company",nullable = true)
 	private PublishingCompany company; 
+	
+	@ManyToOne
+	@JoinColumn(name="category_id")
+	private Category category; 
 }
 
 
