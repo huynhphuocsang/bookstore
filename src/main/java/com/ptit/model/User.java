@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -58,6 +59,11 @@ public class User {
 	private Set<Items> setItems = new HashSet<Items>(); 
 	
 	
+	@ManyToMany(fetch = FetchType.LAZY,mappedBy = "setUsers")
+	Set<Address> setAddress = new HashSet<Address>(); 
+	
+//	@OneToMany(fetch = FetchType.LAZY,mappedBy = "user")
+//	private Set<Order> setOrders = new HashSet<Order>(); 
 }
 
 
