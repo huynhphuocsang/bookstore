@@ -1,3 +1,4 @@
 # bookstore
 ERD diagram: 
-![erd](https://user-images.githubusercontent.com/64321224/131205608-82dd6e02-ea04-4295-85de-739a111508f4.png)
+![bookstoreERD](https://user-images.githubusercontent.com/64321224/131238720-0bbb86bb-a99d-43f5-a3b3-c78c967e551d.png)
+
