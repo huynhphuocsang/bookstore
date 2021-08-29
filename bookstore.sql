@@ -41,6 +41,15 @@ CREATE TABLE `address` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Dumping data for table `address`
+--
+
+LOCK TABLES `address` WRITE;
+/*!40000 ALTER TABLE `address` DISABLE KEYS */;
+/*!40000 ALTER TABLE `address` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `author`
 --
 
@@ -53,6 +62,15 @@ CREATE TABLE `author` (
   PRIMARY KEY (`id_author`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `author`
+--
+
+LOCK TABLES `author` WRITE;
+/*!40000 ALTER TABLE `author` DISABLE KEYS */;
+/*!40000 ALTER TABLE `author` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `book`
@@ -70,14 +88,49 @@ CREATE TABLE `book` (
   `publish_day` date DEFAULT NULL,
   `total_quantity` int DEFAULT NULL,
   `id_author` bigint DEFAULT NULL,
+  `category_id` bigint DEFAULT NULL,
   `id_company` bigint DEFAULT NULL,
   PRIMARY KEY (`id_book`),
   KEY `FKrb7h78i8dnxxboiapao9caepy` (`id_author`),
+  KEY `FKam9riv8y6rjwkua1gapdfew4j` (`category_id`),
   KEY `FKoqlj3gpg7ogs1k63vo6a28k3d` (`id_company`),
+  CONSTRAINT `FKam9riv8y6rjwkua1gapdfew4j` FOREIGN KEY (`category_id`) REFERENCES `category` (`category_id`),
   CONSTRAINT `FKoqlj3gpg7ogs1k63vo6a28k3d` FOREIGN KEY (`id_company`) REFERENCES `publishing_company` (`id_company`),
   CONSTRAINT `FKrb7h78i8dnxxboiapao9caepy` FOREIGN KEY (`id_author`) REFERENCES `author` (`id_author`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `book`
+--
+
+LOCK TABLES `book` WRITE;
+/*!40000 ALTER TABLE `book` DISABLE KEYS */;
+/*!40000 ALTER TABLE `book` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `category`
+--
+
+DROP TABLE IF EXISTS `category`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `category` (
+  `category_id` bigint NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`category_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `category`
+--
+
+LOCK TABLES `category` WRITE;
+/*!40000 ALTER TABLE `category` DISABLE KEYS */;
+/*!40000 ALTER TABLE `category` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `district`
@@ -97,6 +150,15 @@ CREATE TABLE `district` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Dumping data for table `district`
+--
+
+LOCK TABLES `district` WRITE;
+/*!40000 ALTER TABLE `district` DISABLE KEYS */;
+/*!40000 ALTER TABLE `district` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `gender`
 --
 
@@ -109,6 +171,15 @@ CREATE TABLE `gender` (
   PRIMARY KEY (`id_gender`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `gender`
+--
+
+LOCK TABLES `gender` WRITE;
+/*!40000 ALTER TABLE `gender` DISABLE KEYS */;
+/*!40000 ALTER TABLE `gender` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `items`
@@ -129,6 +200,15 @@ CREATE TABLE `items` (
   CONSTRAINT `FKmhqj9105yawax1y8dp68i66xm` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `items`
+--
+
+LOCK TABLES `items` WRITE;
+/*!40000 ALTER TABLE `items` DISABLE KEYS */;
+/*!40000 ALTER TABLE `items` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `order_detail`
@@ -152,6 +232,15 @@ CREATE TABLE `order_detail` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Dumping data for table `order_detail`
+--
+
+LOCK TABLES `order_detail` WRITE;
+/*!40000 ALTER TABLE `order_detail` DISABLE KEYS */;
+/*!40000 ALTER TABLE `order_detail` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `orders`
 --
 
@@ -173,6 +262,15 @@ CREATE TABLE `orders` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Dumping data for table `orders`
+--
+
+LOCK TABLES `orders` WRITE;
+/*!40000 ALTER TABLE `orders` DISABLE KEYS */;
+/*!40000 ALTER TABLE `orders` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `province`
 --
 
@@ -187,6 +285,15 @@ CREATE TABLE `province` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Dumping data for table `province`
+--
+
+LOCK TABLES `province` WRITE;
+/*!40000 ALTER TABLE `province` DISABLE KEYS */;
+/*!40000 ALTER TABLE `province` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `publishing_company`
 --
 
@@ -199,6 +306,15 @@ CREATE TABLE `publishing_company` (
   PRIMARY KEY (`id_company`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `publishing_company`
+--
+
+LOCK TABLES `publishing_company` WRITE;
+/*!40000 ALTER TABLE `publishing_company` DISABLE KEYS */;
+/*!40000 ALTER TABLE `publishing_company` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `review`
@@ -221,6 +337,15 @@ CREATE TABLE `review` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Dumping data for table `review`
+--
+
+LOCK TABLES `review` WRITE;
+/*!40000 ALTER TABLE `review` DISABLE KEYS */;
+/*!40000 ALTER TABLE `review` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `role`
 --
 
@@ -233,6 +358,15 @@ CREATE TABLE `role` (
   PRIMARY KEY (`id_role`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `role`
+--
+
+LOCK TABLES `role` WRITE;
+/*!40000 ALTER TABLE `role` DISABLE KEYS */;
+/*!40000 ALTER TABLE `role` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `user`
@@ -259,6 +393,15 @@ CREATE TABLE `user` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Dumping data for table `user`
+--
+
+LOCK TABLES `user` WRITE;
+/*!40000 ALTER TABLE `user` DISABLE KEYS */;
+/*!40000 ALTER TABLE `user` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `user_address`
 --
 
@@ -276,6 +419,15 @@ CREATE TABLE `user_address` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Dumping data for table `user_address`
+--
+
+LOCK TABLES `user_address` WRITE;
+/*!40000 ALTER TABLE `user_address` DISABLE KEYS */;
+/*!40000 ALTER TABLE `user_address` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `village`
 --
 
@@ -291,6 +443,15 @@ CREATE TABLE `village` (
   CONSTRAINT `FKm6rpub02lqr66lfljhc7nhffw` FOREIGN KEY (`district_id`) REFERENCES `district` (`district_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `village`
+--
+
+LOCK TABLES `village` WRITE;
+/*!40000 ALTER TABLE `village` DISABLE KEYS */;
+/*!40000 ALTER TABLE `village` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -301,4 +462,4 @@ CREATE TABLE `village` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-08-29 11:39:44
+-- Dump completed on 2021-08-29 14:35:42
