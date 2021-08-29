@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title th:text="${product.name}"></title>
+<title th:text="${book.bookName}"></title>
 <link rel="stylesheet" type="text/css" th:href="@{../css/style.css}">
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
@@ -15,10 +15,10 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-md-6 col-sm-12">
-				<img alt="" th:src="@{'/image/' + ${product.picture}}" id="img-product-detail">
+				<img alt="" th:src="@{'/image/' + ${book.picture}}" id="img-product-detail">
 			</div>
 			<div class="col-md-6 col-sm-12">
-				<p th:text="${product.describe}"></p>
+				<p th:text="${book.describeBook}"></p>
 			</div>
 		</div>
 		<div class="row" style="margin-top: 100px">
