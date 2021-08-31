@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.ptit.exception.ResourceNotFoundException;
@@ -19,8 +21,8 @@ public class BookServiceImp implements BookService{
 	BookDao bookdao; 
 	
 	@Override
-	public List<Book> getAllBooks() {
-		return bookdao.findAll(); 
+	public Page<Book> getAllBooks(Pageable page) {
+		return bookdao.findAll(page);  
 	}
 
 	@Override
@@ -30,6 +32,11 @@ public class BookServiceImp implements BookService{
 			throw new ResourceNotFoundException("Book not found by id"); 
 		}
 		return book.get();
+	}
+
+	@Override
+	public int getTotalQuantity() {
+		return bookdao.findAll().size(); 
 	}
 
 }
