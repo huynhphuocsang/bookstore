@@ -1,4 +1,4 @@
-CREATE DATABASE  IF NOT EXISTS `bookstore` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+CREATE DATABASE  IF NOT EXISTS `bookstore` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
 USE `bookstore`;
 -- MySQL dump 10.13  Distrib 8.0.26, for Win64 (x86_64)
 --
@@ -60,7 +60,7 @@ CREATE TABLE `author` (
   `id_author` bigint NOT NULL AUTO_INCREMENT,
   `author_name` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id_author`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -69,6 +69,7 @@ CREATE TABLE `author` (
 
 LOCK TABLES `author` WRITE;
 /*!40000 ALTER TABLE `author` DISABLE KEYS */;
+INSERT INTO `author` VALUES (1,'Tổ Hữu'),(2,'Chế Lan Viên'),(3,'Nguyễn Duy'),(4,'Thế Lữ'),(5,'Hamingway'),(6,'Paulo Coelho'),(7,'Dale Carnegie'),(8,'Napoleon Hill'),(9,'Shiv Khera'),(10,' T. Harv Eker'),(11,'Tony ');
 /*!40000 ALTER TABLE `author` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -97,7 +98,7 @@ CREATE TABLE `book` (
   CONSTRAINT `FKam9riv8y6rjwkua1gapdfew4j` FOREIGN KEY (`category_id`) REFERENCES `category` (`category_id`),
   CONSTRAINT `FKoqlj3gpg7ogs1k63vo6a28k3d` FOREIGN KEY (`id_company`) REFERENCES `publishing_company` (`id_company`),
   CONSTRAINT `FKrb7h78i8dnxxboiapao9caepy` FOREIGN KEY (`id_author`) REFERENCES `author` (`id_author`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -106,6 +107,7 @@ CREATE TABLE `book` (
 
 LOCK TABLES `book` WRITE;
 /*!40000 ALTER TABLE `book` DISABLE KEYS */;
+INSERT INTO `book` VALUES (1,'Chuông nguyện hồn ai','Đây là cuốn sách kể về thời chiến tranh thế giới thứ 2','chuong-nguyen-hon-ai.jpg',120000.00,'1940-10-21',200,5,3,3),(2,'Đắc nhân tâm','Đây là cuồn sách giúp bạn thu phục lòng người','dac-nhan-tam.jpg',200000.00,'1936-10-01',150,7,2,3),(3,'You Can Win','Đây là cuốn sách giúp bạn chinh phục mọi thứ trong cuộc đời','you-can-win.jpg',80000.00,'1998-01-01',210,9,2,3),(4,'Bí mật tư duy triệu phú','Làm giàu không khó ','bi-mat-tu-duy-trieu-phu.jpg',110000.00,'2005-05-12',180,10,2,10),(5,'Nghĩ giàu làm giàu','Nghĩ là làm, không nói nhiều','nghi-giau-lam-giau.jpg',95000.00,'1937-01-01',90,8,2,7),(7,'Trên đường băng','Tuổi trẻ phải đọc một lần','tren-duong-bang.jpg',78000.00,'2015-01-01',120,11,2,7);
 /*!40000 ALTER TABLE `book` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -120,7 +122,7 @@ CREATE TABLE `category` (
   `category_id` bigint NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`category_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -129,6 +131,7 @@ CREATE TABLE `category` (
 
 LOCK TABLES `category` WRITE;
 /*!40000 ALTER TABLE `category` DISABLE KEYS */;
+INSERT INTO `category` VALUES (1,'Sách giáo khoa'),(2,'Sách kỹ năng'),(3,'Tiểu thuyết'),(4,'Sách văn hóa lịch sử'),(5,'Sách tôn giáo');
 /*!40000 ALTER TABLE `category` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -304,7 +307,7 @@ CREATE TABLE `publishing_company` (
   `id_company` bigint NOT NULL AUTO_INCREMENT,
   `company_name` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id_company`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -313,6 +316,7 @@ CREATE TABLE `publishing_company` (
 
 LOCK TABLES `publishing_company` WRITE;
 /*!40000 ALTER TABLE `publishing_company` DISABLE KEYS */;
+INSERT INTO `publishing_company` VALUES (1,'Tôn giáo'),(2,'Giáo dục'),(3,'New Star'),(4,'Khoa học và kỹ thuật'),(5,'Tài chính'),(6,'Nông nghiệp'),(7,'Tuổi trẻ'),(8,'Thể dục thể thao'),(9,'Đại học quốc gia Hà Nội'),(10,'Thanh niên'),(11,'Kim Đồng');
 /*!40000 ALTER TABLE `publishing_company` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -452,6 +456,10 @@ LOCK TABLES `village` WRITE;
 /*!40000 ALTER TABLE `village` DISABLE KEYS */;
 /*!40000 ALTER TABLE `village` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Dumping routines for database 'bookstore'
+--
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -462,4 +470,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-08-29 14:35:42
+-- Dump completed on 2021-09-04 20:54:48

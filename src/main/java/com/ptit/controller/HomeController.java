@@ -63,6 +63,7 @@ public class HomeController {
 			
 			pageable =  PageRequest.of(page.get(), quantityBooksOnPage); 
 			Page<Book> listPage = bookservice.getAllBooks(pageable); 
+			map.addAttribute("categories", categorySerivce.getAllCategory());
 			map.addAttribute("list", listPage);
 		}
 		
