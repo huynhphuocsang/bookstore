@@ -21,7 +21,7 @@ public class Village {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="village_id")
-	private long villageId; 
+	private String villageId; 
 	
 	@Column(name="village_name")
 	@Size(max=45)
@@ -32,6 +32,7 @@ public class Village {
 	@JoinColumn(name="district_id")
 	private District district; 
 	
+	private String type; 
 	
 }
 
