@@ -24,7 +24,7 @@ public class Province {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="province_id")
-	private long provinceId; 
+	private String provinceId; 
 	
 	@Column(name="province_name")
 	@Size(max=45)
@@ -34,6 +34,7 @@ public class Province {
 	@OneToMany(mappedBy = "province")
 	Set<District> setDistrict = new HashSet<District>(); 
 	
+	private String type; 
 	
 }
 
