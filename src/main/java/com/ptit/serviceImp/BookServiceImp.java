@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.ptit.exception.ResourceNotFoundException;
 import com.ptit.model.Book;
+import com.ptit.model.Category;
 import com.ptit.repository.BookDao;
 import com.ptit.service.BookService;
 
@@ -37,6 +38,18 @@ public class BookServiceImp implements BookService{
 	@Override
 	public int getTotalQuantity() {
 		return bookdao.findAll().size(); 
+	}
+
+	@Override
+	public List<Book> getBookByCategory(Category category) {
+		List<Book> listBooks = bookdao.findByCategory(category); 
+		return listBooks; 
+	}
+
+	@Override
+	public List<Book> findBook(String key) {
+		List<Book> list = bookdao.findByBookNameContainsOrDescribeBookContainsAllIgnoreCaseOrderByBookNameAsc(key, key); 
+		return list; 
 	}
 
 }
