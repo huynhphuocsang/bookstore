@@ -16,4 +16,6 @@ public interface BookService{
 	public Book getBookById(long id)  throws ResourceNotFoundException;
 	public List<Book> getBookByCategory(Category category); 
 	public List<Book> findBook(String key); 
+	public Page<Book> findPage(int pageNo, int pageSize);
+	public Page<Book> findPaginated(int pageNo, int pageSize, String sortField, String sortDirection);
 }

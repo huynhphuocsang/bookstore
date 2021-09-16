@@ -102,30 +102,24 @@
 					<table class="table table-bordered" id="myTable">
 						<thead>
 							<tr class="table-warning">
-								<th scope="col">
-								<a th:href="@{'/admin/book/' + ${currentPage} + '?sortField=idBook&sortDir=' +${reverseSortDir}} ">ID</a></th></th>
-						      	<th scope="col">
-						      	<a th:href="@{'/admin/book/' + ${currentPage} + '?sortField=bookName&sortDir=' +${reverseSortDir}} ">Name</a>
-						      	</th>
+								<th scope="col">Id</th>
+						      	<th scope="col">Name</th>
 						      	<th style=" width:15%" scope="col">Picture</th>
-						      	<th style=" width:15%" scope="col">
-						      	<a th:href="@{'/admin/book/' + ${currentPage} + '?sortField=price&sortDir=' +${reverseSortDir}} ">Price</a>
-						      	</th>
-						      	<th style=" width:15%" scope="col">
-						      	<a th:href="@{'/admin/book/' + ${currentPage} + '?sortField=totalQuantity&sortDir=' +${reverseSortDir}} ">Total Quantity</a></th>
+						      	<th style=" width:15%" scope="col">Price</th>
+						      	<th style=" width:15%" scope="col">Total Quantity</th>
 						      	<th class="align-middle" style=" width:10%;" scope="col">Alter</th>
 							</tr>
 						</thead>
 						<tbody>
 							<tr th:each="book : ${listBook}">
-								<td th:text="${book.getIdBook()}">##</td>
-								<td th:text="${book.getBookName()}">##</td>
+								<td th:text="*{book.getIdBook()}">##</td>
+								<td th:text="*{book.getBookName()}">##</td>
 								<td class="align-middle text-center" >
-									<img style="height:120px;width:auto;" class="card-img-top " th:src="@{'/image/' + ${book.getPicture()}}"
+									<img style="height:120px;width:auto;" class="card-img-top " th:src="@{'../image/' + *{book.getPicture()}}"
 										alt="Card image cap">
 								</td>
-								<td th:text="${#numbers.formatDecimal(book.getPrice(),3,0)}">##</td>
-								<td th:text="${book.getTotalQuantity}">##</td>
+								<td th:text="*{#numbers.formatDecimal(book.getPrice(),3,0)}">##</td>
+								<td th:text="*{book.getTotalQuantity}">##</td>
 								<td class="align-middle text-center">
 									<button type="button" class="btn btn-warning m-1">
 							          <i class="far fa-edit"></i>
@@ -137,35 +131,6 @@
 							</tr>
 						</tbody>
 					</table>
-					
-					
-					<div th:if = "${totalPage > 1}">
-						<div class = "row col-sm-10">
-							<div class = "col-sm-2">
-								Total Items: [[${totalItem}]]	
-							</div>
-							<div class = "col-sm-1">
-								<a th:if="${currentPage > 1}" th:href="@{'/admin/book/' + ${pageFirst}  + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">First</a>
-								<span th:unless="${currentPage > 1}">First</span>
-							</div>
-							<div class = "col-sm-1">
-							<span th:each="i : ${#numbers.sequence(1, totalPage)}">
-								<a th:if="${currentPage != i}" th:href= "@{'/admin/book/' + ${i} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} }">[[${i}]]</a>
-								<span th:unless="${currentPage != i}">[[${i}]]</span> &nbsp; &nbsp;
-							</span>
-							</div >
-							<div class = "col-sm-1">
-								<a th:if="${currentPage < totalPage}" th:href="@{'/admin/book/' + ${currentPage +1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} }">Next</a>
-								<span th:unless="${currentPage < totalPage}">Next </span>
-							</div>
-							<div class = "col-sm-1">
-								<a th:if="${currentPage < totalPage}" th:href="@{'/admin/book/'+${totalPage} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} }">Last</a>
-								<span th:unless="${currentPage < totalPage}">Last</span>
-							</div>
-						</div>
-					
-					</div>
-					
 				</div>
 			</main>
 		</div>
@@ -182,9 +147,8 @@
 	</script>
 	<script>
      $(document).ready( function () {
-    	
-     /* $('#myTable').DataTable();
-     const selects=$(".dataTables_length select[name='myTable_length']")
+    	$('#myTable').DataTable();
+     /* const selects=$(".dataTables_length select[name='myTable_length']")
      selects.children().remove();
    	 selects.append("<option id='5' value='5'>5</option>",
 	    			 "<option value='10'>10</option>",
