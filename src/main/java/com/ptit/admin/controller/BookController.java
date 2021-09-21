@@ -17,13 +17,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ptit.model.Book;
+import com.ptit.model.Category;
 import com.ptit.service.BookService;
+import com.ptit.service.CategoryService;
 
 @Controller
 @RequestMapping("/admin")
 public class BookController {
 	@Autowired
 	BookService bookService;
+	
+	@Autowired
+	CategoryService categoryService;
 	
 	@GetMapping("/book")
 	public String getHomeBook(Model model) {		
@@ -55,6 +60,10 @@ public class BookController {
 		model.addAttribute("currentPage", pageNo);
 		model.addAttribute("totalPage", page.getTotalPages());
 		model.addAttribute("totalItem", page.getTotalElements());
+		
+		//Get category to view
+		List<Category> listCategory= categoryService.getAllCategories();
+		model.addAttribute("listCategory", listCategory);
 		
 		
 		return "/admin/book";
