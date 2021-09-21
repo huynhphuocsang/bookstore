@@ -44,9 +44,6 @@ public class BookController {
 		
 		List<Book> listBook = page.getContent();
 		model.addAttribute("listBook", listBook);
-		for(Book s : listBook) {
-			System.out.println(s.getBookName());
-		}
 		model.addAttribute("sortField", sortField);
 		model.addAttribute("sortDir", sortDir);
 		model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
