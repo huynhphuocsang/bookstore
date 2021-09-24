@@ -175,7 +175,8 @@
 				</div>
 			
 			<!-- ===============FORM ADD BOOK =========================-->
-				<form class="from__add--book">
+				<form th:action="@{/brands/save}" th:object="${book}" method="post"
+				enctype="multipart/form-data" class="from__add--book">
 					<div class="card">
 						<div style="" class="card-header ">
 							<span>NEW BOOK</span><i style="z-index: 1000;" class="far fa-times-circle btn-close-from"></i>
@@ -188,7 +189,7 @@
 									<!-- =================== FIELD TÊN SÁCH ================== -->
 										<div class="form-group col-md-12">
 											<label for="book-name">Tên Sách</label> 
-											<input type="text" class="form-control" id="book-name" placeholder="VD: Đắc nhân tâm">
+											<input th:field="*{bookName}" type="text" class="form-control" id="book-name" placeholder="VD: Đắc nhân tâm">
 												<p class="form-message" >Không hợp lệ !!</p>
 										</div>
 									</div>
@@ -199,7 +200,7 @@
 											<label for="author">Tác giả: </label>
 											<div class="wrapper-option-input" id="author-wrapper">
 												<input type="text" class="form-control option-input" id="author" placeholder="">
-												<select for="category" multiple id="category" class="form-control box-options">
+												<select th:field="*{}" for="category" multiple id="category" class="form-control box-options">
 													<option th:each="category : ${listCategory}"
 														th:utext="${category.getName()}"
 														th:value="${category.getCategoryId()}"></option>

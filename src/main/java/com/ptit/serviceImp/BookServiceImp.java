@@ -69,6 +69,12 @@ public class BookServiceImp implements BookService{
 		return bookdao.findAll(pageable);
 	}
 
+	@Override
+	public int save(Book book) {
+		 bookdao.save(book);
+		
+	}
+
 }
 
 

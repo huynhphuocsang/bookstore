@@ -11,10 +11,14 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ptit.model.Book;
 import com.ptit.model.Category;
@@ -31,7 +35,8 @@ public class BookController {
 	CategoryService categoryService;
 	
 	@GetMapping("/book")
-	public String getHomeBook(Model model) {		
+	public String getHomeBook(Model model) {	
+		model.addAttribute("book", new Book());
 		return getBook(model, 1 , "bookName", "asc");
 	}
 	
@@ -62,6 +67,23 @@ public class BookController {
 		List<Category> listCategory= categoryService.getAllCategories();
 		model.addAttribute("listCategory", listCategory);
 		
+		
+		return "/admin/book";
+	}
+	
+	
+	@PostMapping("/book/save")
+	public String saveBook(
+			@ModelAttribute("book") Book book,
+			@RequestParam("fileImage") MultipartFile multipartFile
+			) {
+		String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+		book.setPicture(fileName);
+		
+		String uploadDir = "/image/" + save
+		
+		
+		bookService.save(book);
 		
 		return "/admin/book";
 	}
