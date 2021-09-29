@@ -72,6 +72,13 @@ public class BookServiceImp implements BookService{
 	@Override
 	public int save(Book book) {
 		 bookdao.save(book);
+		 return bookdao.getLastIdBook();
+		
+	}
+
+	@Override
+	public void deleteById(long idBook) {
+		bookdao.deleteById(idBook);
 		
 	}
 

@@ -124,7 +124,7 @@
 						</thead>
 						<tbody>
 							<tr th:each="book : ${listBook}">
-								<td th:text="${book.getIdBook()}">##</td>
+								<td th:text="${book.idBook}">##</td>
 								<td th:text="${book.getBookName()}">##</td>
 								<td class="align-middle text-center" >
 									<img style="height:120px;width:auto;" class="card-img-top " th:src="@{'/image/' + ${book.getPicture()}}"
@@ -132,6 +132,7 @@
 								</td>
 								<td th:text="${#numbers.formatDecimal(book.getPrice(),3,0)}">##</td>
 								<td th:text="${book.getTotalQuantity}">##</td>
+								 
 								<td class="align-middle text-center">
 									<button type="button" class="btn btn-warning m-1 btn__edit--book">
 							          <i class="far fa-edit"></i>
@@ -139,6 +140,7 @@
 							        <button type="button" class="btn btn-danger btn__delete--book" th:id="${book.getIdBook()}">
 							          <i style="color:black;" class="far fa-trash-alt"></i>
 							        </button>
+							       <input type="hidden" id="idBook" name="idBook" th:value="${book.idBook}" >
 						      </td>
 							</tr>
 						</tbody>
@@ -175,7 +177,7 @@
 				</div>
 			
 			<!-- ===============FORM ADD BOOK =========================-->
-				<form th:action="@{/brands/save}" th:object="${book}" method="post"
+				<form th:action="@{/admin/book/save}" th:object="${book}" method="post"
 				enctype="multipart/form-data" class="from__add--book">
 					<div class="card">
 						<div style="" class="card-header ">
@@ -185,7 +187,8 @@
 							<div class="form-row">
 								<div class="form-group col-md-6">
 									<div class="form-row">
-									
+									<!-- =================== FIELD ID ================== -->
+									<input th:field="*{idBook}" type="hidden" id="idBook"   >
 									<!-- =================== FIELD TÊN SÁCH ================== -->
 										<div class="form-group col-md-12">
 											<label for="book-name">Tên Sách</label> 
@@ -199,11 +202,11 @@
 										<div class="form-group col-md-6">
 											<label for="author">Tác giả: </label>
 											<div class="wrapper-option-input" id="author-wrapper">
-												<input type="text" class="form-control option-input" id="author" placeholder="">
-												<select th:field="*{}" for="category" multiple id="category" class="form-control box-options">
-													<option th:each="category : ${listCategory}"
-														th:utext="${category.getName()}"
-														th:value="${category.getCategoryId()}"></option>
+												<input th:field="*{author}" type="text" class="form-control option-input" id="author" placeholder="">
+												<select  for="category" multiple id="category" class="form-control box-options">
+													<option th:each="author : ${listCompany}"
+														th:utext="${author.name}"
+														th:value="${author.idCompany}"></option>
 												</select>
 												<p class="form-message">Không hợp lệ !!</p>
 											</div>
@@ -213,11 +216,11 @@
 										<div class="form-group col-md-6">
 											<label for="company">Nhà xuất bản: </label>
 											<div class="wrapper-option-input" id="company-wrapper">
-												<input type="text" class="form-control option-input" id="company" placeholder="VD: Tuổi trẻ">
-												<select for="category" multiple id="category" class="form-control box-options">
-													<option th:each="category : ${listCategory}"
-														th:utext="${category.getName()}"
-														th:value="${category.getCategoryId()}"></option>
+												<input th:field="*{company}"  type="text" class="form-control option-input" id="company" placeholder="VD: Tuổi trẻ">
+												<select  for="company" multiple id="company" class="form-control box-options">
+													<option th:each="company : ${listCompany}"
+														th:utext="${company.name}"
+														th:value="${company.idCompany}"></option>
 												</select>
 												<p class="form-message">Không hợp lệ !!</p>
 											</div>
@@ -230,11 +233,11 @@
 										<div class="form-group col-md-12">
 											<label for="category">Danh Mục Sách:</label> 
 											<div class="wrapper-option-input" id="category-wrapper">
-												<input type="text" class="form-control option-input" id="bookcategory" placeholder="VD: Sách Khoa Học">
-												<select for="category" multiple id="category" class="form-control box-options">
+												<input th:field="*{category}"  type="text" class="form-control option-input" id="bookcategory" placeholder="VD: Sách Khoa Học">
+												<select  multiple id="category" class="form-control box-options">
 													<option th:each="category : ${listCategory}"
-														th:utext="${category.getName()}"
-														th:value="${category.getCategoryId()}"></option>
+														th:utext="${category.name}"
+														th:value="${category.categoryId}"></option>
 												</select>
 												<p class="form-message">Không hợp lệ !!</p>
 											</div>
@@ -246,14 +249,14 @@
 									<!-- =================== FIELD NGÀY XUẤT BẢN ================== -->
 										<div class="form-group col-md-6">
 											<label for="publish-day">Ngày xuất bản:</label> 
-											<input class="form-control" id="datepickerfrom" name="publish-day" type="date" />
+											<input th:field="*{publishDay}" class="form-control" id="datepickerfrom" name="publish-day" type="date" />
 											<p class="form-message" >Không hợp lệ !!</p>
 										</div>
 										
 									<!-- =================== FIELD GIÁ SÁCH ======================= -->
 										<div class="form-group col-md-6">
 											<label for="price">Giá:</label> 
-											<input type="text" class="form-control" id="price">
+											<input th:field="*{price}" type="text" class="form-control" id="price">
 											<p class="form-message" >Không hợp lệ !!</p>
 										</div>
 									</div>
@@ -266,10 +269,10 @@
 											Ảnh:
 											<i class="far fa-folder-open btn btn-warning"> Add</i>
 										</label> 
-										<input type="file" accept="image/*" onchange="loadFile(event)" class="form-control-file ml-2 d-none" id="picture">
+										<input name="fileImage" type="file" accept="image/*" onchange="loadFile(event)" class="form-control-file ml-2 d-none" id="picture">
 									</div>
 									<label for="picture" class="display-img border">
-										<img id="img-output" style="max-height: 300px;" class="card-img-top " th:src="@{/image/choosing-img-icon.png}"
+										<img  id="img-output" style="max-height: 300px;" class="card-img-top " th:src="@{/image/choosing-img-icon.png}"
 											alt="Book image">
 									</label>
 								</div>
@@ -278,15 +281,15 @@
 							
 							<!-- ======================== FIELD SỐ LƯỢNG ======================== -->
 								<div class="form-group col-md-2">
-									<label for="total-quantity">Số lượng: </label> <input
-										type="number" min="1"  class="form-control" id="total-quantity" >
+									<label for="total-quantity">Số lượng: </label> <input 
+									 th:field="*{totalQuantity}"	type="number" min="1"  class="form-control" id="total-quantity" >
 										<p class="form-message" >Không hợp lệ !!</p>
 								</div>
 								
 							<!-- ====================== FIELD MÔ TẢ ========================= -->
 								<div class="form-group col-md-5">
 									<label for="describe-book">Mô tả:</label>
-									<textarea style="resize: none;" class="form-control"
+									<textarea th:field="*{describeBook}" style="resize: none;" class="form-control"
 										id="describe-book" rows="5" cols="50"></textarea>
 								</div>
 							</div>
@@ -300,14 +303,20 @@
 				</form>
 				
 			<!-- ===============DIALOG DELETE BOOK =======================-->
-				<form class="from__delete--book">
+				<form th:action="@{/admin/book/delete}" class="from__delete--book" th:method="post">
+				
 					<div class="card">
 						<div class="card-header">Xác nhận xóa</div>
+						
 						<div class="card-body" style="text-align: center;">
-							<p class="card-text ">Bạn chắc chắn muốn xóa sách có id: <strong id="book-id"></strong></p>
+							<p class="card-text ">Bạn chắc chắn muốn xóa sách có id: <strong id="book-id"></strong>
+							<input type="text" class="form-control input-delete d-none" name="id" th:value="${book.idBook}"></p>
 							<div class="btns-comfirm d-flex justify-content-end">
+														
 								<a href="#" class="btn btn-secondary btn-cancel mr-3">Hủy</a>
-								<a href="#" class="btn btn-danger btn-sunmit">Xác nhận</a>
+								
+								<button type="submit" class="btn btn-primary">Xác Nhận</button>
+								
 							</div>
 							
 						</div>
@@ -318,6 +327,7 @@
 		</div>
 	</div>
 	<br> <br>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script th:src="@{/script/adminJs/headerHandle.js}" ></script>
 	<script th:src="@{/script/adminJs/book.js}"></script>
 	<script th:src="@{/script/validate_input.js}"></script>
@@ -332,6 +342,29 @@
             Validator.isRequired('#total-quantity'),
             Validator.isRequired('#price'),
           ]
+        });
+        
+        $(document).ready(function() {
+        	$('table .btn__edit--book').on('click',function(){
+        		var id = $(this).parent().find('#idBook').val();
+        		$.ajax({
+        			type: 'GET',
+        			url: '/api/admin/book/'+id,
+        			success: function(book){
+        				var link = '/image/'+ book.picture;
+        				$('.form-row #idBook').val(book.idBook);
+        				$('#book-name').val(book.bookName);
+        				$('#author').val(book.author.name);
+        				$('#company').val(book.company.name);
+        				$('#datepickerfrom').val(book.publishDay);
+        				$('#price').val(book.price);
+
+        				$('#bookcategory').val(book.category.name);
+        				$('#total-quantity').val(book.totalQuantity);
+        				$('#describe-book').val(book.describeBook);
+        			}
+        		})
+        	});
         });
       </script>
 	
