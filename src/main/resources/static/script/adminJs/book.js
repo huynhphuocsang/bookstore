@@ -6,7 +6,7 @@ const frmAddBook = $(".from__add--book");/* Form add new book */
 btnAddBook.click(() => {
 	$(".main__overlay").css("display", "block");//làm mờ background
 	frmAddBook.css("display", "block");		// hiển thị form
-	frmAddBook.attr("action","/addBook") 	//thêm action
+	
 	frmAddBook.find(".card-header:first").children("span").text("NEW BOOK") //đổi tiêu đề form
 	frmAddBook.find(".card-header:first").css({"background-color": "#28A745","color": "white"})// đổi màu form
 	
@@ -26,7 +26,7 @@ const btnEditBook = $(".btn__edit--book");/* btn edit  book */
 btnEditBook.click(() => {
 	$(".main__overlay").css("display", "block");
 	frmAddBook.css("display", "block");
-	frmAddBook.attr("action","/editBook")
+	frmAddBook.attr("action","/admin/book/save")
 	frmAddBook.find(".card-header:first").children("span").text("EDIT BOOK") 
 	frmAddBook.find(".card-header:first").css({"background-color": "#FFC107","color": "black"})
 	
@@ -98,7 +98,7 @@ const loadFile = function(event) {
 /* =================EVENT BUTTON DELETE BOOK============== */
 const btnDeleteBook = $(".btn__delete--book");/* btn Add new book */
 const diaDeleteBook = $(".from__delete--book");/* Form add new book */
-const inputDelete=$(".input-delete");
+const inputDelete = $(".input-delete");
 
 btnDeleteBook.click((e) => {
 	$(".main__overlay").css("display", "block");

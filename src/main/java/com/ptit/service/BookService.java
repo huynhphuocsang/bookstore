@@ -18,4 +18,6 @@ public interface BookService{
 	public List<Book> findBook(String key); 
 	public Page<Book> findPage(int pageNo, int pageSize);
 	public Page<Book> findPaginated(int pageNo, int pageSize, String sortField, String sortDirection);
+	public int save(Book book);
+	public void deleteById(long idBook);
 }
