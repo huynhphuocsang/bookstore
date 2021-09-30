@@ -98,12 +98,20 @@ const loadFile = function(event) {
 /* =================EVENT BUTTON DELETE BOOK============== */
 const btnDeleteBook = $(".btn__delete--book");/* btn Add new book */
 const diaDeleteBook = $(".from__delete--book");/* Form add new book */
+const inputDelete=$(".input-delete");
 
-btnDeleteBook.click(() => {
+btnDeleteBook.click((e) => {
 	$(".main__overlay").css("display", "block");
+	let targetClass=$(e.target)
+	if(targetClass.attr('class')=="far fa-trash-alt"){
+		targetClass=targetClass.parent();
+	}
+	diaDeleteBook.find("#book-id").text(targetClass.attr("id"))
+	inputDelete.val(targetClass.attr("id"))
+	console.log(targetClass.attr("id"));
 	diaDeleteBook.css("display", "block");
-	diaDeleteBook.find("#book-id").text(btnDeleteBook.attr("id"))
-	console.log(btnDeleteBook.attr("id"))
+	/*diaDeleteBook.find("#book-id").text(btnDeleteBook.attr("id"))
+	console.log(btnDeleteBook.attr("id"))*/
 	
 	/* EVENT CLOSE FORM */
 	$(".btn-cancel").click((e) => {
