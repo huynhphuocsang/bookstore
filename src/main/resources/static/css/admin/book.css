@@ -12,11 +12,11 @@ input[type=number]::-webkit-outer-spin-button, input[type=number]::-webkit-inner
 /*========= FORM ADD BOOK STYLE========= */
 
 .from__add--book {
-	position: absolute;
-	width: 70%;
+	position: fixed;
+	width: 60%;
 	height: 70%;
-	left: 50%;
-	top: 0%;
+	left: 55%;
+	top: 3%;
 	transform: translateX(-50%);
 	background-color: white;
 	z-index: 10000;

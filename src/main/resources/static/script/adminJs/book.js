@@ -26,7 +26,7 @@ const btnEditBook = $(".btn__edit--book");/* btn edit  book */
 btnEditBook.click(() => {
 	$(".main__overlay").css("display", "block");
 	frmAddBook.css("display", "block");
-	frmAddBook.attr("action","/admin/book/save")
+	//frmAddBook.attr("action","/admin/book/save")
 	frmAddBook.find(".card-header:first").children("span").text("EDIT BOOK") 
 	frmAddBook.find(".card-header:first").css({"background-color": "#FFC107","color": "black"})
 	
@@ -56,6 +56,7 @@ selects.forEach((select,index)=>{
 	select.onchange=(e)=>{
 		select.style.display="none";
 		input.value=(select.options.item(select.value-1).text)
+		input.parentElement.querySelector('.form-message').classList.remove('invalid');   
 		
 	}
 	input.onkeypress=(e)=>{
@@ -90,7 +91,7 @@ selects.forEach((select,index)=>{
 })
 /*-----LOAD IMAGE-------*/
 const loadFile = function(event) {
-	let image = document.getElementById('img-output');2
+	let image = document.getElementById('img-output');
 	image.src = URL.createObjectURL(event.target.files[0]);
 };
 
