@@ -202,11 +202,11 @@
 										<div class="form-group col-md-6">
 											<label for="author">Tác giả: </label>
 											<div class="wrapper-option-input" id="author-wrapper">
-												<input th:field="*{author}" type="text" class="form-control option-input" id="author" placeholder="">
-												<select  for="category" multiple id="category" class="form-control box-options">
-													<option th:each="author : ${listCompany}"
+												<input name="authorName" type="text" class="form-control option-input" id="author" placeholder="">
+												<select  for="author" multiple id="category" class="form-control box-options">
+													<option th:each="author : ${listAuthor}"
 														th:utext="${author.name}"
-														th:value="${author.idCompany}"></option>
+														th:value="${author.idAuthor}"></option>
 												</select>
 												<p class="form-message">Không hợp lệ !!</p>
 											</div>
@@ -216,7 +216,7 @@
 										<div class="form-group col-md-6">
 											<label for="company">Nhà xuất bản: </label>
 											<div class="wrapper-option-input" id="company-wrapper">
-												<input th:field="*{company}"  type="text" class="form-control option-input" id="company" placeholder="VD: Tuổi trẻ">
+												<input name="companyName"  type="text" class="form-control option-input" id="company" placeholder="VD: Tuổi trẻ">
 												<select  for="company" multiple id="company" class="form-control box-options">
 													<option th:each="company : ${listCompany}"
 														th:utext="${company.name}"
@@ -233,7 +233,7 @@
 										<div class="form-group col-md-12">
 											<label for="category">Danh Mục Sách:</label> 
 											<div class="wrapper-option-input" id="category-wrapper">
-												<input th:field="*{category}"  type="text" class="form-control option-input" id="bookcategory" placeholder="VD: Sách Khoa Học">
+												<input name="categoryName"  type="text" class="form-control option-input" id="bookcategory" placeholder="VD: Sách Khoa Học">
 												<select  multiple id="category" class="form-control box-options">
 													<option th:each="category : ${listCategory}"
 														th:utext="${category.name}"
@@ -304,7 +304,6 @@
 				
 			<!-- ===============DIALOG DELETE BOOK =======================-->
 				<form th:action="@{/admin/book/delete}" class="from__delete--book" th:method="post">
-				
 					<div class="card">
 						<div class="card-header">Xác nhận xóa</div>
 						
@@ -331,7 +330,7 @@
 	<script th:src="@{/script/adminJs/headerHandle.js}" ></script>
 	<script th:src="@{/script/adminJs/book.js}"></script>
 	<script th:src="@{/script/validate_input.js}"></script>
-      <script>
+      <script th:inline="javascript">
         Validator({
           form: '.from__add--book',
           rules:[
@@ -358,7 +357,10 @@
         				$('#company').val(book.company.name);
         				$('#datepickerfrom').val(book.publishDay);
         				$('#price').val(book.price);
-
+        				
+        				$('#img-output').attr("src","/image/"+book.picture);
+        				//console.log($('#img-output').attr("currentSrc"));
+        				//$('#picture').val($('#img-output').attr("src"));
         				$('#bookcategory').val(book.category.name);
         				$('#total-quantity').val(book.totalQuantity);
         				$('#describe-book').val(book.describeBook);

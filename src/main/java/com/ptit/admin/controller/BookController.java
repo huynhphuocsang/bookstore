@@ -13,6 +13,7 @@ import org.springframework.data.domain.Page;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.ptit.exception.ResourceNotFoundException;
 import com.ptit.model.Book;
 import com.ptit.model.Category;
 import com.ptit.service.AuthorService;
@@ -87,28 +89,51 @@ public class BookController {
 
 	@PostMapping("/book/save")
 	public String saveBook(@ModelAttribute("book") Book book, 
-			@RequestParam("fileImage") MultipartFile fileImage)
+			@RequestParam("fileImage") MultipartFile fileImage,
+			@RequestParam(name="authorName") String authorName,
+			@RequestParam(name="companyName") String companyName,
+			@RequestParam(name="categoryName") String categoryName)
 			throws IOException {
-		String fileName = StringUtils.cleanPath(fileImage.getOriginalFilename());
-		book.setPicture(fileName);
 		
-		String uploadDir = "./src/main/resources/static/image/";
-
-		Path uploadPath = Paths.get(uploadDir);
-
-		if (!Files.exists(uploadPath)) {
-			Files.createDirectories(uploadPath);
+			
+		
+		String fileName = StringUtils.cleanPath(fileImage.getOriginalFilename());
+		System.out.println(fileName.toString()+" dd");
+		if(!fileName.isEmpty()) {//
+			book.setPicture(fileName);
+			System.out.println(fileName.toString()+" go dd");
+			String uploadDir = "./src/main/resources/static/image/";
+	
+			Path uploadPath = Paths.get(uploadDir);
+	
+			if (!Files.exists(uploadPath)) {
+				Files.createDirectories(uploadPath);
+			}
+	
+			try (InputStream inputStream = fileImage.getInputStream()) {
+				Path filePath = uploadPath.resolve(fileName);
+				System.out.println(filePath.toFile().getAbsolutePath());
+	
+				Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
-
-		try (InputStream inputStream = fileImage.getInputStream()) {
-			Path filePath = uploadPath.resolve(fileName);
-			System.out.println(filePath.toFile().getAbsolutePath());
-
-			Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
-		} catch (Exception e) {
-			e.printStackTrace();
+		else {
+			try {
+				book.setPicture(bookService.getBookById(book.getIdBook()).getPicture());
+			} catch (ResourceNotFoundException e) {
+				//do nothing
+			}
 		}
+		book.setAuthor(authorService.selectOrUpdateAuthor(authorName));
+		book.setCategory(categoryService.selectOrUpdateCategory(categoryName));
+		book.setCompany(publishingCompanyService.selectOrUpdateCompany(companyName));
 		bookService.save(book);
+		
+//		System.out.println(authorService.selectOrUpdateAuthor(authorName).getIdAuthor()+" "+authorService.selectOrUpdateAuthor(authorName).getName());
+//		System.out.println(categoryName+" "+categoryService.getCategoryIdByName(categoryName));
+//		System.out.println(companyName+" "+publishingCompanyService.getCompanyIdByName(companyName));
 		return "redirect:/admin/book";
 	}
 	

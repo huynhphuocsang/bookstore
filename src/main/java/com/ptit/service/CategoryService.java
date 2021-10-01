@@ -14,4 +14,7 @@ public interface CategoryService {
 	public Category getCategoryById(long id) throws ResourceNotFoundException; 
 	public int getTotalCategory(); 
 	public List<Category> getAllCategories(); 
+	public long getCategoryIdByName(String name) throws ResourceNotFoundException;
+	public int save(Category category);
+	public Category selectOrUpdateCategory(String name);
 }

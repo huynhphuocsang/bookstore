@@ -79,6 +79,7 @@ public class BookServiceImp implements BookService{
 	@Override
 	public void deleteById(long idBook) {
 		bookdao.deleteById(idBook);
+	
 		
 	}
 
