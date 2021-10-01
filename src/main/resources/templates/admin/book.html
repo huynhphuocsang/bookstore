@@ -345,27 +345,25 @@
         
         $(document).ready(function() {
         	$('table .btn__edit--book').on('click',function(){
-        		var id = $(this).parent().find('#idBook').val();
-        		$.ajax({
-        			type: 'GET',
-        			url: '/api/admin/book/'+id,
-        			success: function(book){
-        				var link = '/image/'+ book.picture;
-        				$('.form-row #idBook').val(book.idBook);
-        				$('#book-name').val(book.bookName);
-        				$('#author').val(book.author.name);
-        				$('#company').val(book.company.name);
-        				$('#datepickerfrom').val(book.publishDay);
-        				$('#price').val(book.price);
-        				
-        				$('#img-output').attr("src","/image/"+book.picture);
-        				//console.log($('#img-output').attr("currentSrc"));
-        				//$('#picture').val($('#img-output').attr("src"));
-        				$('#bookcategory').val(book.category.name);
-        				$('#total-quantity').val(book.totalQuantity);
-        				$('#describe-book').val(book.describeBook);
-        			}
-        		})
+        		/*<![CDATA[*/
+	        	    var listBook = /*[[${listBook}]]*/ 'default';
+        		/*]]>*/
+				console.log(listBook);
+        	    var id = $(this).parent().find('#idBook').val();
+        	    var book =listBook.find(element=>element.idBook==id)
+    			var link = '/image/'+ book.picture;
+    			$('.form-row #idBook').val(book.idBook);
+    			$('#book-name').val(book.bookName);
+    			$('#author').val(book.author.name);
+    			$('#company').val(book.company.name);
+    			$('#datepickerfrom').val(book.publishDay);
+    			$('#price').val(book.price);
+    			$('#img-output').attr("src","/image/"+book.picture);
+    			$('#bookcategory').val(book.category.name);
+    			$('#total-quantity').val(book.totalQuantity);
+    			$('#describe-book').val(book.describeBook);
+        		
+
         	});
         });
       </script>
