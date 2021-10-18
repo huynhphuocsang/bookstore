@@ -14,8 +14,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -41,144 +43,143 @@ public class HomeController {
 	CategoryService categorySerivce; 
 	
 
-	
+
 	@GetMapping("/view")
-	public String pagingHomePage(@RequestParam("page") Optional<Integer> page, ModelMap map) {
-		int quantityBooksOnPage = 2; 
-		Pageable pageable; 
+	public String getView(ModelMap map) {
+
+		Optional<Integer> page = Optional.of(1);  
 		
-		if(!page.isPresent()) {
-			return "redirect:/home/view?page=0"; 
+		
+		return "redirect:/home/view/1"; 
+	}
+	@GetMapping("/view/{pageNo}")
+	public String pagingHomePage(@PathVariable Optional<String> pageNo, ModelMap map) {
+		int pageSize = 2; 
+		String sortDir = "desc"; 
+		String sortField = "idBook"; 
+		int pageNoOffical = 1; 
+		
+		try {
+			 pageNoOffical = Integer.parseInt(pageNo.get());
+		}catch(Exception ex) {
+			return "redirect:/home/view/1"; 
 		}
-		else {
-			if(page.get()<0) {
-				return "redirect:/home/view?page=0"; 
-			}else if(page.get()>= Math.ceil((float)bookservice.getTotalQuantity()/quantityBooksOnPage)) {
-				
-				return "redirect:/home/view?page="+(int) (Math.ceil((float)bookservice.getTotalQuantity()/quantityBooksOnPage)-1); 
-			}
-			
-			
-			pageable =  PageRequest.of(page.get(), quantityBooksOnPage); 
-			Page<Book> listPage = bookservice.getAllBooks(pageable); 
-			map.addAttribute("categories", categorySerivce.getAllCategories());
-			map.addAttribute("list", listPage);
-			
-		}
+		 
+			List<Category> listCategory = categorySerivce.getAllCategories(); 
+			Page<Book> page = bookservice.findPaginated(pageNoOffical, pageSize, sortField, sortDir); 
+			List<Book> list = page.getContent(); 
+			map.addAttribute("list", list);
+			map.addAttribute("currentPage",pageNoOffical); 
+			map.addAttribute("totalPage", page.getTotalPages()); 
+			map.addAttribute("pageFirst", 1); 
+			map.addAttribute("categories", listCategory); 
+		
 		
 		return "home"; 
 	}
 	
 	
+
 	
 	@GetMapping("/category")
-	public String bookByCategory(@RequestParam long categoryId,@RequestParam("page") Optional<Integer> page,ModelMap map ) {
-
+	public String bookByCategoryDefault() {
+		
+		
+		return "redirect:/home/view"; 
+	}
+	
+	@GetMapping("/category/{categoryId}")
+	public String bookByCategory(@PathVariable Optional<String> categoryId,@RequestParam Optional<String> pageNo, ModelMap map ) {
+		
+		int pageNoOffical = 1; 
+		long categoryIdOffical = 1; 
+		
+		
+		
+		try {
+		categoryIdOffical = Long.parseLong(categoryId.get());  	
+		}catch(Exception ex) {
+			return "redirect:/home/view"; 
+		}
+		try {
+			pageNoOffical = Integer.parseInt(pageNo.get()); 
+			}catch(Exception ex) {
+				return "redirect:/home/category/"+categoryIdOffical+"?pageNo=1"; 
+			}
+		
+		
+		int pageSize = 2; 
+		String sortDir = "desc"; 
+		String sortField = "idBook"; 
+		
 		Category category=null;
 		try {
-			category = categorySerivce.getCategoryById(categoryId);
+			category = categorySerivce.getCategoryById(categoryIdOffical);
 		} catch (ResourceNotFoundException e) {
 			return "notfound"; 
 		} 
 		
 		
-		int quantityBooksOnPage = 2; 
-		
-		List<Book> list = bookservice.getBookByCategory(category); 
-		if(list.size()==0) return "notfound"; 
-		List<Book> listShow=new ArrayList<Book>(); 
-		
-		int lastPage = (int) Math.ceil((float)list.size()/quantityBooksOnPage);
+		List<Book> listtemp = bookservice.getBookByCategory(category); 
 		
 		
-		if(!page.isPresent()) {
-			return "redirect:/home/category?categoryId="+categoryId+"&page=0"; 
-		}
-		else {
-			if(page.get()<0) {
-				return "redirect:/home/category?categoryId="+categoryId+"&page=0"; 
-			}else if(page.get()>= lastPage) {
-				
-				return "redirect:/home/category?categoryId="+categoryId+"&page="+(lastPage-1); 
-			}
-			
-			
-			
-		}
+		Page<Book> page =  bookservice.getPageViaCategory(pageNoOffical, pageSize, sortField, sortDir, category);
 		
+		List<Book> listShow = page.getContent();
+		if(listShow.size()==0) return "notfound"; 
 		
-		int start = page.get()*quantityBooksOnPage;
-		int end = start+quantityBooksOnPage;
-		int pageCurrent = page.get(); 
-		
-		int j = 0; 
-		if(end> list.size()) {
-			end= list.size(); 
-		}
-			
-			
-		for(int i=start;i<end;i++) {
-			listShow.add(null); 
-			listShow.set(j++, list.get(i)); 
-		}
-		 
 		map.addAttribute("categories", categorySerivce.getAllCategories());
 		map.addAttribute("list", listShow);
 		map.addAttribute("category", category.getCategoryId());
-		map.addAttribute("last", lastPage-1); 
-		map.addAttribute("pageCurrent", pageCurrent); 
 		map.addAttribute("categoryName", category.getName()); 
+		map.addAttribute("currentPage",pageNoOffical);
+		
+		map.addAttribute("totalPage", page.getTotalPages()); 
+		
+		map.addAttribute("pageFirst", 1); 
 		
 		return "book_category"; 
+	
+			
 	}
-	
-	
+		
 	@GetMapping("/search")
-	public String search(@RequestParam String searchvalue,ModelMap map,@RequestParam("page") Optional<Integer> page,HttpServletRequest request) {
+	public String searchDefault(@RequestParam String searchvalue, ModelMap map) {
 		
+		Optional<String> page = Optional.of("1"); 
+		return search(searchvalue,map ,page); 
+	}
+		 
+	
+	
+	@GetMapping("/search/{page}")
+	public String search(@RequestParam String searchvalue,ModelMap map,@PathVariable("page") Optional<String> pageNo) {
+		
+		int pageSize = 2; 
+		String sortDir = "desc"; 
+		String sortField = "idBook"; 
+		int pageOffical=0; 
+		try {
+			pageOffical = Integer.parseInt(pageNo.get());
+		}catch(Exception ex) {
+			return "redicrect:/home/view";
+		}
+		 
 		searchvalue=searchvalue.trim();
+		if(searchvalue.length()==0) return "redirect:/home/view";
+	 
+		Page<Book> page = bookservice.findBook(searchvalue,pageOffical,pageSize,sortField,sortDir); 
+		List<Book> list = page.getContent();
+		if(list.size()==0) return "notinfo"; 
+		List<Category> listCategory = categorySerivce.getAllCategories(); 
 		
-		String queryTemp = request.getQueryString(); 
-		if(!page.isPresent()) {
-			return "redirect:/home/search?"+queryTemp+"&page=0"; 
-		}
+		map.addAttribute("list", list); 
+		map.addAttribute("categories", listCategory); 
+		map.addAttribute("searchValue", searchvalue); 
 		
-		String query[] = queryTemp.substring(0,queryTemp.length()-1).split("&"); 
-		
-		if(page.get()<0) {
-			return "redirect:/home/search?"+query[0]+"&page=0";
-		}
-		int quantityOfBookOnPage = 2; 
-		List<Book> list = bookservice.findBook(searchvalue); 
-		if(list.isEmpty()) {
-			return "notfound";
-		}
-		
-		List<Book> listShow = new ArrayList<Book>();
-		
-		//call total page
-		int lastPage = (int) Math.ceil((float)list.size()/quantityOfBookOnPage);
-		
-		if(page.get()>=lastPage) {
-			return "redirect:/home/search?"+query[0]+"&page="+(lastPage-1);  
-		}
-		
-		int start = quantityOfBookOnPage*page.get();
-		int end = start + quantityOfBookOnPage; 
-		if(end>list.size()) {
-			end = list.size();
-		}
-		int j=0;
-		for(int i=start;i<end;i++) {
-			listShow.add(null); 
-			listShow.set(j++, list.get(i)); 
-		}
-//		
-		
-		map.addAttribute("list", listShow); 
-		map.addAttribute("query", query[0]); 
-		map.addAttribute("pageCurrent", page.get());
-		map.addAttribute("last", lastPage-1); 
+		map.addAttribute("currentPage",pageOffical);
+		map.addAttribute("totalPage", page.getTotalPages()); 
+		map.addAttribute("pageFirst", 1); 
 		return "search"; 
 	}
 	

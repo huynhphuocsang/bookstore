@@ -21,8 +21,7 @@ import lombok.Data;
 public class Book {
 
 	
-	//thieu: idauthor va idpublishingcompany
-	//bo: trangthai
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="id_book")

@@ -3,7 +3,7 @@
 <head>
 <meta charset="ISO-8859-1">
 <title th:text=" ${categoryName}"></title>
-<link rel="stylesheet" type="text/css" th:href="@{../css/style.css}">
+<link rel="stylesheet" type="text/css" th:href="@{../../css/style.css}">
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
 	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
@@ -29,7 +29,7 @@
 						role="button" data-toggle="dropdown" aria-haspopup="true"
 						aria-expanded="false"> Danh mục sách </a>
 						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-							<a class="dropdown-item" th:href="@{'/home/category?categoryId=' + ${category.categoryId} }"
+							<a class="dropdown-item" th:href="@{'/home/category/' + ${category.categoryId} }"
 								th:each="category, state: ${categories}"
 								th:text="${category.name}" ></a>
 
@@ -69,16 +69,32 @@
 	
 		
 		</div>
-	 <div class="row">
-		<nav aria-label="Page navigation example" style="margin-top: 50px">
+		
+		<!-- PH�N TRANG -->
+	 <div class="row" style="padding-top: 20px">
+			<nav aria-label="Page navigation example">
 				<ul class="pagination">
-					<li class="page-item"><a class="page-link" th:href="@{'/home/category?categoryId='+${category}+'&page=0'}">|< First</a></li>
-					 <li class="page-item"><a class="page-link" th:href="@{'/home/category?categoryId='+${category}+'&page='+${pageCurrent-1}}"> < Previous</a></li>
-					<li class="page-item"><a class="page-link" th:href="@{'/home/category?categoryId='+${category}+'&page='+${pageCurrent+1}}">Next ></a></li> 
-					<li class="page-item"><a class="page-link" th:href="@{'/home/category?categoryId='+${category}+'&page='+${last}}">Last >|</a></li> 
-				</ul>
+					<li class="page-item"><a class="page-link"
+						th:if="${currentPage > 1}"
+						th:href="@{'/home/category/' + ${category} +'?pageNo='+${pageFirst}}">First</a> <span
+						class="page-link" th:unless="${currentPage > 1}">First</span></li>
+
+
+			 	 <span th:each="i : ${#numbers.sequence(1, totalPage)}"> <a
+						class="page-link" th:if="${currentPage != i}"
+						th:href="@{'/home/category/' + ${category}+'?pageNo='+${i}}">[[${i}]]</a> <span
+						class="page-link" th:unless="${currentPage != i}">[[${i}]]</span>
+					</span> 
+
+					<li class="page-item"><a class="page-link"
+						th:if="${currentPage < totalPage}"
+						th:href="@{'/home/category/' + ${category} +'?pageNo='+${totalPage}}">Last</a> <span
+						class="page-link" th:unless="${currentPage < totalPage}">Last</span>
+					</li> 
+				</ul> 
 			</nav>
-	</div> 
+		</div> 
+		<br> <br>
 
 
 
