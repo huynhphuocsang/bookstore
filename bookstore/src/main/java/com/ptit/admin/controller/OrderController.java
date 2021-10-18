@@ -1,5 +1,7 @@
 package com.ptit.admin.controller;
 
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -34,6 +37,9 @@ public class OrderController {
 							@RequestParam("sortField") String sortField, 
 							@RequestParam("sortDir") String sortDir,
 							@RequestParam("status") int status){
+		
+		
+		
 		int pageSize = 5;
 		int pageFirst = 1;
 		Page<Order> page = orderService.findPaginated(pageNo, pageSize, sortField, sortDir, status);
@@ -48,7 +54,35 @@ public class OrderController {
 		model.addAttribute("currentPage", pageNo);
 		model.addAttribute("totalPage", page.getTotalPages());
 		model.addAttribute("totalItem", page.getTotalElements());
+		
+		
+//		LocalDateTime start = LocalDateTime.of(startDate.getStartDate(), LocalTime.of(0, 0, 0));
+//		LocalDateTime end = LocalDateTime.of(endDate.getEndDate(), LocalTime.of(23, 59, 59));
+//
+//		orderService.getAllBetweenDates(start, end);
 
 		return "/admin/order";
 	}
+	
+	
+	@GetMapping("/save/{pageNo}")
+	public String saveStatus(Model model,@PathVariable(value = "pageNo") int pageNo,
+			@RequestParam("idOrder") long idOrder,
+			@RequestParam("statusNew") int statusNew,
+			@RequestParam("statusOld") int statusOld
+			) {
+		
+		int i = orderService.updateOrderStatus(idOrder, statusNew);
+		if(i > 0 ) {
+			model.addAttribute("messeger", "thanh cong");
+		}else {
+			model.addAttribute("messeger", "that bai");
+		}
+
+		return getOrder(model, pageNo, "nameOfCustomer", "asc", statusOld);
+	}
+	
+	
+	
+	
 }

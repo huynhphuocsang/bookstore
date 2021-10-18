@@ -1,5 +1,6 @@
 package com.ptit.serviceImp;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -59,4 +60,19 @@ public class OrderServiceImp implements OrderService {
 		orderdao.save(order);
 		return 1;
 	}
+
+	@Override
+	public List<Order> getAllBetweenDates(LocalDateTime startDate, LocalDateTime endDate) {
+		// TODO Auto-generated method stub
+		return orderdao.getAllBetweenDates(startDate, endDate);
+	}
+
+	@Override
+	public int updateOrderStatus(long idOrder, int status) {
+		Order order = orderdao.getById(idOrder);
+		order.setOrderStatus(status);
+		return save(order);
+	}
+	
+	
 }
