@@ -44,20 +44,18 @@ public class User {
 	@Min(10)
 	private int age; 
 	
-	@Size(max=45)
+	@Size(max=250)
 	private String password; 
 	
-	@ManyToOne
-	@JoinColumn(name="id_role")
-	private Role role; 
+	
 	
 	private boolean gender; 
 	
-	@OneToMany(fetch = FetchType.LAZY,mappedBy = "user")
+	@OneToMany(fetch = FetchType.EAGER,mappedBy = "user")
 	private Set<Items> setItems = new HashSet<Items>(); 
 	
 	
-	@ManyToMany(fetch = FetchType.LAZY,mappedBy = "setUsers")
+	@ManyToMany(fetch = FetchType.EAGER,mappedBy = "setUsers")
 	Set<Address> setAddress = new HashSet<Address>(); 
 	
 //	@OneToMany(fetch = FetchType.LAZY,mappedBy = "user")
