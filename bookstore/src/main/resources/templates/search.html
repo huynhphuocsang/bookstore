@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<title>Tìm kiếm với "${searchValue}"</title>
 <link rel="stylesheet" type="text/css" th:href="@{../css/style.css}">
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
@@ -28,7 +28,7 @@
 					<li class="nav-item dropdown"><a
 						class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
 						role="button" data-toggle="dropdown" aria-haspopup="true"
-						aria-expanded="false"> Danh mục sách </a>
+						aria-expanded="false"> Danh má»¥c sÃ¡ch </a>
 						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
 							<a class="dropdown-item" th:href="@{'/home/category/' + ${category.categoryId} }"
 								th:each="category, state: ${categories}"
@@ -37,8 +37,8 @@
 
 						</div></li>
 
-					<li class="nav-item"><a class="nav-link" href="#">Tài
-							khoản</a></li>
+					<li class="nav-item"><a class="nav-link" href="#">TÃ i
+							khoáº£n</a></li>
 				</ul>
 				<form class="form-inline my-2 my-lg-0" th:action="@{/home/search}">
 					<input class="form-control mr-sm-2" type="search"
