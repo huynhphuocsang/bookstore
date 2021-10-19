@@ -7,9 +7,9 @@
 /* STYLE ORDER DETAIL */
  @import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
 
- body {
+/*  body {
      font-family: 'Open Sans', serif
- }
+ } */
 
  .container-order-detail {
     position: fixed;
