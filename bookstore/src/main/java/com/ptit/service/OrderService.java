@@ -1,9 +1,11 @@
 package com.ptit.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.query.Param;
 
 import com.ptit.exception.ResourceNotFoundException;
 import com.ptit.model.Order;
@@ -15,4 +17,6 @@ public interface OrderService {
 	public Page<Order> findPage(int pageNo, int pageSize);
 	public Page<Order> findPaginated(int pageNo, int pageSize, String sortField, String sortDirection, int status);
 	public int save(Order order);
+	List<Order> getAllBetweenDates(LocalDateTime startDate, LocalDateTime endDate);
+	public int updateOrderStatus(long idOrder, int status);
 }

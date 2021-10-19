@@ -1,94 +1,118 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="UTF-8">
-	<title>Admin</title>
-	<link rel="icon" type="image/png" sizes="32x32" th:href="@{/image/icon-book-shop-64.png}">
-	<link rel="stylesheet"
-		href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-		integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-		crossorigin="anonymous">
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w==" crossorigin="anonymous" />
-	    <link rel="preconnect" href="https://fonts.gstatic.com">
-	    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-	
-	<link th:href="@{/css/dashboard.css}" rel="stylesheet">
-	<link th:href="@{/css/admin/order.css}" rel="stylesheet">
+<meta charset="UTF-8">
+<title>Admin</title>
+<link rel="icon" type="image/png" sizes="32x32"
+	th:href="@{/image/icon-book-shop-64.png}">
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+	crossorigin="anonymous">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
+	integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w=="
+	crossorigin="anonymous" />
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link
+	href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
+	rel="stylesheet">
+
+<link th:href="@{/css/dashboard.css}" rel="stylesheet">
+<link th:href="@{/css/admin/order.css}" rel="stylesheet">
 </head>
-	
+
 <body>
 	<div class="main__overlay"></div>
 	<!-- ============================== HEADER ================================= -->
-	<nav class="navbar navbar-dark fixed-top bg-primary flex-md-nowrap p-0 shadow">
-		<a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#" >
-			<img style="max-height: 30px;" alt="book-store" th:src="@{/image/icon-book-shop-64.png}">
-			Book store
-		</a> 
-		
+	<nav
+		class="navbar navbar-dark fixed-top bg-primary flex-md-nowrap p-0 shadow">
+		<a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#"> <img
+			style="max-height: 30px;" alt="book-store"
+			th:src="@{/image/icon-book-shop-64.png}"> Book store
+		</a>
+
 		<div class="input-group col-sm-6 col-md-5">
-		    <input type="text" class="form-control " placeholder="Search please..">
-		    <div class="input-group-append">
-		      <button class="btn btn-secondary" type="button">
-		        <i class="fa fa-search"></i>
-		      </button>
-		    </div>
-  		</div>
-  		
+			<input type="text" class="form-control "
+				placeholder="Search please..">
+			<div class="input-group-append">
+				<button class="btn btn-secondary" type="button">
+					<i class="fa fa-search"></i>
+				</button>
+			</div>
+		</div>
+
 		<ul class="navbar-nav px-3">
-			<li class="nav-item text-nowrap">
-				<a class="nav-link text-light" href="#">Sign out</a>
-			</li>
+			<li class="nav-item text-nowrap"><a class="nav-link text-light"
+				href="#">Sign out</a></li>
 		</ul>
 	</nav>
-	
-	<button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!">
-		<span data-feather="home"></button>
-	
+
+	<button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0"
+		id="sidebarToggle" href="#!">
+		<span data-feather="home">
+	</button>
+
 	<div class="container-fluid">
 		<div class="row">
-		
+
 			<!-- ================= NAVIGATION =================== -->
 			<nav class="col-md-2 d-none d-md-block bg-light sidebar">
 				<div class="sidebar-sticky">
-					<ul class="nav flex-column nav-style" style="font-size:1rem;">
-						<li class="nav-item"><a class="nav-link" th:href="@{/admin/statisticts}"> 
-							<i class="fas fa-tasks mr-2"></i>Statistics	
+					<ul class="nav flex-column nav-style" style="font-size: 1rem;">
+						<li class="nav-item"><a class="nav-link"
+							th:href="@{/admin/statisticts}"> <i class="fas fa-tasks mr-2"></i>Statistics
 						</a></li>
-						<li class="nav-item"><a class="nav-link" th:href="@{/admin/book}">
-								<i class="fas fa-book mr-2"></i>Books
+						<li class="nav-item"><a class="nav-link"
+							th:href="@{/admin/book}"> <i class="fas fa-book mr-2"></i>Books
 						</a></li>
-						<li class="nav-item"><a class="nav-link active" th:href="@{/admin/order}">
-						<i class="fas fa-shopping-cart mr-2"></i>Orders
-							</a></li>
-						<li class="nav-item"><a class="nav-link" th:href="@{/admin/review}"> 
-							<i class="far fa-comments mr-2"></i>Reviews
+						<li class="nav-item"><a class="nav-link active"
+							th:href="@{/admin/order}"> <i
+								class="fas fa-shopping-cart mr-2"></i>Orders
 						</a></li>
-						<li class="nav-item"><a class="nav-link" th:href="@{/admin/customer}">   
-							<i class="fas fa-users mr-2"></i>Customers
+						<li class="nav-item"><a class="nav-link"
+							th:href="@{/admin/review}"> <i class="far fa-comments mr-2"></i>Reviews
+						</a></li>
+						<li class="nav-item"><a class="nav-link"
+							th:href="@{/admin/customer}"> <i class="fas fa-users mr-2"></i>Customers
 						</a></li>
 					</ul>
 				</div>
 			</nav>
 			
+
 			<!-- ===================MAIN CONTENT=================== -->
 			<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
-				<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-1 pb-1 mb-1 border-bottom">
+				<div
+					class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-1 pb-1 mb-1 border-bottom">
 					<div class="m-2">
-						<div class="btn-group" role="group" aria-label="Basic outlined example">
-						  	<a th:if="${status == -1}" class="btn btn-outline-primary active">Tất cả</a>
-						  	<a th:unless="${status == -1}" class="btn btn-outline-primary"
-							  	th:href="@{'/admin/order/' + ${currentPage}  + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&status=-1' }">Tất cả</a>
-						  
-						  <a th:if="${status == 0}" class="btn btn-outline-primary active">Đã xác nhận</a>
-						  	<a th:unless="${status == 0}" class="btn btn-outline-primary"
-							  	th:href="@{'/admin/order/' + ${currentPage}  + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&status=0' }">Đã xác nhận</a>
-						  
-						  <a th:if="${status == 1}" class="btn btn-outline-primary active">Chờ xác nhận</a>
-						  	<a th:unless="${status == 1}" class="btn btn-outline-primary"
-							  	th:href="@{'/admin/order/' + ${currentPage}  + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&status=1' }">Chờ xác nhận</a>					
+						<div class="btn-group" role="group"
+							aria-label="Basic outlined example">
+							<a th:if="${status == -1}" class="btn btn-outline-primary active">Tất
+								cả</a> <a th:unless="${status == -1}"
+								class="btn btn-outline-primary"
+								th:href="@{'/admin/order/1'  + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&status=-1' }">Tất
+								cả</a> <a th:if="${status == 0}"
+								class="btn btn-outline-primary active">Đã xác nhận</a> <a
+								th:unless="${status == 0}" class="btn btn-outline-primary"
+								th:href="@{'/admin/order/1' + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&status=0' }">Đã
+								giao</a> <a th:if="${status == 1}"
+								class="btn btn-outline-primary active">Chờ xác nhận</a> <a
+								th:unless="${status == 1}" class="btn btn-outline-primary"
+								th:href="@{'/admin/order/1' + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&status=1' }">Chờ
+								xác nhận</a><a th:if="${status == 2}"
+								class="btn btn-outline-primary active">Yêu cầu hủy</a><a
+								th:unless="${status == 2}" class="btn btn-outline-primary"
+								th:href="@{'/admin/order/1' + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&status=2' }">
+								Yêu cầu Hủy</a><a th:if="${status == 3}"
+								class="btn btn-outline-primary active">Đã Hủy</a><a
+								th:unless="${status == 3}" class="btn btn-outline-primary"
+								th:href="@{'/admin/order/1'  + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&status=3' }">Đã
+								Hủy</a>
+
 						</div>
 					</div>
-					
+
 					<div class="btn-toolbar mb-2 mb-md-0">
 						<div class="btn-group mr-2">
 							<button class="btn btn-sm btn-outline-secondary">Share</button>
@@ -105,86 +129,112 @@
 					<table class="table table-bordered" id="myTable">
 						<thead>
 							<tr class="table-warning">
-								<th class="align-middle text-center" scope="col">
-								<a th:href="@{'/admin/order/' + ${currentPage} + '?sortField=orderId&sortDir=' +${reverseSortDir} + '&status=' + ${status}} ">ID</a></th></th>
-						      	<th class="align-middle text-center" scope="col">
-						      	<a th:href="@{'/admin/order/' + ${currentPage} + '?sortField=nameOfCustomer&sortDir=' +${reverseSortDir} + '&status=' + ${status}} ">Khách hàng</a>
-						      	</th>
-						      	<th class="align-middle text-center" scope="col">
-						      	<a th:href="@{'/admin/order/' + ${currentPage} + '?sortField=orderDay&sortDir=' +${reverseSortDir} + '&status=' + ${status}} ">Thời gian</a>
-						      	</th>
-						      	<th class="align-middle text-center" style=" width:15%" scope="col">
-						      		Giá
-						      	</th>
-						      	<th class="align-middle text-center" style=" width:15%" scope="col">
-						      	Trạng thái</th>
-						      	<th class="align-middle" style=" width:10%;" scope="col">Alter</th>
+								<th class="align-middle text-center" scope="col"><a
+									th:href="@{'/admin/order/' + ${currentPage} + '?sortField=orderId&sortDir=' +${reverseSortDir} + '&status=' + ${status}} ">ID</a></th>
+								</th>
+								<th class="align-middle text-center" scope="col"><a
+									th:href="@{'/admin/order/' + ${currentPage} + '?sortField=nameOfCustomer&sortDir=' +${reverseSortDir} + '&status=' + ${status}} ">Khách
+										hàng</a></th>
+								<th class="align-middle text-center" scope="col"><a
+									th:href="@{'/admin/order/' + ${currentPage} + '?sortField=orderDay&sortDir=' +${reverseSortDir} + '&status=' + ${status}} ">Thời
+										gian</a></th>
+								<th class="align-middle text-center" style="width: 15%"
+									scope="col">Giá</th>
+								<th class="align-middle text-center" style="width: 15%"
+									scope="col">Trạng thái</th>
+								<th class="align-middle" style="width: 10%;" scope="col">Alter</th>
 							</tr>
 						</thead>
 						<tbody>
 							<tr th:each="order : ${listOrder}">
 								<td class="align-middle text-center" th:text="${order.orderId}">##</td>
-								<td  class="align-middle" th:text="${order.nameOfCustomer}">##</td>
-								<td  class="align-middle text-center" th:text="${order.orderDay}">##</td>
-								<td  class="align-middle text-center" th:text="${#numbers.formatDecimal(order.totalPrice,3,0)}">##</td>
-								<td  class="align-middle " th:text="${order.orderStatus}">##</td>
-								 
+								<td class="align-middle" th:text="${order.user.username}">##</td>
+								<td class="align-middle text-center" th:text="${order.orderDay}">##</td>
+								<td class="align-middle text-center"
+									th:text="${#numbers.formatDecimal(order.totalPrice,3,0)}">##</td>
+								
+								
+								<!-- status order -->
+								<td>
+								
+								<p th:if="${order.orderStatus == 0}">Đã Giao</p>
+								<a th:if="${order.orderStatus == 1}"
+								class="btn btn-outline-primary"
+								th:href="@{'/admin/order/save/' + ${currentPage} + '?idOrder=' + ${order.orderId} + '&statusNew=0' + '&statusOld='  + ${status} }">Xác nhận</a>
+								<a th:if="${order.orderStatus == 1}"
+								class="btn btn-outline-primary"
+								th:href="@{'/admin/order/save/'  + ${currentPage} + '?idOrder=' + ${order.orderId} + '&statusNew=3' + '&statusOld=' + ${status} }">Hủy</a>
+								<a th:if="${order.orderStatus == 2}"
+								class="btn btn-outline-primary"
+								th:href="@{'/admin/order/save/'  + ${currentPage} + '?idOrder=' + ${order.orderId} + '&statusNew=3' + '&statusOld=' + ${status} }">Xác nhận hủy</a>					
+								<p th:if="${order.orderStatus == 3}">Đã Hủy</p>
+								
+								</td>
+								
+
 								<td class="align-middle text-center">
-									<button type="button" class="btn btn-warning m-1 btn__edit--order">
-							          <i class="far fa-edit"></i>
-							        </button>
-							       <input type="hidden" id="orderId" name="OrderId" th:value="${order.orderId}" >
-						      </td>
+									<button type="button"
+										class="btn btn-warning m-1 btn__edit--order">
+										<i class="far fa-edit"></i>
+									</button> <input type="hidden" id="orderId" name="OrderId"
+									th:value="${order.orderId}">
+								</td>
 							</tr>
 						</tbody>
 					</table>
-					
-					
-					<div th:if = "${totalPage > 1}">
-						<div class = "row col-sm-10">
-							<div class = "col-sm-2">
-								Total Items: [[${totalItem}]]	
-							</div>
-							<div class = "col-sm-1">
-								<a th:if="${currentPage > 1}" th:href="@{'/admin/order/' + ${pageFirst}  + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&status=' + ${status}}">First</a>
+
+
+					<div th:if="${totalPage > 1}">
+						<div class="row col-sm-10">
+							<div class="col-sm-2">Total Items: [[${totalItem}]]</div>
+							<div class="col-sm-1">
+								<a th:if="${currentPage > 1}"
+									th:href="@{'/admin/order/' + ${pageFirst}  + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&status=' + ${status}}">First</a>
 								<span th:unless="${currentPage > 1}">First</span>
 							</div>
-							<div class = "col-sm-1">
-							<span th:each="i : ${#numbers.sequence(1, totalPage)}">
-								<a th:if="${currentPage != i}" th:href= "@{'/admin/order/' + ${i} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&status=' + ${status} }">[[${i}]]</a>
-								<span th:unless="${currentPage != i}">[[${i}]]</span> &nbsp; &nbsp;
-							</span>
-							</div >
-							<div class = "col-sm-1">
-								<a th:if="${currentPage < totalPage}" th:href="@{'/admin/order/' + ${currentPage +1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}  + '&status=' + ${status}}">Next</a>
+							<div class="col-sm-1">
+								<span th:each="i : ${#numbers.sequence(1, totalPage)}"> <a
+									th:if="${currentPage != i}"
+									th:href="@{'/admin/order/' + ${i} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&status=' + ${status} }">[[${i}]]</a>
+									<span th:unless="${currentPage != i}">[[${i}]]</span> &nbsp;
+									&nbsp;
+								</span>
+							</div>
+							<div class="col-sm-1">
+								<a th:if="${currentPage < totalPage}"
+									th:href="@{'/admin/order/' + ${currentPage +1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}  + '&status=' + ${status}}">Next</a>
 								<span th:unless="${currentPage < totalPage}">Next </span>
 							</div>
-							<div class = "col-sm-1">
-								<a th:if="${currentPage < totalPage}" th:href="@{'/admin/order/'+${totalPage} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&status=' + ${status} }">Last</a>
+							<div class="col-sm-1">
+								<a th:if="${currentPage < totalPage}"
+									th:href="@{'/admin/order/'+${totalPage} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&status=' + ${status} }">Last</a>
 								<span th:unless="${currentPage < totalPage}">Last</span>
 							</div>
 						</div>
-					
+
 					</div>
-					
+
 				</div>
 				<div class="container-order-detail">
 					<article class="card">
 						<header class="card-header"> Chi tiết đơn hàng</header>
 						<div class="card-body">
-							<h6>Mã đơn hàng: <span id="order-id">OD45345345435 </span></h6>
+							<h6>
+								Mã đơn hàng: <span id="order-id">OD45345345435 </span>
+							</h6>
 							<article class="card">
 								<div class="card-body row">
 									<div class="col">
-										<strong>Thời gian ước tính:</strong> <br>
-										<span id="order-day">29 nov 2019</span>
+										<strong>Thời gian ước tính:</strong> <br> <span
+											id="order-day">29 nov 2019</span>
 									</div>
 									<div class="col">
-										<strong>Đơn vị giao:</strong> <br> TIKA Express, | 
-										<i class="fa fa-phone"></i> <span> +1598675986</span>
+										<strong>Đơn vị giao:</strong> <br> TIKA Express, | <i
+											class="fa fa-phone"></i> <span> +1598675986</span>
 									</div>
 									<div class="col">
-										<strong>Trạng thái:</strong> <br> <span id="order-status">Picked by the courier</span>
+										<strong>Trạng thái:</strong> <br> <span id="order-status">Picked
+											by the courier</span>
 									</div>
 								</div>
 							</article>
@@ -205,38 +255,36 @@
 									<span class="icon"> <i class="fa fa-user"></i>
 									</span> <span class="text"> Hoàn tất </span>
 								</div>
-								
+
 							</div>
 							<hr>
 							<ul class="row">
 								<li class="col-md-4">
 									<figure class="itemside mb-3">
 										<div class="aside">
-											<img
-												th:src="@{/image/choosing-img-icon.png}"
+											<img th:src="@{/image/choosing-img-icon.png}"
 												class="img-sm border">
 										</div>
 										<figcaption class="info align-self-center">
 											<p class="title" id="book-name">
-												Đây là tên của sách 1 <br> 
-												<span id="book-author">Tên tác giả 1</span>
+												Đây là tên của sách 1 <br> <span id="book-author">Tên
+													tác giả 1</span>
 											</p>
-											<span class="text-muted" id="book-price">1.000.000 VNĐ</span> x
-											<span class="text-muted" id="order-quantity">5 </span>
+											<span class="text-muted" id="book-price">1.000.000 VNĐ</span>
+											x <span class="text-muted" id="order-quantity">5 </span>
 										</figcaption>
 									</figure>
 								</li>
 								<li class="col-md-4">
 									<figure class="itemside mb-3">
 										<div class="aside">
-											<img
-												th:src="@{/image/choosing-img-icon.png}"
+											<img th:src="@{/image/choosing-img-icon.png}"
 												class="img-sm border">
 										</div>
 										<figcaption class="info align-self-center">
 											<p class="title" id="book-name">
-												Đây là tên của sách 2 <br> 
-												<span id="book-author">Tên tác giả 2</span>
+												Đây là tên của sách 2 <br> <span id="book-author">Tên
+													tác giả 2</span>
 											</p>
 											<span class="text-muted" id="book-price">950.000 VNĐ</span> x
 											<span class="text-muted" id="order-quantity">10 </span>
@@ -246,14 +294,126 @@
 								<li class="col-md-4">
 									<figure class="itemside mb-3">
 										<div class="aside">
-											<img
-												th:src="@{/image/choosing-img-icon.png}"
+											<img th:src="@{/image/choosing-img-icon.png}"
 												class="img-sm border">
 										</div>
 										<figcaption class="info align-self-center">
 											<p class="title" id="book-name">
-												Đây là tên của sách 3 <br> 
-												<span id="book-author">Tên tác giả 3</span>
+												Đây là tên của sách 2 <br> <span id="book-author">Tên
+													tác giả 2</span>
+											</p>
+											<span class="text-muted" id="book-price">950.000 VNĐ</span> x
+											<span class="text-muted" id="order-quantity">10 </span>
+										</figcaption>
+									</figure>
+								</li>
+								<li class="col-md-4">
+									<figure class="itemside mb-3">
+										<div class="aside">
+											<img th:src="@{/image/choosing-img-icon.png}"
+												class="img-sm border">
+										</div>
+										<figcaption class="info align-self-center">
+											<p class="title" id="book-name">
+												Đây là tên của sách 2 <br> <span id="book-author">Tên
+													tác giả 2</span>
+											</p>
+											<span class="text-muted" id="book-price">950.000 VNĐ</span> x
+											<span class="text-muted" id="order-quantity">10 </span>
+										</figcaption>
+									</figure>
+								</li>
+								<li class="col-md-4">
+									<figure class="itemside mb-3">
+										<div class="aside">
+											<img th:src="@{/image/choosing-img-icon.png}"
+												class="img-sm border">
+										</div>
+										<figcaption class="info align-self-center">
+											<p class="title" id="book-name">
+												Đây là tên của sách 2 <br> <span id="book-author">Tên
+													tác giả 2</span>
+											</p>
+											<span class="text-muted" id="book-price">950.000 VNĐ</span> x
+											<span class="text-muted" id="order-quantity">10 </span>
+										</figcaption>
+									</figure>
+								</li>
+								<li class="col-md-4">
+									<figure class="itemside mb-3">
+										<div class="aside">
+											<img th:src="@{/image/choosing-img-icon.png}"
+												class="img-sm border">
+										</div>
+										<figcaption class="info align-self-center">
+											<p class="title" id="book-name">
+												Đây là tên của sách 2 <br> <span id="book-author">Tên
+													tác giả 2</span>
+											</p>
+											<span class="text-muted" id="book-price">950.000 VNĐ</span> x
+											<span class="text-muted" id="order-quantity">10 </span>
+										</figcaption>
+									</figure>
+								</li>
+								<li class="col-md-4">
+									<figure class="itemside mb-3">
+										<div class="aside">
+											<img th:src="@{/image/choosing-img-icon.png}"
+												class="img-sm border">
+										</div>
+										<figcaption class="info align-self-center">
+											<p class="title" id="book-name">
+												Đây là tên của sách 2 <br> <span id="book-author">Tên
+													tác giả 2</span>
+											</p>
+											<span class="text-muted" id="book-price">950.000 VNĐ</span> x
+											<span class="text-muted" id="order-quantity">10 </span>
+										</figcaption>
+									</figure>
+								</li>
+								<li class="col-md-4">
+									<figure class="itemside mb-3">
+										<div class="aside">
+											<img th:src="@{/image/choosing-img-icon.png}"
+												class="img-sm border">
+										</div>
+										<figcaption class="info align-self-center">
+											<p class="title" id="book-name">
+												Đây là tên của sách 2 <br> <span id="book-author">Tên
+													tác giả 2</span>
+											</p>
+											<span class="text-muted" id="book-price">950.000 VNĐ</span> x
+											<span class="text-muted" id="order-quantity">10 </span>
+										</figcaption>
+									</figure>
+								</li>
+								<li class="col-md-4">
+									<figure class="itemside mb-3">
+										<div class="aside">
+											<img th:src="@{/image/choosing-img-icon.png}"
+												class="img-sm border">
+										</div>
+										<figcaption class="info align-self-center">
+											<p class="title" id="book-name">
+												Đây là tên của sách 2 <br> <span id="book-author">Tên
+													tác giả 2</span>
+											</p>
+											<span class="text-muted" id="book-price">950.000 VNĐ</span> x
+											<span class="text-muted" id="order-quantity">10 </span>
+										</figcaption>
+									</figure>
+								</li>
+
+								<li class="col-md-4">
+									<figure class="itemside mb-3">
+										<div class="aside">
+											<img th:src="@{/image/choosing-img-icon.png}"
+												class="img-sm border">
+										</div>
+										<figcaption class="info align-self-center">
+											<p class="title" id="book-name">
+												Đây là tên của sách 3 <br> <span id="book-author">Tên
+													tác giả 3</span>
 											</p>
 											<span class="text-muted" id="book-price">500.000 VNĐ</span> x
 											<span class="text-muted" id="order-quantity">2 </span>
@@ -262,8 +422,8 @@
 								</li>
 							</ul>
 							<hr>
-							<a href="#" class="btn btn-warning btn-close-from" data-abc="true"> <i
-								class="fa fa-chevron-left"></i> Trở về
+							<a href="#" class="btn btn-warning btn-close-from"
+								data-abc="true"> <i class="fa fa-chevron-left"></i> Trở về
 							</a>
 						</div>
 					</article>
@@ -271,8 +431,9 @@
 			</main>
 		</div>
 	</div>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-	<script th:src="@{/script/adminJs/headerHandle.js}" ></script>
-	<script th:src="@{/script/adminJs/order.js}" ></script>
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script th:src="@{/script/adminJs/headerHandle.js}"></script>
+	<script th:src="@{/script/adminJs/order.js}"></script>
 </body>
 </html>

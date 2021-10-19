@@ -3,65 +3,78 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Home page</title>
-<link rel="stylesheet" type="text/css" th:href="@{../css/style.css}">
+
+<link rel="stylesheet" type="text/css" th:href="@{../../css/style.css}">
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
 	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
 	crossorigin="anonymous">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 </head>
+
 <body>
 
-	<div id="header" class="container-fluid" style="text-align: center">
-		<nav class="navbar navbar-expand-lg navbar-dark bg-dark"
-			id="navbar-homepage">
-			<a class="navbar-brand" href="#">Home</a>
-			<button class="navbar-toggler" type="button" data-toggle="collapse"
-				data-target="#navbarSupportedContent"
-				aria-controls="navbarSupportedContent" aria-expanded="false"
-				aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			</button>
 
-			<div class="collapse navbar-collapse" id="navbarSupportedContent">
-				<ul class="navbar-nav mr-auto">
+	<div class="container-fluid">
+		<div class="row header">
 
-					<li class="nav-item dropdown"><a
-						class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
-						role="button" data-toggle="dropdown" aria-haspopup="true"
-						aria-expanded="false"> Danh mục sách </a>
-						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-							<a class="dropdown-item" th:href="@{'/home/category?categoryId=' + ${category.categoryId} }"
-								th:each="category, state: ${categories}"
-								th:text="${category.name}" ></a>
+			<div id="header" class="container-fluid" style="text-align: center">
+				<nav class="navbar navbar-expand-lg navbar-dark bg-dark"
+					id="navbar-homepage">
+					<a class="navbar-brand" href="#">Home</a>
+					<button class="navbar-toggler" type="button" data-toggle="collapse"
+						data-target="#navbarSupportedContent"
+						aria-controls="navbarSupportedContent" aria-expanded="false"
+						aria-label="Toggle navigation">
+						<span class="navbar-toggler-icon"></span>
+					</button>
+
+					<div class="collapse navbar-collapse" id="navbarSupportedContent">
+						<ul class="navbar-nav mr-auto">
+
+							<li class="nav-item dropdown"><a
+								class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
+								role="button" data-toggle="dropdown" aria-haspopup="true"
+								aria-expanded="false"> Danh mục sách </a>
+								<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+									<a class="dropdown-item"
+										th:href="@{'/home/category/' + ${category.categoryId} }"
+										th:each="category, state: ${categories}"
+										th:text="${category.name}"></a>
 
 
-						</div></li>
+								</div></li>
 
-					<li class="nav-item"><a class="nav-link" href="#">Tài
-							khoản</a></li>
-				</ul>
-				<form class="form-inline my-2 my-lg-0" th:action="@{/home/search}">
-					<input class="form-control mr-sm-2" type="search"
-						placeholder="Search" aria-label="Search" name="searchvalue">
-					<button class="btn btn-outline-danger my-2 my-sm-0" type="submit"
-						style="color: red">Search</button>
-				</form>
+							<li class="nav-item"><a class="nav-link" href="#">Tài
+									khoản</a></li>
+						</ul>
+						<form class="form-inline my-2 my-lg-0" th:action="@{/home/search}">
+							<input class="form-control mr-sm-2" type="search"
+								placeholder="Search" aria-label="Search" name="searchvalue">
+							<button class="btn btn-outline-danger my-2 my-sm-0" type="submit"
+								style="color: red">Search</button>
+						</form>
+					</div>
+				</nav>
+				<h1 style="margin-top: 200px; color: red; font-family: Georgia">Giá
+					rẻ như cho</h1>
 			</div>
-		</nav>
-		<h1 style="margin-top: 200px; color: red; font-family: Georgia">Giá
-			rẻ như cho</h1>
+		</div>
 	</div>
-
 
 	<!-- product cards -->
 
 	<div class="container">
+
 		<div class="row body-homepage">
 
-			<div class="col-md-4 col-sm-6" th:each="product, state: ${list.content}"
+			<div class="col-md-4 col-sm-6" th:each="product, state: ${list}"
 				style="margin-top: 50px">
 				<div class="card card-book" style="width: 18rem;">
-					<img class="card-img-top" th:src="@{'../../image/' + ${product.picture}}"
+					<img class="card-img-top"
+						th:src="@{'../../image/' + ${product.picture}}"
 						alt="Card image cap">
 					<div class="card-body">
 						<h5 class="card-title" th:text="${product.bookName}"></h5>
@@ -72,18 +85,39 @@
 					</div>
 				</div>
 			</div>
-	
-		
+
+
 		</div>
-	<div class="row">
-		<nav aria-label="Page navigation example" style="margin-top: 50px">
+
+
+			<!-- PAGEING -->
+			
+		<div class="row" style="padding-top: 20px">
+			<nav aria-label="Page navigation example">
 				<ul class="pagination">
-					<li class="page-item"><a class="page-link" th:href="@{/home/view(page=0)}">|< First</a></li>
-					<li class="page-item"><a class="page-link" th:href="@{'/home/view?page='+${list.number-1}}"> < Previous</a></li>
-					<li class="page-item"><a class="page-link" th:href="@{'/home/view?page='+${list.number +1}}">Next ></a></li>
-					<li class="page-item"><a class="page-link"th:href="@{'/home/view?page='+${list.totalPages-1}}">Last >|</a></li>
+					<li class="page-item"><a class="page-link"
+						th:if="${currentPage > 1}"
+						th:href="@{'/home/view/' + ${pageFirst} }">First</a> <span
+						class="page-link" th:unless="${currentPage > 1}">First</span></li>
+
+
+
+					<span th:each="i : ${#numbers.sequence(1, totalPage)}"> <a
+						class="page-link" th:if="${currentPage != i}"
+						th:href="@{'/home/view/' + ${i} }">[[${i}]]</a> <span
+						class="page-link" th:unless="${currentPage != i}">[[${i}]]</span>
+					</span>
+
+					<li class="page-item"><a class="page-link"
+						th:if="${currentPage < totalPage}"
+						th:href="@{'/home/view/'+${totalPage}}">Last</a> <span
+						class="page-link" th:unless="${currentPage < totalPage}">Last</span>
+					</li>
 				</ul>
 			</nav>
+		</div>
+		<br> <br>
+
 	</div>
 
 
@@ -102,5 +136,13 @@
 		src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
 		integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
 		crossorigin="anonymous"></script>
+
+
+
+
 </body>
 </html>
+
+
+
+

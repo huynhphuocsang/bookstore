@@ -15,9 +15,10 @@ public interface BookService{
 	public int getTotalQuantity(); 
 	public Book getBookById(long id)  throws ResourceNotFoundException;
 	public List<Book> getBookByCategory(Category category); 
-	public List<Book> findBook(String key); 
+	public Page<Book> findBook(String key,int pageNo, int pageSize, String sortField, String sortDirection); 
 	public Page<Book> findPage(int pageNo, int pageSize);
 	public Page<Book> findPaginated(int pageNo, int pageSize, String sortField, String sortDirection);
+	public Page<Book> getPageViaCategory(int pageNo, int pageSize, String sortField,String sortDirection,Category category); 
 	public int save(Book book);
 	public void deleteById(long idBook);
 }

@@ -11,7 +11,7 @@ import com.ptit.repository.OrderDao;
 import com.ptit.service.UserService;
 
 @Controller
-@RequestMapping("/admin")
+@RequestMapping("admin")
 public class DashboardController {
 	
 	@Autowired
@@ -19,19 +19,22 @@ public class DashboardController {
 	@Autowired
 	OrderDao orderDao;
 	
+	@RequestMapping(value={"", "/","statisticts"})
+	public String index(Model model) {
+		model.addAttribute("NumberUser", userService.countUsers());
+		
+		model.addAttribute("price", orderDao.getPrice(2021));
+		return "admin/statisticts";
+	}
+	
 	@RequestMapping("/statisticts/{year}")
-	public String index(Model model, @PathVariable int year) {
+	public String index2(Model model, @PathVariable int year) {
 		model.addAttribute("NumberUser", userService.countUsers());
 		
 		model.addAttribute("price", orderDao.getPrice(year));
 		return "admin/statisticts";
 	}
 	
-	@RequestMapping("")
-	public String homeAdmin(Model model) {
-		model.addAttribute("NumberUser", userService.countUsers());
-		return "admin/statisticts";
-	}
 	
 	// Added to test 500 page
     @RequestMapping(path = "/tigger-error", produces = MediaType.APPLICATION_JSON_VALUE)
