@@ -53,7 +53,7 @@ public class OrderControllerAdminApi {
 				out.println("<li class=\"col-md-4\">\r\n"
 						+ "									<figure class=\"itemside mb-3\">\r\n"
 						+ "										<div class=\"aside\">\r\n"
-						+ "											<img th:src=\"@{/image/"+listBook.get(i).getPicture()+"}\"\r\n"
+						+ "											<img src=\"/image/"+listBook.get(i).getPicture()+"\"\r\n"
 						+ "												class=\"img-sm border\">\r\n"
 						+ "										</div>\r\n"
 						+ "										<figcaption class=\"info align-self-center\">\r\n"

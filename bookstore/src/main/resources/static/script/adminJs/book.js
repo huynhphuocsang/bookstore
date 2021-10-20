@@ -15,7 +15,7 @@ btnAddBook.click(() => {
 		$(".main__overlay").css("display", "none");
 		frmAddBook.css("display", "none");
 		$(".form-message.invalid").removeClass("invalid")
-		
+		clearnField();
 		
 	})
 });
@@ -86,7 +86,7 @@ selects.forEach((select,index)=>{
     	const matchArray = findMatches(this.value, options);
     	select.append(...matchArray);
   	}
-  	input.addEventListener('change', filterOptions);
+  	input.onchange=(filterOptions);
   	input.addEventListener('keyup', filterOptions);
 })
 /*-----LOAD IMAGE-------*/
@@ -98,7 +98,7 @@ const loadFile = function(event) {
 
 /* =================EVENT BUTTON DELETE BOOK============== */
 const btnDeleteBook = $(".btn__delete--book");/* btn Add new book */
-const diaDeleteBook = $(".from__delete--book");/* Form add new book */
+const diaDeleteBook = $(".from__confirm");/* Form add new book */
 const inputDelete = $(".input-delete");
 
 btnDeleteBook.click((e) => {
@@ -111,8 +111,6 @@ btnDeleteBook.click((e) => {
 	inputDelete.val(targetClass.attr("id"))
 	console.log(targetClass.attr("id"));
 	diaDeleteBook.css("display", "block");
-	/*diaDeleteBook.find("#book-id").text(btnDeleteBook.attr("id"))
-	console.log(btnDeleteBook.attr("id"))*/
 	
 	/* EVENT CLOSE FORM */
 	$(".btn-cancel").click((e) => {
@@ -121,7 +119,21 @@ btnDeleteBook.click((e) => {
 	})
 });
 
-
+function clearnField(){
+	$('.form-row #idBook').val("");
+	$('#book-name').val("");
+	$('#author').val("");
+	$('#company').val("");
+	$('#datepickerfrom').val("");
+	$('#price').val("");
+	$('#img-output').attr("src","/image/choosing-img-icon.png");
+	$('#bookcategory').val("");
+	$('#total-quantity').val("");
+	$('#describe-book').val("");
+	$('.option-input').each((i,input)=>{
+		input.onchange();
+	})
+}
 
 
 

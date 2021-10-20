@@ -7,9 +7,9 @@
 /* STYLE ORDER DETAIL */
  @import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
 
- body {
+/*  body {
      font-family: 'Open Sans', serif
- }
+ } */
 
  .container-order-detail {
     position: fixed;
@@ -151,6 +151,10 @@
  p {
      margin-top: 0;
      margin-bottom: 1rem
+ }
+ .row.order-detail{
+ 	max-height: 200px;
+ 	overflow-y:auto; 
  }
 
  .container-order-detail .btn-warning {

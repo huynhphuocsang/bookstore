@@ -29,6 +29,15 @@ public class AuthorServiceImp implements AuthorService{
 	}
 	
 	@Override
+	public Author getAuthorByName(String name) throws ResourceNotFoundException {
+		Optional<Author> author=authorDao.findByNameAllIgnoreCase(name);
+		if(!author.isPresent()) {
+			throw new ResourceNotFoundException("Author doesn't exists"); 
+		}
+		return author.get();
+	}
+	
+	@Override
 	public long getAuthorIdByName(String name) throws ResourceNotFoundException {
 		Optional<Author> author=authorDao.findByNameAllIgnoreCase(name);
 		if(!author.isPresent()) {
@@ -47,9 +56,10 @@ public class AuthorServiceImp implements AuthorService{
 	public Author selectOrUpdateAuthor(String name) {
 		long id = 0;
 		try {
-			id=this.getAuthorIdByName(name);
+			//id=this.getAuthorIdByName(name);
+			id=authorDao.findByNameAllIgnoreCase(name).get().getIdAuthor();
 			return authorDao.getById(id);
-		} catch (ResourceNotFoundException e) {
+		} catch (Exception e) {
 			Author newAuthor=new Author();
 			newAuthor.setName(name);
 			id=this.save(newAuthor);

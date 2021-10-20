@@ -14,6 +14,25 @@ btnEditOrder.click(() => {
 	})
 });
 
+/* =================EVENT BUTTON CHANGE STATUS============== */
+const btnChangeStatus = $(".btn__change--status");
+const frmChangeStatus = $(".from__confirm");
+btnChangeStatus.each((i,btn)=>{
+	btn.onclick=(e) => {
+		$(".main__overlay").css("display", "block");
+		let targetClass=$(e.target)
+		frmChangeStatus.find("#order-id").text("Bạn có muốn"+targetClass.text()+" đơn hàng có mã: "+targetClass.children().attr('id'))
+		frmChangeStatus.find("#action-change").attr("href",targetClass.children().val())
+		frmChangeStatus.css("display", "block");
+		
+		/* EVENT CLOSE FORM */
+		$(".btn-cancel").click((e) => {
+			$(".main__overlay").css("display", "none");
+			frmChangeStatus.css("display", "none");
+		})
+	};
+})
+
 /* =================EVENT CHANGE STATUS ORDER============== */
 const btnsStatus = $(".track .icon");
 
@@ -32,3 +51,18 @@ btnsStatus.each((i,btn)=>{
 	    }
 	}
 })
+
+function setStatus(status){
+	//Chờ xác nhận
+	if(status==0){
+		$('.ready.step > .icon').click();
+	}
+	//Đã xác nhận
+	else if(status==1){
+		$('.done.step > .icon').click();
+	}
+	//Đã hủy
+	else {
+		
+	}
+}

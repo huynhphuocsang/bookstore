@@ -202,7 +202,7 @@
 										<div class="form-group col-md-6">
 											<label for="author">Tác giả: </label>
 											<div class="wrapper-option-input" id="author-wrapper">
-												<input name="authorName" type="text" class="form-control option-input" id="author" placeholder="">
+												<input name="authorName" type="text" class="form-control option-input" id="author" placeholder="Nguyễn Nhật Ánh">
 												<select  for="author" multiple id="category" class="form-control box-options">
 													<option th:each="author : ${listAuthor}"
 														th:utext="${author.name}"
@@ -270,6 +270,7 @@
 											<i class="far fa-folder-open btn btn-warning"> Add</i>
 										</label> 
 										<input name="fileImage" type="file" accept="image/*" onchange="loadFile(event)" class="form-control-file ml-2 d-none" id="picture">
+										&nbsp; &nbsp;<p class="form-message" >Vui lòng chọn ảnh !!</p>
 									</div>
 									<label for="picture" class="display-img border">
 										<img  id="img-output" style="max-height: 300px;" class="card-img-top " th:src="@{/image/choosing-img-icon.png}"
@@ -303,7 +304,7 @@
 				</form>
 				
 			<!-- ===============DIALOG DELETE BOOK =======================-->
-				<form th:action="@{/admin/book/delete}" class="from__delete--book" th:method="post">
+				<form th:action="@{/admin/book/delete}" class="from__confirm" th:method="post">
 					<div class="card">
 						<div class="card-header">Xác nhận xóa</div>
 						
@@ -339,7 +340,9 @@
             Validator.isRequired('#company'),
             Validator.isRequired('#bookcategory'),
             Validator.isRequired('#total-quantity'),
-            Validator.isRequired('#price'),
+            Validator.isNum('#price'),
+            Validator.isRequired('#picture'),
+            Validator.isRequired('#datepickerfrom')
           ]
         });
         
