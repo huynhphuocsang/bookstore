@@ -32,3 +32,18 @@ btnsStatus.each((i,btn)=>{
 	    }
 	}
 })
+
+function setStatus(status){
+	//Chờ xác nhận
+	if(status==0){
+		$('.ready.step > .icon').click();
+	}
+	//Đã xác nhận
+	else if(status==1){
+		$('.done.step > .icon').click();
+	}
+	//Đã hủy
+	else {
+		
+	}
+}

@@ -15,7 +15,7 @@ btnAddBook.click(() => {
 		$(".main__overlay").css("display", "none");
 		frmAddBook.css("display", "none");
 		$(".form-message.invalid").removeClass("invalid")
-		
+		clearnField();
 		
 	})
 });
@@ -121,7 +121,18 @@ btnDeleteBook.click((e) => {
 	})
 });
 
-
+function clearnField(){
+	$('.form-row #idBook').val("");
+	$('#book-name').val("");
+	$('#author').val("");
+	$('#company').val("");
+	$('#datepickerfrom').val("");
+	$('#price').val("");
+	$('#img-output').attr("src","/image/choosing-img-icon.png");
+	$('#bookcategory').val("");
+	$('#total-quantity').val("");
+	$('#describe-book').val("");
+}
 
 
 

@@ -88,27 +88,25 @@
 					<div class="m-2">
 						<div class="btn-group" role="group"
 							aria-label="Basic outlined example">
-							<a th:if="${status == -1}" class="btn btn-outline-primary active">Tất
-								cả</a> <a th:unless="${status == -1}"
-								class="btn btn-outline-primary"
-								th:href="@{'/admin/order/1'  + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&status=-1' }">Tất
-								cả</a> <a th:if="${status == 0}"
-								class="btn btn-outline-primary active">Đã xác nhận</a> <a
-								th:unless="${status == 0}" class="btn btn-outline-primary"
-								th:href="@{'/admin/order/1' + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&status=0' }">Đã
-								giao</a> <a th:if="${status == 1}"
-								class="btn btn-outline-primary active">Chờ xác nhận</a> <a
-								th:unless="${status == 1}" class="btn btn-outline-primary"
-								th:href="@{'/admin/order/1' + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&status=1' }">Chờ
-								xác nhận</a><a th:if="${status == 2}"
-								class="btn btn-outline-primary active">Yêu cầu hủy</a><a
-								th:unless="${status == 2}" class="btn btn-outline-primary"
-								th:href="@{'/admin/order/1' + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&status=2' }">
-								Yêu cầu Hủy</a><a th:if="${status == 3}"
-								class="btn btn-outline-primary active">Đã Hủy</a><a
-								th:unless="${status == 3}" class="btn btn-outline-primary"
-								th:href="@{'/admin/order/1'  + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&status=3' }">Đã
-								Hủy</a>
+							<a th:if="${status == -1}" class="btn btn-outline-primary active">Tất cả</a> 
+							<a th:unless="${status == -1}" class="btn btn-outline-primary"
+								th:href="@{'/admin/order/1'  + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&status=-1' }">Tất cả</a> 
+								
+							<a th:if="${status == 0}" class="btn btn-outline-primary active">Đã xác nhận</a> 
+							<a th:unless="${status == 0}" class="btn btn-outline-primary"
+								th:href="@{'/admin/order/1' + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&status=0' }">Đã xác nhận</a> 
+								
+							<a th:if="${status == 1}" class="btn btn-outline-primary active">Chờ xác nhận</a> 
+							<a th:unless="${status == 1}" class="btn btn-outline-primary"
+								th:href="@{'/admin/order/1' + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&status=1' }">Chờ xác nhận</a>
+								
+							<a th:if="${status == 2}" class="btn btn-outline-primary active">Yêu cầu hủy</a>
+							<a th:unless="${status == 2}" class="btn btn-outline-primary"
+								th:href="@{'/admin/order/1' + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&status=2' }"> Yêu cầu hủy</a>
+								
+							<a th:if="${status == 3}" class="btn btn-outline-primary active">Đã Hủy</a>
+							<a th:unless="${status == 3}" class="btn btn-outline-primary"
+								th:href="@{'/admin/order/1'  + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&status=3' }">Đã Hủy</a>
 
 						</div>
 					</div>
@@ -258,7 +256,7 @@
 
 							</div>
 							<hr>
-							<ul class="row">
+							<ul class="row order-detail">
 								<li class="col-md-4">
 									<figure class="itemside mb-3">
 										<div class="aside">

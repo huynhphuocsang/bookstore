@@ -152,6 +152,10 @@
      margin-top: 0;
      margin-bottom: 1rem
  }
+ .row.order-detail{
+ 	max-height: 200px;
+ 	overflow-y:auto; 
+ }
 
  .container-order-detail .btn-warning {
      color: #ffffff;
