@@ -335,7 +335,7 @@ CREATE TABLE `role` (
   `id_role` bigint NOT NULL AUTO_INCREMENT,
   `role_name` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id_role`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -344,6 +344,7 @@ CREATE TABLE `role` (
 
 LOCK TABLES `role` WRITE;
 /*!40000 ALTER TABLE `role` DISABLE KEYS */;
+INSERT INTO `role` VALUES (1,'ROLE_ADMIN'),(2,'ROLE_USER');
 /*!40000 ALTER TABLE `role` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -359,14 +360,11 @@ CREATE TABLE `user` (
   `age` int NOT NULL,
   `email` varchar(255) DEFAULT NULL,
   `gender` bit(1) NOT NULL,
-  `password` varchar(45) DEFAULT NULL,
+  `password` varchar(250) DEFAULT NULL,
   `phone` varchar(10) DEFAULT NULL,
   `username` varchar(255) DEFAULT NULL,
-  `id_role` bigint DEFAULT NULL,
-  PRIMARY KEY (`user_id`),
-  KEY `FK6njoh3pti5jnlkowken3r8ttn` (`id_role`),
-  CONSTRAINT `FK6njoh3pti5jnlkowken3r8ttn` FOREIGN KEY (`id_role`) REFERENCES `role` (`id_role`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  PRIMARY KEY (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -375,6 +373,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
+INSERT INTO `user` VALUES (4,10,NULL,_binary '\0','$2a$12$JOrvjOaN5XDVyxTj9XqMAOlQ6avTihPYzPD3tzpbmYJWdWAdN/Q96','0987890098','sang'),(5,10,NULL,_binary '\0','$2a$12$AUp3RXQB77Cn/iib6hMkU.Pi78Al30lqLyKp.QIevh4Hc59RVVnQu','0987654321','quan'),(6,10,NULL,_binary '\0','$2a$12$rt/VyNFmBf6OtpadCMgYRONxEBfPUAlKB2unvxXBLQe7wffI.5VeC','0987666555','truong');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -402,6 +401,35 @@ CREATE TABLE `user_address` (
 LOCK TABLES `user_address` WRITE;
 /*!40000 ALTER TABLE `user_address` DISABLE KEYS */;
 /*!40000 ALTER TABLE `user_address` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `user_role`
+--
+
+DROP TABLE IF EXISTS `user_role`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `user_role` (
+  `user_role_id` bigint NOT NULL AUTO_INCREMENT,
+  `id_role` bigint DEFAULT NULL,
+  `user_id` bigint DEFAULT NULL,
+  PRIMARY KEY (`user_role_id`),
+  KEY `FK2aam9nt2tv8vcfymi3jo9c314` (`id_role`),
+  KEY `FK859n2jvi8ivhui0rl0esws6o` (`user_id`),
+  CONSTRAINT `FK2aam9nt2tv8vcfymi3jo9c314` FOREIGN KEY (`id_role`) REFERENCES `role` (`id_role`),
+  CONSTRAINT `FK859n2jvi8ivhui0rl0esws6o` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `user_role`
+--
+
+LOCK TABLES `user_role` WRITE;
+/*!40000 ALTER TABLE `user_role` DISABLE KEYS */;
+INSERT INTO `user_role` VALUES (1,1,4),(2,1,5),(3,1,6);
+/*!40000 ALTER TABLE `user_role` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -441,4 +469,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-10-16 22:53:48
+-- Dump completed on 2021-10-19 21:48:52

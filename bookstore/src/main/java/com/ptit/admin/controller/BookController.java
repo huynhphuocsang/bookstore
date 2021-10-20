@@ -145,5 +145,8 @@ public class BookController {
 	}
 	
 	
-
+	@GetMapping
+	public String admin() {
+		return "tempadmin"; 
+	}
 }
