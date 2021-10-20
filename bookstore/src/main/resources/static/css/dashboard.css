@@ -122,3 +122,16 @@ body {
 .nav-style > .nav-item:hover{
 	background-color: rgba(18,102,241,.05);
 }
+
+/*========= DIALOG COMFIRM STYLE========= */
+.from__confirm {
+	position: fixed;
+	width: 25%;
+	height: 50%;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%,-50%);
+	z-index: 10000;
+	border-radius: 15px;
+	display: none;
+}

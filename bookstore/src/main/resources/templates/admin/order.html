@@ -157,15 +157,16 @@
 								<td>
 								
 								<p th:if="${order.orderStatus == 0}">Đã Giao</p>
-								<a th:if="${order.orderStatus == 1}"
-								class="btn btn-outline-primary"
-								th:href="@{'/admin/order/save/' + ${currentPage} + '?idOrder=' + ${order.orderId} + '&statusNew=0' + '&statusOld='  + ${status} }">Xác nhận</a>
-								<a th:if="${order.orderStatus == 1}"
-								class="btn btn-outline-primary"
-								th:href="@{'/admin/order/save/'  + ${currentPage} + '?idOrder=' + ${order.orderId} + '&statusNew=3' + '&statusOld=' + ${status} }">Hủy</a>
-								<a th:if="${order.orderStatus == 2}"
-								class="btn btn-outline-primary"
-								th:href="@{'/admin/order/save/'  + ${currentPage} + '?idOrder=' + ${order.orderId} + '&statusNew=3' + '&statusOld=' + ${status} }">Xác nhận hủy</a>					
+								
+								<a th:if="${order.orderStatus == 1}" class="btn btn-outline-primary btn__change--status">
+								<input type="hidden" th:id="${order.orderId}" name="actionStatus" th:value="@{'/admin/order/save/' + ${currentPage} + '?idOrder=' + ${order.orderId} + '&statusNew=0' + '&statusOld='  + ${status} }" >Xác nhận</a>
+								
+								<a th:if="${order.orderStatus == 1}" class="btn btn-outline-primary btn__change--status">
+								<input type="hidden" th:id="${order.orderId}" name="actionStatus" th:value="@{'/admin/order/save/'  + ${currentPage} + '?idOrder=' + ${order.orderId} + '&statusNew=3' + '&statusOld=' + ${status} }" >Hủy</a>
+								
+								<a th:if="${order.orderStatus == 2}" class="btn btn-outline-primary btn__change--status">
+								<input type="hidden" th:id="${order.orderId}" name="actionStatus" th:value="@{'/admin/order/save/'  + ${currentPage} + '?idOrder=' + ${order.orderId} + '&statusNew=3' + '&statusOld=' + ${status} }" >Xác nhận hủy</a>					
+								
 								<p th:if="${order.orderStatus == 3}">Đã Hủy</p>
 								
 								</td>
@@ -174,7 +175,8 @@
 								<td class="align-middle text-center">
 									<button type="button" id="button_detail"
 										class="btn btn-warning m-1 btn__edit--order">
-										<i class="far fa-edit"></i>
+										Chi tiết
+										<!-- <i class="far fa-edit"></i> -->
 									</button> <input type="hidden" id="orderId" name="OrderId"
 									th:value="${order.orderId}">
 								</td>
@@ -259,7 +261,7 @@
 							<hr>
 							
 							
-							<ul class="row" id="listOrderDetail">
+							<ul class="row order-detail" id="listOrderDetail">
 							</ul>
 								
 							<!-- <ul class="row" th:each="order : ${listOrder}">			
@@ -289,6 +291,26 @@
 						</div>
 					</article>
 				</div>
+				
+				<!-- ===============DIALOG COMFIRM =======================-->
+				<form class="from__confirm">
+					<div class="card">
+						<div class="card-header">Thông báo</div>
+						
+						<div class="card-body" style="text-align: center;">
+							<p class="card-text "><strong id="order-id"></strong>
+							<div class="btns-comfirm d-flex justify-content-end">
+														
+								<div class="btn btn-secondary btn-cancel mr-3">Hủy</div>
+								
+								<a th:href="s" id="action-change" type="submit" class="btn btn-primary">Đồng ý</a>
+								
+							</div>
+							
+						</div>
+					</div>
+				</form>	
+						
 			</main>
 		</div>
 	</div>
@@ -300,18 +322,18 @@
       
         
 	$(document).ready(function() {
-    	$('#button_detail').on('click',function(){
-    		var id = $(this).parent().find('#orderId').val();
-    		$.ajax({
-    			type: 'GET',
-    			url: '/api/admin/order/'+id,
-    			success: function(data){
-    			
-    				var row = document.getElementById("listOrderDetail");
-    				row.innerHTML += data;
-    			}
-    		})
-    	});
+		$('#button_detail').on('click',function(){
+       		var id = $(this).parent().find('#orderId').val();
+       		$.ajax({
+       			type: 'GET',
+       			url: '/api/admin/order/'+id,
+       			success: function(data){
+       			
+       				var row = document.getElementById("listOrderDetail");
+       				row.innerHTML += data;
+       			}
+       		})
+       	});
     });
       </script>
 </body>

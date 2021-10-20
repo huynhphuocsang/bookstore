@@ -1,12 +1,13 @@
 function Validator(option){
     var select=document.querySelector(option.form)
     //Hàm thực hiện validate: báo lỗi nhập
-    function validate(inputEle,ruleEle){
+    function validate(inputEle,ruleEle, check={}){
         var errorEle= inputEle.parentElement.querySelector('.form-message');           
         var errorMess=ruleEle.test(inputEle.value);
         if(errorMess){
             errorEle.innerText=errorMess
-            errorEle.classList.add('invalid')    
+            errorEle.classList.add('invalid') 
+            check.isValid=false;
         }else {
             errorEle.innerText='';
             errorEle.classList.remove('invalid')
@@ -31,6 +32,16 @@ function Validator(option){
                 }
             }
         })
+        select.onsubmit=function(){
+			let checkValid={isValid:true};
+			option.rules.forEach(function(ruleEle){
+	            var inputEle=select.querySelector(ruleEle.selector);
+	            if(inputEle){
+	                validate(inputEle,ruleEle,checkValid);
+	            }
+	        })
+	        return checkValid.isValid;
+		}
     }
 }
 Validator.isRequired=function(selector){
@@ -65,6 +76,15 @@ Validator.confirmMes=function(selector,selector2, message){
             var selectPas=document.querySelector(selector)
             var selectPasfirm=document.querySelector(selector2)
             return (selectPas.value==selectPasfirm.value)?undefined : message
+        }
+    }
+}
+Validator.isNum=function(selector){
+    return {
+        selector: selector,
+        test: function(value){
+            var regex=/^[0-9]\d*$/
+            return regex.test(value)?undefined:'Vui lòng nhập số'
         }
     }
 }
