@@ -20,6 +20,7 @@ import com.ptit.model.Book;
 import com.ptit.model.Order;
 import com.ptit.model.OrderDetail;
 import com.ptit.repository.OrderDetailDao;
+import com.ptit.service.OrderDetailService;
 import com.ptit.service.OrderService;
 @RestController
 @RequestMapping("api/admin")
@@ -29,7 +30,7 @@ public class OrderControllerAdminApi {
 	
 	
 	@Autowired
-	private OrderDetailDao orderDetailDao;
+	private OrderDetailService orderDetailService;
 //	@RequestMapping(value = "order/{id}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
 //	public ResponseEntity<Order> find(@PathVariable("id") long id,HttpServletResponse respon){
 //		try {			
@@ -44,8 +45,8 @@ public class OrderControllerAdminApi {
 	public void find(@PathVariable("id") long id,HttpServletResponse respon){
 		try {
 			
-			List<OrderDetail> list = orderDetailDao.getListDetailByOrderId();
-			List<Book> listBook = orderDetailDao.getListBookOfOrderDetail();
+			List<OrderDetail> list = orderDetailService.getListDetailByOrderId(id);
+			List<Book> listBook = orderDetailService.getListBookOfOrderDetail(id);
 			
 			respon.setContentType("text/html;charset=UTF-8");
 			PrintWriter out = respon.getWriter();
@@ -66,6 +67,8 @@ public class OrderControllerAdminApi {
 						+ "									</figure>\r\n"
 						+ "								</li>	");
 			}
+			
+			
 			
 		} catch (Exception e) {
 			e.printStackTrace();

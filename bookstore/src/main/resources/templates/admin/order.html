@@ -322,14 +322,16 @@
       
         
 	$(document).ready(function() {
-		$('#button_detail').on('click',function(){
+		$('table #button_detail').on('click',function(){
        		var id = $(this).parent().find('#orderId').val();
        		$.ajax({
        			type: 'GET',
        			url: '/api/admin/order/'+id,
        			success: function(data){
-       			
        				var row = document.getElementById("listOrderDetail");
+       				row.innerHTML = "<ul class=\"row order-detail\" id=\"listOrderDetail\">\r\n"
+       					+ "							</ul>";
+       				
        				row.innerHTML += data;
        			}
        		})
