@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.ptit.model.Role;
@@ -66,18 +67,71 @@ public class UserServiceImp implements UserService{
 		return false;
 	}
 
-	@Override
+	@Override //use for signup
 	public boolean checkExistPhoneInfo(String phone) {
 		List<User> list = userDao.findByPhone(phone); 
 		if(list.size()>0) return true; 
 		return false;
 	}
 
-	@Override
+	@Override 
 	public boolean checkExistUsernameInfo(String username) {
 		List<User> list = userDao.findByUsernameAllIgnoreCase(username); 
 		if(list.size()>0) return true; 
 		return false;
+	}
+
+	@Override
+	public User getUserByUsername(String username) {
+		return userDao.findByUsername(username); 
+	}
+
+	@Override
+	public boolean updateUserInfo(String username, String email, String phone, boolean gender, int age) {
+		User user = userDao.findByUsername(username);
+		user.setEmail(email);
+		user.setPhone(phone);
+		user.setGender(gender);
+		user.setAge(age);
+		userDao.save(user); 
+		return true;
+	}
+
+	@Override
+	public boolean checkExistEmailInfo(String email, String username) {
+		
+		List<User> list = userDao.verifyDuplicateEmail(email, username); 
+		
+		if(list.size()>0) return true; 
+		return false;
+	}
+
+	@Override //use for user update info
+	public boolean checkExistPhoneInfo(String phone, String username) {
+		List<User> list = userDao.verifyDuplicateEmail(phone, username); 
+		
+		if(list.size()>0) return true; 
+		return false;
+		
+	}
+
+	@Override
+	public boolean verifyOldPassword(String oldPassword, String username) {
+		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(); 
+		User user = userDao.findByUsername(username); 
+		
+		
+		if(passwordEncoder.matches(oldPassword, user.getPassword())) return true; 
+		return false;
+	}
+
+	@Override
+	public boolean updatePassword(String password, String username) {
+		String passwordEncrypt = BCrypt.hashpw(password, BCrypt.gensalt(12)); 
+		User user = userDao.findByUsername(username); 
+		user.setPassword(passwordEncrypt);
+		userDao.save(user); 
+		return true;
 	}
 
 }
