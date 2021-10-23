@@ -11,9 +11,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
 
+import lombok.Data;
+
 @Entity
 @Table(name="items")
-
+@Data
 public class Items {
 	//thay the cho:  gio hang
 	

@@ -56,4 +56,9 @@ public class PublishingCompanyServiceImp implements PublishingCompanyService{
 			return publishingCompanyDao.getById(id);
 		}
 	}
+
+	@Override
+	public PublishingCompany getCompanyById(long id) {
+		return publishingCompanyDao.getById(id);
+	}
 }

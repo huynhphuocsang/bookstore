@@ -12,4 +12,5 @@ public interface AuthorService {
 	public long getAuthorIdByName(String name) throws ResourceNotFoundException;
 	public int save(Author author);
 	public Author selectOrUpdateAuthor(String name);
+	public Author getAuthorById(long id); 
 }
