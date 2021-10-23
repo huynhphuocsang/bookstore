@@ -73,17 +73,9 @@
 			</main>
 		</div>
 	</div>
-	<!-- SCRIPT HANDLE NAVIGATION -->
-	<script type="text/javascript">
-		const $=document.querySelector.bind(document);
-		const $$=document.querySelectorAll.bind(document);
-		const listNav=$$(".nav-style > .nav-item");
-		listNav.forEach((nav,index)=>{
-			nav.onclick=()=>{
-				$(".nav-link.active").classList.remove("active")
-				nav.querySelector(".nav-link").classList.add("active");
-			}
-		})
-	</script>
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script th:src="@{/script/adminJs/headerHandle.js}"></script>
+	<script th:src="@{/script/adminJs/order.js}"></script>
 </body>
 </html>

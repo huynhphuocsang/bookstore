@@ -44,12 +44,51 @@ public class OrderControllerAdminApi {
 	@RequestMapping(value = "order/{id}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
 	public void find(@PathVariable("id") long id,HttpServletResponse respon){
 		try {
-			
+			Order order=orderService.getOrderById(id);
 			List<OrderDetail> list = orderDetailService.getListDetailByOrderId(id);
 			List<Book> listBook = orderDetailService.getListBookOfOrderDetail(id);
 			
 			respon.setContentType("text/html;charset=UTF-8");
 			PrintWriter out = respon.getWriter();
+			
+			out.println("<header class=\"card-header\"> Chi tiết đơn hàng</header>\r\n"
+					+ "							<div class=\"card-body\">\r\n"
+					+ "								<h6>\r\n"
+					+ "									Mã đơn hàng: <span id=\"order-id\">"+order.getOrderId()+"</span>\r\n"
+					+ "								</h6>\r\n"
+					+ "								<article class=\"card\">\r\n"
+					+ "									<div class=\"card-body row\">\r\n"
+					+ "										<div class=\"col\">\r\n"
+					+ "											<strong>Khách hàng:</strong> <br> <span\r\n"
+					+ "												id=\"order-status\">"+order.getNameOfCustomer()+" | "+order.getPhoneOfCustomer()+"</span>\r\n"
+					+ "										</div>\r\n"
+					+ "										<div class=\"col\">\r\n"
+					+ "											<strong>Thời gian:</strong> <br> <span\r\n"
+					+ "												id=\"order-day\">"+order.getOrderDay()+"</span>\r\n"
+					+ "										</div>\r\n"
+					+ "										<div class=\"col\">\r\n"
+					+ "											<strong>Đơn vị giao:</strong> <br> SQT Express | <i\r\n"
+					+ "												class=\"fa fa-phone\"></i> <span> +171162236</span>\r\n"
+					+ "										</div>\r\n"
+					+ "									</div>\r\n"
+					+ "								</article>\r\n"
+					+ "								<div class=\"track\">\r\n"
+					+ "									<div class=\"ready step active\">\r\n"
+					+ "									<span class=\"icon \"> <i class=\"fa fa-box\"></i>\r\n"
+					+ "									</span> <span class=\"text\">Chờ xác nhận</span>\r\n"
+					+ "								</div>\r\n"
+					+ "								<div class=\"confirm step "+(order.getOrderStatus()!=1?"active":"")+"\">\r\n"
+					+ "									<span class=\"icon\"> <i class=\"fa fa-check\"></i>\r\n"
+					+ "									</span> <span class=\"text\">Xác nhận</span>\r\n"
+					+ "								</div>\r\n"
+					+ "								<div class=\"done step "+(order.getOrderStatus()==0||order.getOrderStatus()==3?"active":"")+"\">\r\n"
+					+ "									<span class=\"icon\"> <i class=\""+(order.getOrderStatus()==3?"fas fa-times":"fa fa-user")+"\"></i>\r\n"
+					+ "									</span> <span class=\"text\"> "+(order.getOrderStatus()==3?"Đã hủy":"Đã giao")+" </span>\r\n"
+					+ "								</div>\r\n"
+					+ "								</div>\r\n"
+					+ "								<hr>\r\n"
+					+ "								<ul class=\"row order-detail\" id=\"listOrderDetail\">");
+			
 			for (int i = 0; i < list.size(); i++) {
 				out.println("<li class=\"col-md-4\">\r\n"
 						+ "									<figure class=\"itemside mb-3\">\r\n"
@@ -59,7 +98,7 @@ public class OrderControllerAdminApi {
 						+ "										</div>\r\n"
 						+ "										<figcaption class=\"info align-self-center\">\r\n"
 						+ "											<p class=\"title\" id=\"book-name\">"+listBook.get(i).getBookName()+" <br> \r\n"
-						+ "												<span id=\"book-author\">"+listBook.get(i).getAuthor().getName()+"</span>\r\n"
+						+ "												<span class=\"text-muted\" id=\"book-author\"> "+listBook.get(i).getAuthor().getName()+"</span>\r\n"
 						+ "											</p>\r\n"
 						+ "											<span class=\"text-muted\" id=\"book-price\">"+list.get(i).getPrice()+"</span>\r\n"
 						+ "											x <span class=\"text-muted\" id=\"order-quantity\">"+list.get(i).getQuantity()+"</span>\r\n"
@@ -68,7 +107,15 @@ public class OrderControllerAdminApi {
 						+ "								</li>	");
 			}
 			
-			
+			out.println("</ul>\r\n"
+					+ "\r\n"
+					+ "								<hr>\r\n"
+					+ "								<p class=\"text text-right\">Thành tiền: "+order.getTotalPrice()+" VNĐ </p>\r\n"
+					+ "								<hr>\r\n"
+					+ "								<a href=\"#\" class=\"btn btn-warning btn-close-from\" onclick=\"closeOrderDetail()\"\r\n"
+					+ "									data-abc=\"true\"> <i class=\"fa fa-chevron-left\"></i> Trở về\r\n"
+					+ "								</a>\r\n"
+					+ "							</div>");
 			
 		} catch (Exception e) {
 			e.printStackTrace();
