@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.ptit.repository.OrderDao;
+import com.ptit.repository.OrderDetailDao;
 import com.ptit.service.UserService;
 
 @Controller
@@ -18,12 +19,17 @@ public class DashboardController {
 	UserService userService;
 	@Autowired
 	OrderDao orderDao;
+	@Autowired
+	OrderDetailDao orderDetailDao;
+	
 	
 	@RequestMapping(value={"", "/","statisticts"})
 	public String index(Model model) {
 		model.addAttribute("NumberUser", userService.countUsers());
 		
 		model.addAttribute("price", orderDao.getPrice(2021));
+		model.addAttribute("Totalearning", orderDetailDao.getTotalEarning());
+		model.addAttribute("TotalItem", orderDetailDao.getTotalItemSold());
 		return "admin/statisticts";
 	}
 	
@@ -32,6 +38,8 @@ public class DashboardController {
 		model.addAttribute("NumberUser", userService.countUsers());
 		
 		model.addAttribute("price", orderDao.getPrice(year));
+		model.addAttribute("Totalearning", orderDetailDao.getTotalEarning());
+		model.addAttribute("TotalItem", orderDetailDao.getTotalItemSold());
 		return "admin/statisticts";
 	}
 	
