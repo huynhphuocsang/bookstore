@@ -2,17 +2,23 @@
  const frmOrderDetail = $(".container-order-detail");
  const btnEditOrder = $(".btn__edit--order");
 
-/* =================EVENT BUTTON EDIT ORDER============== */
+/* =================EVENT BUTTON OPEN DETAIL============== */
 btnEditOrder.click(() => {
 	$(".main__overlay").css("display", "block");
 	frmOrderDetail.css("display", "block");
-	
-	/* EVENT CLOSE FORM ADD BOOK */
+	/* EVENT CLOSE FORM  */
 	$(".btn.btn-close-from").click((e) => {
 		$(".main__overlay").css("display", "none");
 		frmOrderDetail.css("display", "none");
 	})
 });
+
+function closeOrderDetail(){
+	$(".main__overlay").css("display", "none");
+		frmOrderDetail.css("display", "none");
+	const detail = document.querySelector(".container-order-detail .card");
+	detail.innerHTML = "";
+}
 
 /* =================EVENT BUTTON CHANGE STATUS============== */
 const btnChangeStatus = $(".btn__change--status");
@@ -33,36 +39,25 @@ btnChangeStatus.each((i,btn)=>{
 	};
 })
 
-/* =================EVENT CHANGE STATUS ORDER============== */
-const btnsStatus = $(".track .icon");
-
-btnsStatus.each((i,btn)=>{
-	btn.onclick=()=>{
-		console.log("click")
-		btn.parentElement.classList.toggle('active');
-		let preSibling=btn.parentElement;
-		let nextSibling=btn.parentElement;
-		while (preSibling = preSibling.previousElementSibling) {
-	        preSibling.classList.add('active');
-	    }
-	    
-	    while (nextSibling = nextSibling.nextElementSibling) {
-	        nextSibling.classList.remove('active');
-	    }
-	}
-})
 
 function setStatus(status){
-	//Chờ xác nhận
-	if(status==0){
-		$('.ready.step > .icon').click();
-	}
 	//Đã xác nhận
+	if(status==0){
+		$('.track .ready.step').addClass("active");
+		$('.track .confirm.step').addClass("active");
+		$('.track .done.step').addClass("active");
+		
+	}
+	//Chờ xác nhận
 	else if(status==1){
-		$('.done.step > .icon').click();
+		$('.track .ready.step').addClass("active");
 	}
 	//Đã hủy
 	else {
-		
+		$('.track .ready.step').addClass("active");
+		$('.track .confirm.step').addClass("active");
+		$('.track .done.step').addClass("active");
+		$('.done.step > .icon i').attr("class","fas fa-times");
+		$('.done.step  .text').text('Đã hủy');
 	}
 }

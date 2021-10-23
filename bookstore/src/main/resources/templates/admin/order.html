@@ -180,7 +180,7 @@
 
 								</td>
 
-
+	
 								<td class="align-middle text-center">
 									<button type="button" id="button_detail"
 										class="btn btn-warning m-1 btn__edit--order">
@@ -276,93 +276,8 @@
 
 					<div class="container-order-detail">
 						<article class="card">
-							<header class="card-header"> Chi tiết đơn hàng</header>
-							<div class="card-body">
-								<h6>
-									Mã đơn hàng: <span id="order-id">OD45345345435 </span>
-								</h6>
-								<article class="card">
-									<div class="card-body row">
-										<div class="col">
-											<strong>Thời gian ước tính:</strong> <br> <span
-												id="order-day">29 nov 2019</span>
-										</div>
-										<div class="col">
-											<strong>Đơn vị giao:</strong> <br> TIKA Express, | <i
-												class="fa fa-phone"></i> <span> +1598675986</span>
-										</div>
-										<div class="col">
-											<strong>Trạng thái:</strong> <br> <span
-												id="order-status">Picked by the courier</span>
-										</div>
-									</div>
-								</article>
-								<div class="track">
-									<div class="ready step active">
-										<span class="icon "> <i class="fa fa-box"></i>
-										</span> <span class="text">Đã sẵn sàng</span>
-									</div>
-									<div class="confirm step active">
-										<span class="icon"> <i class="fa fa-check"></i>
-										</span> <span class="text">Xác nhận</span>
-									</div>
-									<div class="courier step active">
-										<span class="icon"> <i class="fa fa-truck"></i>
-										</span> <span class="text"> Đã chuyển giao</span>
-									</div>
-									<div class="done step">
-										<span class="icon"> <i class="fa fa-user"></i>
-										</span> <span class="text"> Hoàn tất </span>
-									</div>
-
-								</div>
-<!-- <<<<<<< HEAD
-							</article>
-							<div class="track">
-								<div class="ready step active">
-									<span class="icon "> <i class="fa fa-box"></i>
-									</span> <span class="text">Chờ xác nhận</span>
-								</div>
-								<div class="confirm step active">
-									<span class="icon"> <i class="fa fa-check"></i>
-									</span> <span class="text">Xác nhận</span>
-								</div>
-								<div class="done step">
-									<span class="icon"> <i class="fa fa-user"></i>
-									</span> <span class="text"> Đã giao </span>
-								</div>
-======= -->
-								<hr>
-
-
-								<ul class="row order-detail" id="listOrderDetail">
-								</ul>
-
-								<!-- <ul class="row" th:each="order : ${listOrder}">			
-								<li class="col-md-4">
-									<figure class="itemside mb-3">
-										<div class="aside">
-											<img th:src="@{/image/choosing-img-icon.png}"
-												class="img-sm border">
-										</div>
-										<figcaption class="info align-self-center">
-											<p class="title" id="book-name">Đây là tên của sách 1 <br> 
-												<span id="book-author">tac gia/span>
-											</p>
-											<span class="text-muted" id="book-price">1.000.000 VNĐ</span>
-											x <span class="text-muted" id="order-quantity">5 </span>
-										</figcaption>
-									</figure>
-								</li>							
+							
 								
-							</ul> -->
-
-
-								<hr>
-								<a href="#" class="btn btn-warning btn-close-from"
-									data-abc="true"> <i class="fa fa-chevron-left"></i> Trở về
-								</a>
-							</div>
 						</article>
 					</div>
 
@@ -394,32 +309,18 @@
 	<script th:src="@{/script/adminJs/headerHandle.js}"></script>
 	<script th:src="@{/script/adminJs/order.js}"></script>
 	<script th:inline="javascript">
-		$(document)
-				.ready(
-						function() {
-							$('table #button_detail')
-									.on(
-											'click',
-											function() {
-												var id = $(this).parent().find(
-														'#orderId').val();
-												$
-														.ajax({
-															type : 'GET',
-															url : '/api/admin/order/'
-																	+ id,
-															success : function(
-																	data) {
-																var row = document
-																		.getElementById("listOrderDetail");
-																row.innerHTML = "<ul class=\"row order-detail\" id=\"listOrderDetail\">\r\n"
-																		+ "							</ul>";
-
-																row.innerHTML += data;
-															}
-														})
-											});
-						});
+		$(document).ready(function() {
+			$('table #button_detail').on('click',function() {
+				var id = $(this).parent().find('#orderId').val();
+				$.ajax({ type : 'GET',
+							url : '/api/admin/order/'+ id,
+							success : function(data) {
+								var row = document.querySelector(".container-order-detail .card");
+								row.innerHTML = data;
+							}
+						})
+			});
+		});
 	</script>
 </body>
 </html>
