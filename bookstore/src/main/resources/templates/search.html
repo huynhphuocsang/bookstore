@@ -15,69 +15,13 @@
 </head>
 <body>
 
-<div class="row header">
 
-
-
-			<div id="header" class="container-fluid" style="text-align: center">
-				<nav class="navbar navbar-expand-lg navbar-dark bg-dark"
-					id="navbar-homepage">
-
-					<!-- <img style="with: 100%; height: 100%" th:src="@{/image/logo.jpg}"
-							class="brand_logo" alt="Logo"> -->
-					<a class="navbar-brand" href="#" style="font-size :26px; font-weight: bold">Book store</a>
-					<button class="navbar-toggler" type="button" data-toggle="collapse"
-						data-target="#navbarSupportedContent"
-						aria-controls="navbarSupportedContent" aria-expanded="false"
-						aria-label="Toggle navigation">
-						<span class="navbar-toggler-icon"></span>
-					</button>
+			<!-- NAVBAR -->
+<div class="row header" th:insert="~{home::navbar-fragment}"> </div>
 
 
 
 
-					<div class="collapse navbar-collapse" id="navbarSupportedContent">
-						<ul class="navbar-nav mr-auto">
-
-							<li class="nav-item dropdown"><a
-								class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
-								role="button" data-toggle="dropdown" aria-haspopup="true"
-								aria-expanded="false"> Danh mục sách </a>
-								<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-									<a class="dropdown-item"
-										th:href="@{'/home/category/' + ${category.categoryId} }"
-										th:each="category, state: ${categories}"
-										th:text="${category.name}"></a>
-
-
-								</div></li>
-
-
-						</ul>
-						<form class="form-inline my-2 my-lg-0" th:action="@{/home/search}">
-							<input class="form-control mr-sm-2" type="search"
-								style="margin-right: 100px" placeholder="Search"
-								aria-label="Search" name="searchvalue">
-							<button class="btn btn-outline-danger my-2 my-sm-0" type="submit"
-								style="color: gold">
-								<i class="fas fa-search"></i>
-							</button>
-
-
-
-						</form>
-
-
-					<a th:href="@{/account/check-login}" style="margin-left: 20px"><i class="far fa-user"></i></a> 
-					<a href="https://www.google.com/" style="margin-left: 20px"> <i class="fas fa-shopping-cart"></i></a>
-					</div>
-
-				</nav>
-
-			</div>
-
-
-		</div>
 <div class="container">
 
 		<div class="row body-homepage">

@@ -15,4 +15,6 @@ public interface AuthorDao extends JpaRepository<Author, Long>{
 	
 	@Query("SELECT  MAX(idAuthor) from Author")
 	public int getLastIdAuthor();
+	
+	public Author findAuthorByIdAuthor(long idAuthor); 
 }

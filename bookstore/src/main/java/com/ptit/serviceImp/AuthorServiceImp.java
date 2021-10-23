@@ -66,4 +66,9 @@ public class AuthorServiceImp implements AuthorService{
 			return authorDao.getById(id);
 		}
 	}
+
+	@Override
+	public Author getAuthorById(long id) {
+		return authorDao.findAuthorByIdAuthor(id); 
+	}
 }
