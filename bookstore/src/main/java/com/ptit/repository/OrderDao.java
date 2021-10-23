@@ -19,8 +19,9 @@ public interface OrderDao extends JpaRepository<Order, Long>{
 	@Query("SELECT SUM(totalPrice)\n"
 			+ "FROM Order\r\n"
 			+ "WHERE year(orderDay) = ?1\r\n"
-			+ "AND orderStatus = 1\r\n"
-			+ "group by month(orderDay)")
+			+ "AND orderStatus = 0\r\n"
+			+ "group by month(orderDay)"
+			+ "ORDER BY orderDay")
 	public List<Float> getPrice(int year);
 	public List<Order> findByNameOfCustomerContainsOrPhoneOfCustomerContainsAllIgnoreCaseOrderByNameOfCustomerAsc(String name,String phone); 
 	public Page<Order> findByOrderStatus(int status, Pageable pageable);

@@ -40,7 +40,7 @@ public class OrderController {
 		
 		
 		
-		int pageSize = 5;
+		int pageSize = 2;
 		int pageFirst = 1;
 		Page<Order> page = orderService.findPaginated(pageNo, pageSize, sortField, sortDir, status);
 		List<Order> listOrder = page.getContent();
