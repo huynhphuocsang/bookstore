@@ -80,7 +80,7 @@
 					  		<i style="font-size: 70px;" class="far fa-money-bill-alt"></i>
 					  	</div>
 					  	<div>
-						  	<h5 class="carsd-title">70.000.000 VNĐ</h5>
+						  	<h5 class="carsd-title" th:text="${#numbers.formatDecimal(Totalearning,3,0)}"></h5>
 						    <p class="csard-text">TOTAL EARNINGS</p>
 					  	</div>
 					  </div>
@@ -92,7 +92,7 @@
 					  		<i style="font-size: 70px;" class="fas fa-shopping-cart"></i>
 					  	</div>
 					  	<div>
-						  	<h5 class="card-title">388,688</h5>
+						  	<h5 class="card-title" th:text="${TotalItem}"></h5>
 						    <p class="card-text">ITEMS SOLD</p>
 					  	</div>
 					  </div>
@@ -144,6 +144,7 @@
 	/*<![CDATA[*/
 
 	var message = /*[[${price}]]*/ 'default';
+	
 	console.log(message);
 
 		/*]]>*/

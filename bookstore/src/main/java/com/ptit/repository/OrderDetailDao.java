@@ -1,5 +1,6 @@
 package com.ptit.repository;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -24,4 +25,16 @@ public interface OrderDetailDao extends JpaRepository<OrderDetail, Long>{
 			+ "where c.orderId = p.order and p.book = b.idBook\r\n"
 			+ "and c.orderId = ?1")
 	public List<Book> getListBookOfOrderDetail(long idOrder);
+	
+	@Query(value ="select sum(quantity)\r\n"
+			+ "from bookstore.order_detail o,bookstore.orders d\r\n"
+			+ "where o.order_id = d.order_id\r\n"
+			+ "and d.order_status = 0",nativeQuery = true)
+	public BigDecimal getTotalItemSold();
+	
+	@Query(value ="select sum(quantity*price)\r\n"
+			+ "from bookstore.order_detail o,bookstore.orders d\r\n"
+			+ "where o.order_id = d.order_id\r\n"
+			+ "and d.order_status = 0",nativeQuery = true)
+	public int getTotalEarning();
 }
