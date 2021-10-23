@@ -51,6 +51,10 @@ public class Order {
 	@JoinColumn(name="user_id")
 	private User user; 
 	
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="address_id")
+	private Address address; 
+	
 	@OneToMany(fetch = FetchType.LAZY,mappedBy = "order")
 	private Set<OrderDetail> setDetails = new HashSet<OrderDetail>(); 
 }

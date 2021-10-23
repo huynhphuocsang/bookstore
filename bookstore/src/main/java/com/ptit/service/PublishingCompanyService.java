@@ -11,4 +11,5 @@ public interface PublishingCompanyService {
 	public long getCompanyIdByName(String name) throws ResourceNotFoundException;;
 	public int save(PublishingCompany company);
 	public PublishingCompany selectOrUpdateCompany(String name);
+	public PublishingCompany getCompanyById(long id); 
 }

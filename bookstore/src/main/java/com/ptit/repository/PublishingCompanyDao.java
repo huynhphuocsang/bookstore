@@ -14,4 +14,6 @@ public interface PublishingCompanyDao extends JpaRepository<PublishingCompany, L
 	
 	@Query("SELECT  MAX(idCompany) from PublishingCompany")
 	public int getLastIdCompany();
+	
+	
 }
