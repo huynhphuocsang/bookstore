@@ -16,12 +16,12 @@ public interface OrderDetailDao extends JpaRepository<OrderDetail, Long>{
 	@Query("select p\r\n"
 			+ "from Order c,OrderDetail p \r\n"
 			+ "where c.orderId = p.order\r\n"
-			+ "and c.orderId = 1")
-	public List<OrderDetail> getListDetailByOrderId();
+			+ "and c.orderId = ?1")
+	public List<OrderDetail> getListDetailByOrderId(long idOrder);
 	
 	@Query("select b\r\n"
 			+ "from Order c,OrderDetail p,Book b\r\n"
 			+ "where c.orderId = p.order and p.book = b.idBook\r\n"
-			+ "and c.orderId = 1")
-	public List<Book> getListBookOfOrderDetail();
+			+ "and c.orderId = ?1")
+	public List<Book> getListBookOfOrderDetail(long idOrder);
 }
