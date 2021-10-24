@@ -62,7 +62,37 @@ $(".quantity-book").change(function() {
 
 
 
+$(".btn-delete-item").click(function() {
+		
+		var block = $(this).closest("div"); 
+	 	var bookId = $(this).closest("div").find(".book").attr("data-idBook"); 
+		 
+	$.ajax({
+		
+		type: "POST",
+        url: "http://localhost:8080/remove-item",
+		data: {
+			id: bookId
+			
+		},
+		success: function(value) {
+			
+			if (value == "false") {
+				alert("Xóa thất bại"); 
+				
+			}else{
+				
+				
+				block.remove();  
+				var totalPriceFormat = parseInt(value).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,").replace(".00", "");
+				$("#total-price").replaceWith('<p style="font-size:25px" id= "total-price">Tổng tiền <span style="font-weight:bold; color:red">' + totalPriceFormat + ' VND </span> </p>'); 
+			}
+		},error: () => {
+		console.log('Error');
+	}
 
+	})
+})
 
 
 
