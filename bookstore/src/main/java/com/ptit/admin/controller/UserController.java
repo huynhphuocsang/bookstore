@@ -1,6 +1,7 @@
 package com.ptit.admin.controller;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ptit.model.Book;
 import com.ptit.model.User;
+import com.ptit.repository.UserRoleDao;
 import com.ptit.service.UserService;
 
 @Controller
@@ -21,8 +23,11 @@ public class UserController {
 	@Autowired
 	UserService userService;
 	
+	@Autowired
+    UserRoleDao userRoleDao;
+	
 	@GetMapping()
-	public String getDashboard(Model model) {
+	public String getHomeCustomer(Model model) {
 		model.addAttribute("user", new User());
 		return getUser(model, 1, "username", "asc");
 	}
@@ -33,10 +38,13 @@ public class UserController {
 		
 		int pageSize = 5;
 		int pageFirst = 1;
-		model.addAttribute("book", new Book());
+		User user=new User();
+		user.setUsername(" ");
+		model.addAttribute("user", user);
+		
 		Page<User> page = userService.findPaginated(pageNo, pageSize, sortField, sortDir);
 
-		List<User> listUser = page.getContent();
+		List<User> listUser = page.getContent()/*.stream().filter(u -> userRoleDao.getByUser(u).getRole().getIdRole()==2).collect(Collectors.toList())*/;
 		model.addAttribute("listUser", listUser);
 		model.addAttribute("sortField", sortField);
 		model.addAttribute("sortDir", sortDir);

@@ -4,9 +4,11 @@
 	<meta charset="UTF-8">
 	<title th:replace = "/admin/fragments/head-tag.html :: title">Title</title>
 	<th:block th:insert="/admin/fragments/head-tag.html :: link"></th:block>
+	<link th:href="@{/css/admin/customer.css}" rel="stylesheet">
 </head>
 	
 <body>
+	<div class="main__overlay"></div>
 	<!-- ============================== HEADER ================================= -->
 	<div th:replace="/admin/fragments/header.html :: admin-header"> </div>
 	
@@ -108,11 +110,123 @@
 					</div>
 					
 				</div>
+				<!-- ===============FORM ADD BOOK =========================-->
+				<form th:action="@{/admin/customer/save}" th:object="${user}" method="post" enctype="multipart/form-data" class="from__add--user"> 
+					<div class="card">
+						<div class="card-header ">
+							<span>NEW USER</span><i style="z-index: 1000;" class="far fa-times-circle btn-close-from"></i>
+						</div>
+						<div class="card-body ">
+							<div class="form-row">
+								<!-- =================== FIELD ID ================== -->
+								<input th:field="*{userId}" type="hidden" id="userId"   >
+								
+								<!-- =================== FIELD TÊN NGƯỜI DÙNG ================== -->
+								<div class="form-group col-md-6">
+									<div class="form-group col-md-12">
+										<label for="user-name">Tên người dùng</label> 
+										<input th:field="*{username}" type="text" class="form-control" id="user-name" placeholder="VD: vanTeo">
+										<p class="form-message" >Không hợp lệ !!</p>
+									</div>
+								</div>
+								<!-- =================== FIELD TUỔI ================== -->
+								<div class="form-group col-md-6">
+									<div class="form-group col-md-12">
+										<label for="user-age">Tuổi</label> 
+										<input th:field="*{age}" type="text" class="form-control" id="user-age" placeholder="VD: 18">
+										<p class="form-message" >Không hợp lệ !!</p>
+									</div>
+								</div>
+								</div>
+							
+										
+							<div class="form-row">
+								<!-- =================== FIELD GIỚI TÍNH ================== -->
+								<div class="form-group col-md-6">
+									<div class="form-group col-md-12">
+										<label for="user-gender">Giới tính</label>
+										<!-- <input th:field="*{gender}" type="text" class="form-control" id="user-gender" placeholder="VD: vanTeo">
+										<p class="form-message" >Không hợp lệ !!</p> -->
+										<select th:field="*{gender}" class="form-control" id="user-gender">
+										    <option th:value="'0'" th:text="Nam"></option>
+										    <option th:value="'1'" th:text="Nữ"></option>
+										</select>
+									</div>
+								</div>
+								<!-- =================== FIELD SĐT ================== -->
+								<div class="form-group col-md-6">
+									<div class="form-group col-md-12">
+										<label for="user-phone">SĐT</label> 
+										<input th:field="*{phone}" type="text" class="form-control" id="user-phone" placeholder="VD: 0325436152">
+										<p class="form-message" >Không hợp lệ !!</p>
+									</div>
+								</div>
+								</div>
+									
+							
+							<div class="form-row">
+								<!-- =================== FIELD EMAIL ================== -->
+								<div class="form-group col-md-6">
+									<div class="form-group col-md-12">
+										<label for="user-email">Email</label> 
+										<input th:field="*{email}" type="text" class="form-control" id="user-email" placeholder="VD: vanTeo@gmail.com">
+										<p class="form-message" >Không hợp lệ !!</p>
+									</div>
+								</div>
+								<!-- =================== FIELD Mật khẩu ================== -->
+								<div class="form-group col-md-6">
+									<div class="form-group col-md-12">
+										<label for="user-pass">Mật khẩu</label> 
+										<input th:field="*{password}" type="password" class="form-control" id="user-pass" placeholder="">
+										<p class="form-message" >Không hợp lệ !!</p>
+									</div>
+								</div>
+							</div>	
+							<div class="form-row">
+								<!-- =================== FIELD SĐT ================== -->
+								<div class="form-group col-md-6">
+								</div>
+								<div class="form-group col-md-6">
+									<div class="form-group col-md-12">
+										<label for="user-confirm">Nhập lại mật khẩu</label> 
+										<input type="password" class="form-control" id="user-confirm" placeholder="">
+										<p class="form-message" >Không hợp lệ !!</p>
+									</div>
+								</div>
+							</div>			
+							
+							<!-- BUTTON SUBMIT -->
+							<div style="text-align: center;">
+								<button type="submit" class="btn btn-primary">Xác Nhận</button>
+							</div>
+						</div>
+					</div>
+				</form>
+				
+			<!-- ===============DIALOG DELETE BOOK =======================-->
+				<form th:action="@{/admin/customer/delete}" class="from__confirm" th:method="post">
+					<div class="card">
+						<div class="card-header">Xác nhận xóa</div>
+						
+						<div class="card-body" style="text-align: center;">
+							<p class="card-text ">Bạn chắc chắn muốn xóa khách hàng có id: <strong id="user-id"></strong>
+							<input type="text" class="form-control input-delete d-none" name="id" th:value="${user.userId}"></p>
+							<div class="btns-comfirm d-flex justify-content-end">
+														
+								<a href="#" class="btn btn-secondary btn-cancel mr-3">Hủy</a>
+								
+								<button type="submit" class="btn btn-primary">Xác Nhận</button>
+								
+							</div>
+							
+						</div>
+					</div>
+				</form>			
 			</main>
 		</div>
 	</div>
-	<script
-		src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script th:src="@{/script/adminJs/headerHandle.js}"></script>
+	<script th:src="@{/script/adminJs/customer.js}"></script>
 </body>
 </html>
