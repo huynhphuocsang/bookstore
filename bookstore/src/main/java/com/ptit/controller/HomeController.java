@@ -2,13 +2,17 @@ package com.ptit.controller;
 
 
 import java.nio.file.Paths;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
+import org.hibernate.cache.spi.support.AbstractReadWriteAccess.Item;
 import org.hibernate.internal.build.AllowSysOut;
+import org.springframework.beans.factory.annotation.Autowire;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -23,11 +27,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ptit.exception.ResourceNotFoundException;
 import com.ptit.model.Book;
+import com.ptit.model.Cart;
+import com.ptit.model.CartManager;
 import com.ptit.model.Category;
-
+import com.ptit.model.Items;
+import com.ptit.model.User;
 import com.ptit.repository.BookDao;
 import com.ptit.service.BookService;
 import com.ptit.service.CategoryService;
+import com.ptit.service.ItemsService;
+import com.ptit.service.UserService;
 
 @Controller
 @RequestMapping("/home")
@@ -42,11 +51,19 @@ public class HomeController {
 	@Autowired
 	CategoryService categorySerivce; 
 	
+	@Autowired
+	CartManager cartManager;
 
-
+	@Autowired
+	ItemsService itemsService; 
+	
+	@Autowired
+	UserService userService; 
+	
 	@GetMapping("/view")
 	public String getView(ModelMap map) {
-
+		
+		
 		Optional<Integer> page = Optional.of(1);  
 		
 		
@@ -193,14 +210,67 @@ public class HomeController {
 	
 	
 	
+	//synchronization cart
+	@GetMapping("/synccart")
+	public String syncCart(ModelMap map, HttpSession session, Principal principal) {
+		
+		if(principal!=null) {
+			Cart cart = cartManager.getCart(session); 
+			List<Items> list = cart.getItems(); 
+			User user = userService.getUserByUsername(principal.getName()); 
+			List<Items> listDb = itemsService.getAllItemsByUser(user); 
+			
+			//session to db: 
+			syncSessionToDB(list, listDb, user) ; 
+			
+			//db to session: 
+			syncDbToSession(listDb, cart); 
+			
+			
+			//save to db: 
+			itemsService.updateListItems(listDb); 
+		}
+		
+		
+		
+		return "redirect:/home/view/1"; 
+	}
 	
 	
 	
 	
+	public void syncSessionToDB(List<Items> list, List<Items> listDb, User user) {
+		for(Items i0: list) {
+			boolean checkExist = false; 
+			for(Items i:listDb) {
+				if(i.getBook().getIdBook()==i0.getBook().getIdBook()) {
+					checkExist = true; 
+					i.setQuantityOfBooks(i0.getQuantityOfBooks()); 
+					break; 
+				}
+			}
+			if(checkExist==false) {
+				i0.setUser(user);
+				listDb.add(i0); 
+			}
+		}
+	}
 	
-	
-	
-	
+	public void syncDbToSession(List<Items> listDb,Cart cart) {
+		for(Items i0: listDb) {
+			boolean checkExist = false; 
+			List<Items> list = cart.getItems(); 
+			for(Items i:list) {
+				if(i.getBook().getIdBook()==i0.getBook().getIdBook()) {
+					checkExist = true; 
+					break; 
+				}
+			}
+			if(checkExist==false) {
+				cart.addItemFromDB(i0);
+			}
+		}
+	}
 	
 	
 }

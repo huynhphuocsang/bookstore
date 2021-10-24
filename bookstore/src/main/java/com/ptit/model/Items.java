@@ -32,7 +32,7 @@ public class Items {
 	@JoinColumn(name="id_book")
 	private Book book; 
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="user_id")
 	private User user; 
 }

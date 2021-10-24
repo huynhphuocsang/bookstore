@@ -51,8 +51,10 @@ public class User {
 	
 	private boolean gender; 
 	
-	@OneToMany(fetch = FetchType.EAGER,mappedBy = "user")
-	private Set<Items> setItems = new HashSet<Items>(); 
+	
+	//avoid infinitive loop
+//	@OneToMany(fetch = FetchType.EAGER,mappedBy = "user")
+//	private Set<Items> setItems = new HashSet<Items>(); 
 	
 	
 	@ManyToMany(fetch = FetchType.EAGER,mappedBy = "setUsers")

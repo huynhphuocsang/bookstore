@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>sang</title>
+<title>Giỏ hàng</title>
 <link rel="stylesheet" type="text/css" th:href="@{../css/style.css}">
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
@@ -20,68 +20,8 @@
 	
 	
 	
-	<div class="row header">
-
-
-
-			 <div id="header" class="container-fluid" style="text-align: center">
-				<nav class="navbar navbar-expand-lg navbar-dark bg-dark"
-					id="navbar-homepage">
-
-					
-					<a class="navbar-brand" href="#" style="font-size :26px; font-weight: bold">Book store</a>
-					<button class="navbar-toggler" type="button" data-toggle="collapse"
-						data-target="#navbarSupportedContent"
-						aria-controls="navbarSupportedContent" aria-expanded="false"
-						aria-label="Toggle navigation">
-						<span class="navbar-toggler-icon"></span>
-					</button>
-
-
-
-
-					<div class="collapse navbar-collapse" id="navbarSupportedContent">
-						<ul class="navbar-nav mr-auto">
-
-							<li class="nav-item dropdown"><a
-								class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
-								role="button" data-toggle="dropdown" aria-haspopup="true"
-								aria-expanded="false"> Danh mục sách </a>
-								<div class="dropdown-menu" aria-labelledby="navbarDropdown" style="background-color: rgb(52, 58, 64)">
-									<a class="dropdown-item"
-										th:href="@{'/home/category/' + ${category.categoryId} }"
-										th:each="category, state: ${categories}"
-										th:text="${category.name}"></a>
-
-
-								</div></li>
-
-
-						</ul>
-						<form class="form-inline my-2 my-lg-0" th:action="@{/home/search}">
-							<input class="form-control mr-sm-2" type="search"
-								style="margin-right: 100px" placeholder="Search"
-								aria-label="Search" name="searchvalue">
-							<button class="btn btn-outline-danger my-2 my-sm-0" type="submit"
-								style="color: gold">
-								<i class="fas fa-search"></i>
-							</button>
-
-
-
-						</form>
-
-
-					<a th:href="@{/account/check-login}" style="margin-left: 20px"><i class="far fa-user"></i></a> 
-					<a th:href="@{/cart}" style="margin-left: 20px"> <i class="fas fa-shopping-cart"></i></a>
-					</div>
-
-				</nav>
-
-			</div>
-
-
-		</div>
+				<!-- NAVBAR -->
+<div class="row header" th:insert="~{home::navbar-fragment}"> </div>
 	
 
 	<div class="container" style="margin-top: 50px">
@@ -91,8 +31,8 @@
 					 <p class="book" th:data-idBook="${item.book.idBook}"> <i class="fas fa-star-of-david"></i> <span style="font-size: 20px; font-weight: bold" th:text="${item.book.bookName}">  </span> </p>
 					 <p class="book-price" th:data-book-price ="${item.book.price}" >Đơn giá: <span th:text="${#numbers.formatDecimal(item.book.price, 0, 'COMMA', 0, 'POINT')} + ' VND'"></span></p>
 					<p style="display: inline; margin-right:20px">Số lượng <input class="quantity-book"  type="number" style="width:70px" th:value="${item.quantityOfBooks}" th:min = "1" th:max="${item.book.totalQuantity}"> </p> 
-					<button  type="button" class="btn btn-info">Xem chi tiết</button>
-					<button type="button" class="btn btn-danger">Xóa</button>
+					<a style = "text-decoration: none" th:href="@{'/book/'+ ${item.book.idBook} }"> <button  type="button"  class="btn btn-info">Xem chi tiết</button> </a>
+					<button type="button" class="btn btn-danger btn-delete-item">Xóa</button>
 					<p class="item-price">Thành tiền: <span style="font-weight: bold" th:text="${#numbers.formatDecimal(item.book.price* item.quantityOfBooks, 0, 'COMMA', 0, 'POINT')} + ' VND'"></span></p>
 					
 					<hr>

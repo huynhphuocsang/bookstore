@@ -15,7 +15,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 @EnableJpaRepositories("com.ptit.repository")
 public class BookstoreApplication {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) { 
 		SpringApplication.run(BookstoreApplication.class, args);
 	}
 
