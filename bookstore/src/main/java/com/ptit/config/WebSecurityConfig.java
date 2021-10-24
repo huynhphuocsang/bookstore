@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.rememberme.InMemoryTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
@@ -47,7 +48,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-
+    	
+    	http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.ALWAYS); 
+    	
         http.csrf().disable();
 
         // Các trang không yêu cầu login
@@ -69,7 +72,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // Submit URL của trang login
                 .loginProcessingUrl("/j_spring_security_check") // Submit URL
                 .loginPage("/account/login")//
-                .defaultSuccessUrl("/home/view")//
+                .defaultSuccessUrl("/home/synccart")//
                 .failureUrl("/account/login?error=true")//
                 .usernameParameter("username")//
                 .passwordParameter("password")

@@ -19,8 +19,11 @@ import com.ptit.model.Book;
 import com.ptit.model.Cart;
 import com.ptit.model.CartManager;
 import com.ptit.model.Items;
+import com.ptit.model.User;
 import com.ptit.service.BookService;
+import com.ptit.service.ItemsService;
 import com.ptit.service.UserService;
+import com.ptit.serviceImp.ItemsServiceImp;
 
 @RestController
 public class AjaxCallController {
@@ -33,6 +36,11 @@ public class AjaxCallController {
 	
 	@Autowired
 	CartManager cartManager; 
+	
+	
+	@Autowired
+	ItemsService itemserService; 
+	 
 	
 	@PostMapping("/verify-old-password")
 	 @ResponseBody
@@ -58,7 +66,7 @@ public class AjaxCallController {
 	
 	@PostMapping("/add-to-cart")
 	@ResponseBody
-	public String addToCart(HttpSession session, @RequestParam long id, @RequestParam Optional<Integer> quantity) {
+	public String addToCart(HttpSession session, @RequestParam long id, @RequestParam Optional<Integer> quantity, Principal principal) {
 		Book book  =null; 
 		try {
 			 book = bookService.getBookById(id);
@@ -69,13 +77,30 @@ public class AjaxCallController {
 		} 
 		int quantityofBook = quantity.orElse(1); 
 		Cart cart = cartManager.getCart(session); 
-		cart.addItem(book, quantityofBook);
+		int action = cart.addItem(book, quantityofBook); //1: update 2:insert
+		
+		if(action==1 && principal!=null) {
+			String username = principal.getName(); 
+			User user = userService.getUserByUsername(username); 
+			itemserService.updateItemsCartIncreaseQuantity(user, book, quantityofBook); 
+			
+		}else if(action==2 && principal!=null) {
+
+			
+				String username = principal.getName(); 
+				User user = userService.getUserByUsername(username); 
+				itemserService.addNewItems(user, book, quantityofBook); 
+		
+			
+		}
+		
+		
 		return "true"; 
 	}
 	
 	@PostMapping("/update-cart")
 	@ResponseBody
-	public String updateCart(HttpSession session, @RequestParam long id, @RequestParam Optional<Integer> quantity) {
+	public String updateCart(HttpSession session, @RequestParam long id, @RequestParam Optional<Integer> quantity, Principal principal) {
 		Book book  =null; 
 		try {
 			 book = bookService.getBookById(id);
@@ -91,16 +116,19 @@ public class AjaxCallController {
 		}
 		Cart cart = cartManager.getCart(session); 
 		cart.updateItem(book, quantityofBook); 
-//		for(Items item: cart.getItems()) {
-//			System.out.println(item.getBook().getBookName()+"-"+item.getQuantityOfBooks());
-//		}
+		
+		if(principal!=null) {
+			User user = userService.getUserByUsername(principal.getName());
+			itemserService.updateItemsCartChangeQuantity(user, book, quantityofBook); 
+		}
+		
 		return cart.getTotal()+""; 
 	}
 	
 	
 	@PostMapping("/remove-item")
 	@ResponseBody
-	public String removeItem(HttpSession session, @RequestParam long id, @RequestParam Optional<Integer> quantity) {
+	public String removeItem(HttpSession session, @RequestParam long id, Principal principal) {
 		Book book  =null; 
 		try {
 			 book = bookService.getBookById(id);
@@ -112,8 +140,11 @@ public class AjaxCallController {
 		 
 		Cart cart = cartManager.getCart(session); 
 		cart.removeItem(book); 
-		
-		return "true"; 
+		if(principal!=null) {
+			User user = userService.getUserByUsername(principal.getName()); 
+			itemserService.deleteItems(user, book); 
+		}
+		return cart.getTotal()+""; 
 	}
 }
 

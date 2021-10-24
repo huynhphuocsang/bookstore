@@ -1,12 +1,23 @@
 package com.ptit.model;
 
 import java.math.BigDecimal;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.ptit.service.ItemsService;
+import com.ptit.service.UserService;
+import com.ptit.serviceImp.ItemsServiceImp;
+import com.ptit.serviceImp.UserServiceImp;
 
 import lombok.Data;
 @Data
 public class Cart {
+	
+
+	
 	private final List<Items> items; 
 	
 	private BigDecimal total;
@@ -33,20 +44,40 @@ public class Cart {
 	public void addItem() {
 		
 	}
-	public void addItem(Book book, int quantity) {
+	public int addItem(Book book, int quantity) {
 		Items item = this.getItem(book); 
-		if(item!=null) {
+		this.total =this.total.add(book.getPrice().multiply(new BigDecimal(quantity)));  
+		if(item!=null) {//tồn tại rồi: ->update 
 			item.setQuantityOfBooks(item.getQuantityOfBooks()+quantity);
-		}
+			
+			return 1; //update
+		}//chưa tồn tại: ->insert new 
 		else {
 			item = new Items(); 
 			item.setBook(book);
 			item.setQuantityOfBooks(quantity);
 			items.add(item); 
 			
+			
+			return 2 ; //insert
 		}
-		this.total =this.total.add(book.getPrice().multiply(new BigDecimal(quantity)));  
+		
 	}
+	
+	public void addItemFromDB(Items itemsSample) {
+		
+			Items item = new Items(); 
+			item.setItemId(itemsSample.getItemId());
+			item.setBook(itemsSample.getBook());
+			item.setQuantityOfBooks(itemsSample.getQuantityOfBooks());
+			items.add(item); 
+			
+			//update total: 
+			this.total =this.total.add(item.getBook().getPrice().multiply(new BigDecimal(item.getQuantityOfBooks())));  
+	
+		
+	}
+	
 	
 	public void updateItem(Book book, int quantity) {
 		Items item = this.getItem(book); 
