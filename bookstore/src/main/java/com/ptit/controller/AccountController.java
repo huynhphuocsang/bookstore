@@ -2,7 +2,9 @@ package com.ptit.controller;
 
 import java.security.Principal;
 import java.time.LocalDate;
+import java.util.List;
 
+import javax.servlet.http.HttpSession;
 import javax.swing.event.TableColumnModelListener;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +21,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ptit.model.Cart;
+import com.ptit.model.CartManager;
+import com.ptit.model.District;
+import com.ptit.model.Items;
+import com.ptit.model.Province;
+import com.ptit.model.Village;
+import com.ptit.service.DistrictService;
+import com.ptit.service.ProvinceService;
 import com.ptit.service.UserService;
+import com.ptit.service.VillageService;
 import com.ptit.util.WebUtils;
 
 @Controller
@@ -28,6 +39,18 @@ public class AccountController {
 	@Autowired
 	UserService userService; 
 	
+	@Autowired
+	CartManager cartManager; 
+	
+	@Autowired
+	ProvinceService provinceService; 
+	
+	
+	@Autowired
+	DistrictService districtService; 
+	
+	@Autowired
+	VillageService villageService; 
 	@GetMapping("/login")
 	public String login() {
 		return "login"; 
@@ -112,9 +135,9 @@ public class AccountController {
 	
 	
 	@GetMapping(value = "/logout-success")
-    public String logoutSuccess(ModelMap model) {
+    public String logoutSuccess(ModelMap model, HttpSession session) {
 
-        
+        cartManager.removeCart(session); 
         model.addAttribute("logoutSuccess", true);
 
         return "login";
@@ -199,7 +222,22 @@ public class AccountController {
 		 return "updatePassword"; 
 	 }
 	 
-	 
+	 @GetMapping("/cart")
+	 public String cartUser(HttpSession session, Model model, Principal principal ) {
+		 if(principal==null) return "redirect:/cart"; 
+		 Cart cart = cartManager.getCart(session); 
+			List<Items> list = cart.getItems(); 
+			model.addAttribute("listItems", list);
+			model.addAttribute("totalPrice", cart.getTotal()); 
+			
+			List<Province> listProvince = provinceService.getAllProvince();
+			List<District> listDistrict = districtService.getDistrictByProvince(listProvince.get(0)); 
+			List<Village>  listVillage = villageService.getVillageByDistrict(listDistrict.get(0)); 
+			model.addAttribute("listProvince", listProvince); 
+			model.addAttribute("listDistrict", listDistrict); 
+			model.addAttribute("listVillage", listVillage); 
+			return "userCart"; 
+	 }
 	 
 }
 	
