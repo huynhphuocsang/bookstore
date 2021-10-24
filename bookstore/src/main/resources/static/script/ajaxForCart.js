@@ -93,7 +93,70 @@ $(".btn-delete-item").click(function() {
 
 	})
 })
+$("#btn-buy").click(function() { 
+	$("#block-info-buy").show(); 
 
+})
+
+
+$("#dropdown-province").change(function() {
+	
+	
+	var provinceId = $(this).val(); 
+	 
+
+	
+	
+	
+	$.ajax({
+		
+		type: "POST",
+        url: "http://localhost:8080/get-district",
+		data: {
+			provinceId: provinceId
+			
+		},
+		success: function(value) {
+			
+			$("#dropdown-district").find("option").replaceWith(value); 
+			
+		},error: () => {
+		console.log('Error');
+	}
+
+	})
+	
+})
+
+
+$("#dropdown-district").change(function() {
+	
+	
+	var districtId = $(this).val(); 
+	 
+
+	
+	
+	
+	$.ajax({
+		
+		type: "POST",
+        url: "http://localhost:8080/get-village",
+		data: {
+			districtId: districtId
+			
+		},
+		success: function(value) {
+			
+			$("#dropdown-village").find("option").replaceWith(value); 
+			
+		},error: () => {
+		console.log('Error');
+	}
+
+	})
+	
+})
 
 
 
