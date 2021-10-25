@@ -16,4 +16,5 @@ public interface ItemsService {
 	public void deleteItems(User user, Book book); 
 	public List<Items> getAllItemsByUser(User user); 
 	public void updateListItems(List<Items> list); 
+	public void deleteItemsAfterBuy(User user); 
 }

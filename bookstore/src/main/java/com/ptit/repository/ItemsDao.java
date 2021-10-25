@@ -2,6 +2,8 @@ package com.ptit.repository;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -15,5 +17,8 @@ import com.ptit.model.User;
 public interface ItemsDao extends JpaRepository<Items, Long>{
 	
 	public Items findByUserAndBook(User user, Book book);
-	public List<Items> findAllByUser(User user); 
+	public List<Items> findAllByUser(User user);
+	
+	@Transactional
+	public void deleteByUser(User user); 
 }

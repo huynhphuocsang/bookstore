@@ -29,6 +29,7 @@ public interface OrderDao extends JpaRepository<Order, Long>{
 	
 	@Query(value = "SELECT * FROM Order WHERE orderDay >= :startDate AND orderDay <= :endDate", nativeQuery = true)
 	List<Order> getAllBetweenDates(@Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate);
+	 
 	
 	
 }

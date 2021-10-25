@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.fasterxml.jackson.annotation.JsonCreator.Mode;
 import com.ptit.model.Cart;
 import com.ptit.model.CartManager;
 import com.ptit.model.District;
@@ -217,8 +218,9 @@ public class AccountController {
 	 }
 	 
 	 @GetMapping("/update-password")
-	 public String updatePassword(Principal principal) {
+	 public String updatePassword(Principal principal, Model model) {
 		 if(principal==null) return "redirect:/account/login"; 
+		 model.addAttribute("username", principal.getName()); 
 		 return "updatePassword"; 
 	 }
 	 
@@ -233,6 +235,7 @@ public class AccountController {
 			List<Province> listProvince = provinceService.getAllProvince();
 			List<District> listDistrict = districtService.getDistrictByProvince(listProvince.get(0)); 
 			List<Village>  listVillage = villageService.getVillageByDistrict(listDistrict.get(0)); 
+			model.addAttribute("username", principal.getName());
 			model.addAttribute("listProvince", listProvince); 
 			model.addAttribute("listDistrict", listDistrict); 
 			model.addAttribute("listVillage", listVillage); 
