@@ -2,80 +2,231 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>Admin</title>
-	<link rel="icon" type="image/png" sizes="32x32" th:href="@{../image/icon-book-shop-64.png}">
-	<link rel="stylesheet"
-		href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-		integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-		crossorigin="anonymous">
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w==" crossorigin="anonymous" />
-	    <link rel="preconnect" href="https://fonts.gstatic.com">
-	    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-	<link th:href="@{../css/dashboard.css}" rel="stylesheet">
+	<title th:replace = "/admin/fragments/head-tag.html :: title">Title</title>
+	<th:block th:insert="/admin/fragments/head-tag.html :: link"></th:block>
+	<link th:href="@{/css/admin/customer.css}" rel="stylesheet">
 </head>
 	
 <body>
+	<div class="main__overlay"></div>
 	<!-- ============================== HEADER ================================= -->
-	<nav class="navbar navbar-dark fixed-top bg-primary flex-md-nowrap p-0 shadow">
-		<a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#" >
-			<img style="max-height: 30px;" alt="book-store" th:src="@{../image/icon-book-shop-64.png}">
-			Book store
-		</a> 
-		
-		<div class="input-group col-sm-6 col-md-5">
-		    <input type="text" class="form-control " placeholder="Search please..">
-		    <div class="input-group-append">
-		      <button class="btn btn-secondary" type="button">
-		        <i class="fa fa-search"></i>
-		      </button>
-		    </div>
-  		</div>
-  		
-		<ul class="navbar-nav px-3">
-			<li class="nav-item text-nowrap">
-				<a class="nav-link text-light" href="#">Sign out</a>
-			</li>
-		</ul>
-	</nav>
-	
-	<button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!">
-		<span data-feather="home"></button>
+	<div th:replace="/admin/fragments/header.html :: admin-header"> </div>
 	
 	<div class="container-fluid">
 		<div class="row">
 		
 			<!-- ================= NAVIGATION =================== -->
-			<nav class="col-md-2 d-none d-md-block bg-light sidebar">
-				<div class="sidebar-sticky">
-					<ul class="nav flex-column nav-style" style="font-size:1rem;">
-						<li class="nav-item"><a class="nav-link" th:href="@{/admin/statisticts}"> 
-							<i class="fas fa-tasks mr-2"></i>Statistics	
-						</a></li>
-						<li class="nav-item"><a class="nav-link" th:href="@{/admin/book}">
-								<i class="fas fa-book mr-2"></i>Books
-						</a></li>
-						<li class="nav-item"><a class="nav-link" th:href="@{/admin/order}">
-						<i class="fas fa-shopping-cart mr-2"></i>Orders
-							</a></li>
-						<li class="nav-item"><a class="nav-link" th:href="@{/admin/review}"> 
-							<i class="far fa-comments mr-2"></i>Reviews
-						</a></li>
-						<li class="nav-item"><a class="nav-link active" th:href="@{/admin/customer}">   
-							<i class="fas fa-users mr-2"></i>Customers
-						</a></li>
-					</ul>
-				</div>
-			</nav>
-			
+			<nav th:replace="/admin/fragments/navigation.html :: admin-nav('Customers')"></nav>
+				
 			<!-- ===================MAIN CONTENT=================== -->
 			<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+				<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-1 pb-1 mb-1 border-bottom">
+					<div class="m-2">
+						<button type="button" class="btn btn-success btn__add--user">
+							<i class="fas fa-plus"></i> New User</i>
+						</button>
+					</div>
+					
+					<div class="btn-toolbar mb-2 mb-md-0">
+						<div class="btn-group mr-2">
+							<button class="btn btn-sm btn-outline-secondary">Share</button>
+							<button class="btn btn-sm btn-outline-secondary">Export</button>
+						</div>
+						<button class="btn btn-sm btn-outline-secondary dropdown-toggle">
+							<span data-feather="calendar"></span> This week
+						</button>
+					</div>
+				</div>
+
+				<!-- TABLE VIEW -->
+				<div class="table-responsive rounded-top rounded-bottom">
+					<table class="table table-bordered" id="myTable">
+						<thead>
+							<tr class="table-warning">
+								<th scope="col">
+									<a th:href="@{'/admin/customer/' + ${currentPage} + '?sortField=userId&sortDir=' +${reverseSortDir}} ">Mã</a>
+								</th>
+								
+						      	<th scope="col">
+						      		<a th:href="@{'/admin/customer/' + ${currentPage} + '?sortField=username&sortDir=' +${reverseSortDir}} ">Tên người dùng</a>
+						      	</th>
+						      	
+						      	<th scope="col">
+						      		<a th:href="@{'/admin/customer/' + ${currentPage} + '?sortField=email&sortDir=' +${reverseSortDir}} ">Email</a>
+						      	</th>
+						      		
+						      	<th scope="col">
+						      		<a th:href="@{'/admin/customer/' + ${currentPage} + '?sortField=phone&sortDir=' +${reverseSortDir}} ">SĐT</a>
+						      	</th>
+						      	<th class="align-middle" style=" width:10%;" scope="col">Alter</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="user : ${listUser}">
+								<td th:text="${user.userId}">##</td>
+								<td th:text="${user.username}">##</td>
+								<td th:text="${user.email}">##</td>
+								<td th:text="${user.phone}">##</td>
+								 
+								<td class="align-middle text-center">
+									<button type="button" class="btn btn-warning m-1 btn__edit--user">
+							          <i class="far fa-edit"></i>
+							        </button>
+							        <button type="button" class="btn btn-danger btn__delete--user" th:id="${user.userId}">
+							          <i style="color:black;" class="far fa-trash-alt"></i>
+							        </button>
+							       <input type="hidden" id="userId" name="userId" th:value="${user.userId}" >
+						      </td>
+							</tr>
+						</tbody>
+					</table>
+					
+					
+					<div th:if = "${totalPage > 1}">
+						<div class = "row col-sm-10">
+							<div class = "col-sm-2">
+								Total Items: [[${totalItem}]]	
+							</div>
+							<div class = "col-sm-1">
+								<a th:if="${currentPage > 1}" th:href="@{'/admin/customer/' + ${pageFirst}  + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">First</a>
+								<span th:unless="${currentPage > 1}">First</span>
+							</div>
+							<div class = "col-sm-1">
+							<span th:each="i : ${#numbers.sequence(1, totalPage)}">
+								<a th:if="${currentPage != i}" th:href= "@{'/admin/customer/' + ${i} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} }">[[${i}]]</a>
+								<span th:unless="${currentPage != i}">[[${i}]]</span> &nbsp; &nbsp;
+							</span>
+							</div >
+							<div class = "col-sm-1">
+								<a th:if="${currentPage < totalPage}" th:href="@{'/admin/customer/' + ${currentPage +1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} }">Next</a>
+								<span th:unless="${currentPage < totalPage}">Next </span>
+							</div>
+							<div class = "col-sm-1">
+								<a th:if="${currentPage < totalPage}" th:href="@{'/admin/customer/'+${totalPage} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} }">Last</a>
+								<span th:unless="${currentPage < totalPage}">Last</span>
+							</div>
+						</div>
+					
+					</div>
+					
+				</div>
+				<!-- ===============FORM ADD BOOK =========================-->
+				<form th:action="@{/admin/customer/save}" th:object="${user}" method="post" enctype="multipart/form-data" class="from__add--user"> 
+					<div class="card">
+						<div class="card-header ">
+							<span>NEW USER</span><i style="z-index: 1000;" class="far fa-times-circle btn-close-from"></i>
+						</div>
+						<div class="card-body ">
+							<div class="form-row">
+								<!-- =================== FIELD ID ================== -->
+								<input th:field="*{userId}" type="hidden" id="userId"   >
+								
+								<!-- =================== FIELD TÊN NGƯỜI DÙNG ================== -->
+								<div class="form-group col-md-6">
+									<div class="form-group col-md-12">
+										<label for="user-name">Tên người dùng</label> 
+										<input th:field="*{username}" type="text" class="form-control" id="user-name" placeholder="VD: vanTeo">
+										<p class="form-message" >Không hợp lệ !!</p>
+									</div>
+								</div>
+								<!-- =================== FIELD TUỔI ================== -->
+								<div class="form-group col-md-6">
+									<div class="form-group col-md-12">
+										<label for="user-age">Tuổi</label> 
+										<input th:field="*{age}" type="text" class="form-control" id="user-age" placeholder="VD: 18">
+										<p class="form-message" >Không hợp lệ !!</p>
+									</div>
+								</div>
+								</div>
+							
+										
+							<div class="form-row">
+								<!-- =================== FIELD GIỚI TÍNH ================== -->
+								<div class="form-group col-md-6">
+									<div class="form-group col-md-12">
+										<label for="user-gender">Giới tính</label>
+										<!-- <input th:field="*{gender}" type="text" class="form-control" id="user-gender" placeholder="VD: vanTeo">
+										<p class="form-message" >Không hợp lệ !!</p> -->
+										<select th:field="*{gender}" class="form-control" id="user-gender">
+										    <option th:value="'0'" th:text="Nam"></option>
+										    <option th:value="'1'" th:text="Nữ"></option>
+										</select>
+									</div>
+								</div>
+								<!-- =================== FIELD SĐT ================== -->
+								<div class="form-group col-md-6">
+									<div class="form-group col-md-12">
+										<label for="user-phone">SĐT</label> 
+										<input th:field="*{phone}" type="text" class="form-control" id="user-phone" placeholder="VD: 0325436152">
+										<p class="form-message" >Không hợp lệ !!</p>
+									</div>
+								</div>
+								</div>
+									
+							
+							<div class="form-row">
+								<!-- =================== FIELD EMAIL ================== -->
+								<div class="form-group col-md-6">
+									<div class="form-group col-md-12">
+										<label for="user-email">Email</label> 
+										<input th:field="*{email}" type="text" class="form-control" id="user-email" placeholder="VD: vanTeo@gmail.com">
+										<p class="form-message" >Không hợp lệ !!</p>
+									</div>
+								</div>
+								<!-- =================== FIELD Mật khẩu ================== -->
+								<div class="form-group col-md-6">
+									<div class="form-group col-md-12">
+										<label for="user-pass">Mật khẩu</label> 
+										<input th:field="*{password}" type="password" class="form-control" id="user-pass" placeholder="">
+										<p class="form-message" >Không hợp lệ !!</p>
+									</div>
+								</div>
+							</div>	
+							<div class="form-row">
+								<!-- =================== FIELD SĐT ================== -->
+								<div class="form-group col-md-6">
+								</div>
+								<div class="form-group col-md-6">
+									<div class="form-group col-md-12">
+										<label for="user-confirm">Nhập lại mật khẩu</label> 
+										<input type="password" class="form-control" id="user-confirm" placeholder="">
+										<p class="form-message" >Không hợp lệ !!</p>
+									</div>
+								</div>
+							</div>			
+							
+							<!-- BUTTON SUBMIT -->
+							<div style="text-align: center;">
+								<button type="submit" class="btn btn-primary">Xác Nhận</button>
+							</div>
+						</div>
+					</div>
+				</form>
 				
+			<!-- ===============DIALOG DELETE BOOK =======================-->
+				<form th:action="@{/admin/customer/delete}" class="from__confirm" th:method="post">
+					<div class="card">
+						<div class="card-header">Xác nhận xóa</div>
+						
+						<div class="card-body" style="text-align: center;">
+							<p class="card-text ">Bạn chắc chắn muốn xóa khách hàng có id: <strong id="user-id"></strong>
+							<input type="text" class="form-control input-delete d-none" name="id" th:value="${user.userId}"></p>
+							<div class="btns-comfirm d-flex justify-content-end">
+														
+								<a href="#" class="btn btn-secondary btn-cancel mr-3">Hủy</a>
+								
+								<button type="submit" class="btn btn-primary">Xác Nhận</button>
+								
+							</div>
+							
+						</div>
+					</div>
+				</form>			
 			</main>
 		</div>
 	</div>
-	<script
-		src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script th:src="@{/script/adminJs/headerHandle.js}"></script>
-	<script th:src="@{/script/adminJs/order.js}"></script>
+	<script th:src="@{/script/adminJs/customer.js}"></script>
 </body>
 </html>

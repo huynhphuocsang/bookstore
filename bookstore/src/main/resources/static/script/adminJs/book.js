@@ -35,7 +35,7 @@ btnEditBook.click(() => {
 		$(".main__overlay").css("display", "none");
 		frmAddBook.css("display", "none");
 		$(".form-message.invalid").removeClass("invalid")
-		
+		clearnField();
 		
 	})
 });

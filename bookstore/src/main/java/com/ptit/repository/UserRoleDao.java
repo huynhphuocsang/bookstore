@@ -11,4 +11,6 @@ import com.ptit.model.UserRole;
 @Repository
 public interface UserRoleDao extends JpaRepository<UserRole, Long>{
 	List<UserRole> findByUser(User user); 
+	
+	public UserRole getByUser(User user);
 }

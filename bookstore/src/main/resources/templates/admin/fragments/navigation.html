@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Admin</title>
+</head>
+<body>
+	<nav th:fragment="admin-nav(pageTitle)" class="col-md-2 d-none d-md-block bg-light sidebar">
+				<div class="sidebar-sticky">
+					<ul class="nav flex-column nav-style" style="font-size:1rem;">
+						<li class="nav-item"><a class="nav-link" th:classappend="${#strings.equals(pageTitle,'Statistics')} ? active : ''" 
+							th:href="@{/admin/statisticts}"> 
+							<i class="fas fa-tasks mr-2"></i>Statistics	
+						</a></li>
+						<li class="nav-item"><a class="nav-link" th:classappend="${#strings.equals(pageTitle,'Books')} ? active : ''" 
+							th:href="@{/admin/book}">
+								<i class="fas fa-book mr-2"></i>Books
+						</a></li>
+						<li class="nav-item"><a class="nav-link" th:classappend="${#strings.equals(pageTitle,'Orders')} ? active : ''" 
+							th:href="@{/admin/order}">
+						<i class="fas fa-shopping-cart mr-2"></i>Orders
+							</a></li>
+						<li class="nav-item"><a class="nav-link" th:classappend="${#strings.equals(pageTitle,'Reviews')} ? active : ''" 
+							th:href="@{/admin/review}"> 
+							<i class="far fa-comments mr-2"></i>Reviews
+						</a></li>
+						<li class="nav-item"><a class="nav-link" th:classappend="${#strings.equals(pageTitle,'Customers')} ? active : ''" 
+							th:href="@{/admin/customer}">   
+							<i class="fas fa-users mr-2"></i>Customers
+						</a></li>
+					</ul>
+				</div>
+			</nav>
+</body>
+</html>
