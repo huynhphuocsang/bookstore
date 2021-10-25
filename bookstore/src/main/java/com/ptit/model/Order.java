@@ -1,10 +1,12 @@
 package com.ptit.model;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -17,12 +19,16 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name="orders")
 @Data
-public class Order {
+@NoArgsConstructor
+@AllArgsConstructor
+public class Order  implements Serializable{
 	//bo: ngayketthuc
 	
 	@Id
@@ -55,8 +61,14 @@ public class Order {
 	@JoinColumn(name="address_id")
 	private Address address; 
 	
-	@OneToMany(fetch = FetchType.LAZY,mappedBy = "order")
+//	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "order")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinColumn(name="order_id")
 	private Set<OrderDetail> setDetails = new HashSet<OrderDetail>(); 
+	
+	
+	
+
 }
 
 

@@ -61,6 +61,11 @@ public class ItemsServiceImp implements ItemsService{
 		}
 		
 	}
+
+	@Override
+	public void deleteItemsAfterBuy(User user) {
+		itemsDao.deleteByUser(user);		
+	}
 	
 }
 
