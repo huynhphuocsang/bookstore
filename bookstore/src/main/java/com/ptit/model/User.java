@@ -3,6 +3,7 @@ package com.ptit.model;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -10,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -23,7 +25,6 @@ import lombok.Data;
 
 @Entity
 @Table(name="user")
-@Data
 public class User {
 
 	//bo: idgiohang
@@ -53,15 +54,124 @@ public class User {
 	
 	
 	//avoid infinitive loop
-//	@OneToMany(fetch = FetchType.EAGER,mappedBy = "user")
-//	private Set<Items> setItems = new HashSet<Items>(); 
+	@OneToMany(fetch = FetchType.EAGER,mappedBy = "user")
+	private Set<Items> setItems = new HashSet<Items>(); 
 	
 	
-	@ManyToMany(fetch = FetchType.EAGER,mappedBy = "setUsers")
+	 @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	   @JoinTable(name = "user_address",
+	            joinColumns = @JoinColumn(name = "user_id"),  
+	            inverseJoinColumns = @JoinColumn(name = "address_id")
+	    )
 	Set<Address> setAddress = new HashSet<Address>(); 
 	
-//	@OneToMany(fetch = FetchType.LAZY,mappedBy = "user")
-//	private Set<Order> setOrders = new HashSet<Order>(); 
+	@OneToMany(fetch = FetchType.EAGER,mappedBy = "user")
+	private Set<Order> setOrders = new HashSet<Order>();
+
+	public long getUserId() {
+		return userId;
+	}
+
+	public void setUserId(long userId) {
+		this.userId = userId;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public int getAge() {
+		return age;
+	}
+
+	public void setAge(int age) {
+		this.age = age;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public boolean isGender() {
+		return gender;
+	}
+
+	public void setGender(boolean gender) {
+		this.gender = gender;
+	}
+
+	public Set<Items> getSetItems() {
+		return setItems;
+	}
+
+	public void setSetItems(Set<Items> setItems) {
+		this.setItems = setItems;
+	}
+
+	public Set<Address> getSetAddress() {
+		return setAddress;
+	}
+
+	public void setSetAddress(Set<Address> setAddress) {
+		this.setAddress = setAddress;
+	}
+
+	public Set<Order> getSetOrders() {
+		return setOrders;
+	}
+
+	public void setSetOrders(Set<Order> setOrders) {
+		this.setOrders = setOrders;
+	}
+
+	public User(long userId, @NotEmpty String username, @Size(min = 10, max = 10) String phone, @Email String email,
+			@Min(10) int age, @Size(max = 250) String password, boolean gender, Set<Items> setItems,
+			Set<Address> setAddress, Set<Order> setOrders) {
+		super();
+		this.userId = userId;
+		this.username = username;
+		this.phone = phone;
+		this.email = email;
+		this.age = age;
+		this.password = password;
+		this.gender = gender;
+		this.setItems = setItems;
+		this.setAddress = setAddress;
+		this.setOrders = setOrders;
+	}
+
+	public User() {
+		super();
+	} 
+	 
+	 
+	 
+	 
+	 
 }
 
 

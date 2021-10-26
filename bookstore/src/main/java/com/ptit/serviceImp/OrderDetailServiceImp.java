@@ -18,8 +18,6 @@ import com.ptit.service.OrderService;
 @Service
 public class OrderDetailServiceImp implements OrderDetailService{
 	
-	@Autowired
-	private OrderService orderService;
 	
 	
 	@Autowired
@@ -28,6 +26,7 @@ public class OrderDetailServiceImp implements OrderDetailService{
 	@Override
 	public List<OrderDetail> getListDetailByOrderId(long idOrder) {
 		// TODO Auto-generated method stub
+		
 		return  orderDetailDao.getListDetailByOrderId(idOrder);
 	}
 
