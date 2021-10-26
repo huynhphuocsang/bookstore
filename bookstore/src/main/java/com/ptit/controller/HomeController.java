@@ -212,7 +212,7 @@ public class HomeController {
 	
 	//synchronization cart
 	@GetMapping("/synccart")
-	public String syncCart(ModelMap map, HttpSession session, Principal principal) {
+	public String syncCart(ModelMap map, HttpSession session, Principal principal, @RequestParam Optional<Boolean> orderAgain) {
 		
 		if(principal!=null) {
 			Cart cart = cartManager.getCart(session); 
@@ -230,6 +230,9 @@ public class HomeController {
 			//save to db: 
 			itemsService.updateListItems(listDb); 
 		}
+		if(orderAgain.isPresent()) {
+			if(orderAgain.get()==true) return "redirect:/account/cart"; 
+		}
 		
 		
 		
@@ -244,9 +247,10 @@ public class HomeController {
 			boolean checkExist = false; 
 			for(Items i:listDb) {
 				if(i.getBook().getIdBook()==i0.getBook().getIdBook()) {
-					checkExist = true; 
-					i.setQuantityOfBooks(i0.getQuantityOfBooks()); 
-					break; 
+						checkExist = true; 
+						i.setQuantityOfBooks(i0.getQuantityOfBooks()); 
+						break; 
+					
 				}
 			}
 			if(checkExist==false) {

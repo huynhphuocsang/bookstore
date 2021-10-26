@@ -108,7 +108,7 @@
 							</p>
 							 <p class="order-address" style="padding-left: 20px">
 								Địa chỉ <span style="font-weight: bold; font-size: 18px"
-									th:text="${order.address.addressName +', '+ order.address.village.villageName +', '+order.address.village.district.districtName+', '+order.address.village.district.province.provinceName}"></span>
+									th:text="${order.address.addressName +'  '+ order.address.village.villageName +', '+order.address.village.district.districtName+', '+order.address.village.district.province.provinceName}"></span>
 							</p>
 							
 							 <p class="order-address" style="padding-left: 20px">
@@ -131,6 +131,7 @@
 							
 							<hr>
 						</div>
+						
 						</div>
 				
 					<div class="col-md-5 col-sm-12" style="margin-top: 10%; display: none" id="order-detail-block">
@@ -149,6 +150,7 @@
 							</a>
 					
 					</div>
+					
 			</div>
 
 	</div>

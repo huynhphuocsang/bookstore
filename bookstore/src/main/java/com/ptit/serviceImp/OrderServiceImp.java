@@ -151,7 +151,7 @@ public class OrderServiceImp implements OrderService {
 	@Override
 	public List<Order> getOrdersByUser(User user){
 		
-		List<Order> list = orderdao.findByUser(user); 
+		List<Order> list = orderdao.findByUserOrderByOrderIdDesc(user); 
 		
 		return list; 
 	}

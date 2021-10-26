@@ -32,7 +32,7 @@ public interface OrderDao extends JpaRepository<Order, Long>{
 	List<Order> getAllBetweenDates(@Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate);
 	 
 //	get stack overflow when: infinitive recursive
-	public List<Order> findByUser (User user); 
+	public List<Order> findByUserOrderByOrderIdDesc (User user); 
 	
 //	@Query(value = "SELECT * FROM Orders WHERE user_id = :userId", nativeQuery = true)
 //	List<Order> getAllOrdersByUserid(@Param("userId") long userId);
