@@ -18,6 +18,7 @@ $(".btn-info-order").click(function() {
 		success: function(value) {
 			$("#order-detail-block").replaceWith(value); 
 			$("#order-detail-block").show(); 
+		
 		},error: () => {
 		console.log('Error');
 
@@ -56,7 +57,11 @@ $(".btn-cancle-order").click(function() {
 
 	
 })
-
+$("#btn-order-again").click(function() {
+		 
+	alert("bạn đặt hàng lại à"); 
+	
+})
 
 
 
