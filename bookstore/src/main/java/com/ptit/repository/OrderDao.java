@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import com.ptit.model.Book;
 import com.ptit.model.Order;
+import com.ptit.model.User;
 
 @Repository
 public interface OrderDao extends JpaRepository<Order, Long>{
@@ -29,6 +30,48 @@ public interface OrderDao extends JpaRepository<Order, Long>{
 	
 	@Query(value = "SELECT * FROM Order WHERE orderDay >= :startDate AND orderDay <= :endDate", nativeQuery = true)
 	List<Order> getAllBetweenDates(@Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate);
+	 
+//	get stack overflow when: infinitive recursive
+	public List<Order> findByUser (User user); 
+	
+//	@Query(value = "SELECT * FROM Orders WHERE user_id = :userId", nativeQuery = true)
+//	List<Order> getAllOrdersByUserid(@Param("userId") long userId);
 	
 	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

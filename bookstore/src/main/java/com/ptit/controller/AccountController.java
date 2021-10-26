@@ -2,7 +2,10 @@ package com.ptit.controller;
 
 import java.security.Principal;
 import java.time.LocalDate;
+import java.util.Iterator;
+import java.util.List;
 
+import javax.servlet.http.HttpSession;
 import javax.swing.event.TableColumnModelListener;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +22,19 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.fasterxml.jackson.annotation.JsonCreator.Mode;
+import com.ptit.model.Cart;
+import com.ptit.model.CartManager;
+import com.ptit.model.District;
+import com.ptit.model.Items;
+import com.ptit.model.Order;
+import com.ptit.model.Province;
+import com.ptit.model.Village;
+import com.ptit.service.DistrictService;
+import com.ptit.service.OrderService;
+import com.ptit.service.ProvinceService;
 import com.ptit.service.UserService;
+import com.ptit.service.VillageService;
 import com.ptit.util.WebUtils;
 
 @Controller
@@ -28,6 +43,24 @@ public class AccountController {
 	@Autowired
 	UserService userService; 
 	
+	@Autowired
+	CartManager cartManager; 
+	
+	@Autowired
+	ProvinceService provinceService; 
+	
+	
+	@Autowired
+	DistrictService districtService; 
+	
+	@Autowired
+	VillageService villageService; 
+	
+	
+	
+	
+	@Autowired
+	OrderService orderService; 
 	@GetMapping("/login")
 	public String login() {
 		return "login"; 
@@ -112,9 +145,9 @@ public class AccountController {
 	
 	
 	@GetMapping(value = "/logout-success")
-    public String logoutSuccess(ModelMap model) {
+    public String logoutSuccess(ModelMap model, HttpSession session) {
 
-        
+        cartManager.removeCart(session); 
         model.addAttribute("logoutSuccess", true);
 
         return "login";
@@ -194,12 +227,44 @@ public class AccountController {
 	 }
 	 
 	 @GetMapping("/update-password")
-	 public String updatePassword(Principal principal) {
+	 public String updatePassword(Principal principal, Model model) {
 		 if(principal==null) return "redirect:/account/login"; 
+		 model.addAttribute("username", principal.getName()); 
 		 return "updatePassword"; 
 	 }
 	 
+	 @GetMapping("/cart")
+	 public String cartUser(HttpSession session, Model model, Principal principal ) {
+		 if(principal==null) return "redirect:/cart"; 
+		 Cart cart = cartManager.getCart(session); 
+			List<Items> list = cart.getItems(); 
+			model.addAttribute("listItems", list);
+			model.addAttribute("totalPrice", cart.getTotal()); 
+			
+			List<Province> listProvince = provinceService.getAllProvince();
+			List<District> listDistrict = districtService.getDistrictByProvince(listProvince.get(0)); 
+			List<Village>  listVillage = villageService.getVillageByDistrict(listDistrict.get(0)); 
+			model.addAttribute("username", principal.getName());
+			model.addAttribute("listProvince", listProvince); 
+			model.addAttribute("listDistrict", listDistrict); 
+			model.addAttribute("listVillage", listVillage); 
+			return "userCart"; 
+	 }
 	 
+	 
+	 
+	 @GetMapping("/getAllOrder")
+		public String getAllByUser(ModelMap model,Principal principal) {
+			if(principal!=null) {
+				com.ptit.model.User user = userService.getUserByUsername(principal.getName()); 
+				List<Order> orders = orderService.getOrdersByUser(user); 
+				model.addAttribute("orders", orders); 
+				model.addAttribute("username",principal.getName()); 
+				
+				return "userOrders"; 
+			}
+			return "redirect:/account/login"; 
+		}
 	 
 }
 	

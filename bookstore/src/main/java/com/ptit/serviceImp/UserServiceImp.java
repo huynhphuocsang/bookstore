@@ -5,6 +5,10 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -132,6 +136,31 @@ public class UserServiceImp implements UserService{
 		user.setPassword(passwordEncrypt);
 		userDao.save(user); 
 		return true;
+	}
+	@Override
+	public Page<User> getAllUser(Pageable page){
+		return userDao.findAll(page);
+	}
+	
+	@Override
+	public List<User> findUser(String key){
+		List<User> list=userDao.findByUsernameOrPhoneAllIgnoreCase(key, key);
+		return list; 
+	}
+	
+	@Override
+	public Page<User> findPage(int pageNo, int pageSize){
+		Pageable pageable = PageRequest.of(pageNo -1, pageSize);
+		return userDao.findAll(pageable);
+	}
+	
+	@Override
+	public Page<User> findPaginated(int pageNo, int pageSize, String sortField, String sortDirection){
+		Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) 
+				? Sort.by(sortField).ascending() : Sort.by(sortField).descending() ;
+		
+		Pageable pageable = PageRequest.of(pageNo -1, pageSize,sort);
+		return userDao.findAll(pageable);
 	}
 
 }

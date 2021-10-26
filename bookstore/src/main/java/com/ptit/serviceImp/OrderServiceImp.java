@@ -1,8 +1,14 @@
 package com.ptit.serviceImp;
 
+import java.math.BigDecimal;
+import java.sql.Date;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -10,10 +16,19 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.ptit.exception.OverMaximumQuantityException;
 import com.ptit.exception.ResourceNotFoundException;
+import com.ptit.model.Address;
+import com.ptit.model.Book;
+import com.ptit.model.Items;
 import com.ptit.model.Order;
+import com.ptit.model.OrderDetail;
+import com.ptit.model.User;
+import com.ptit.repository.BookDao;
 import com.ptit.repository.OrderDao;
+import com.ptit.service.AddressService;
 import com.ptit.service.OrderService;
 
 @Service
@@ -21,6 +36,11 @@ public class OrderServiceImp implements OrderService {
 	@Autowired
 	OrderDao orderdao;
 	
+	@Autowired 
+	AddressService addressService; 
+	
+	@Autowired
+	BookDao bookDao; 
 	@Override
 	public Page<Order> getAllOrders(Pageable page){
 		return orderdao.findAll(page);
@@ -73,6 +93,111 @@ public class OrderServiceImp implements OrderService {
 		order.setOrderStatus(status);
 		return save(order);
 	}
+
+	@Override
+	@Transactional(rollbackFor = OverMaximumQuantityException.class)
+	public boolean createNewOrder(String name, String phone, User user, List<Items> list,BigDecimal totalPrice,String addressName, String villageId) throws OverMaximumQuantityException {
+		
+		
+		Set<OrderDetail> listOrderDetail = new HashSet<OrderDetail>();
+		Order order = new Order();
+		for(Items item: list) {
+			OrderDetail detail = new OrderDetail(); 
+			detail.setBook(item.getBook());
+			detail.setPrice(item.getBook().getPrice());
+			
+			
+			
+			Book book = bookDao.getById(item.getBook().getIdBook()); 
+			
+			//nếu vượt quá số lượng cung ứng
+			if(item.getQuantityOfBooks()>book.getTotalQuantity()) {
+				throw new OverMaximumQuantityException(item.getBook().getIdBook()+"-"+book.getTotalQuantity()); 
+				
+			}
+				
+			//số lượng order hợp lệ: 
+			detail.setQuantity(item.getQuantityOfBooks());
+			//cập nhật số lượng sách
+			book.setTotalQuantity(book.getTotalQuantity()-item.getQuantityOfBooks());
+		
+			bookDao.save(book); 
+			
+			listOrderDetail.add(detail);  
+			
+		}
+		Address address = addressService.createAddress(addressName, villageId);
+		java.sql.Date date = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+		
+		 
+		order.setNameOfCustomer(name);
+		order.setPhoneOfCustomer(phone);
+		order.setSetDetails(listOrderDetail);
+		order.setAddress(address);
+		order.setOrderDay(date);
+		order.setOrderStatus(1);
+		order.setTotalPrice(totalPrice);
+	
+		if(user!=null) order.setUser(user);
+		
+		orderdao.save(order); 
+		
+		
+		
+	
+		return true; 
+	}
+
+	@Override
+	public List<Order> getOrdersByUser(User user){
+		
+		List<Order> list = orderdao.findByUser(user); 
+		
+		return list; 
+	}
+
+	@Override
+	public void cancelOrder(long orderId) {
+		Order order = orderdao.getById(orderId); 
+		order.setOrderStatus(3);
+		orderdao.save(order); 
+	}
 	
 	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

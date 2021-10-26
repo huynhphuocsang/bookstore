@@ -81,7 +81,7 @@ $(".btn-delete-item").click(function() {
 				alert("Xóa thất bại"); 
 				
 			}else{
-				
+				if(value ==0) $("#btn-buy").hide(); 
 				
 				block.remove();  
 				var totalPriceFormat = parseInt(value).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,").replace(".00", "");
@@ -93,8 +93,147 @@ $(".btn-delete-item").click(function() {
 
 	})
 })
+$("#btn-buy").click(function() { 
+	
+	
+	
+	$.ajax({
+		
+		type: "POST",
+        url: "http://localhost:8080/check-can-buy",
+		data: {
+			
+		},
+		success: function(value) {
+		
+		if(value==true) $("#block-info-buy").show();
+			
+		},error: () => {
+		console.log('Error');
+	}
+
+	})
+	 
+
+})
 
 
+$("#dropdown-province").change(function() {
+	
+	
+	var provinceId = $(this).val(); 
+	 
+
+	
+	
+	
+	$.ajax({
+		
+		type: "POST",
+        url: "http://localhost:8080/get-district",
+		data: {
+			provinceId: provinceId
+			
+		},
+		success: function(value) {
+			console.log(value); 
+			$("#dropdown-district").html(value); 
+			
+		},error: () => {
+		console.log('Error');
+	}
+
+	})
+	
+})
+
+
+$("#dropdown-district").change(function() {
+	
+	
+	var districtId = $(this).val(); 
+	 
+
+	
+	
+	
+	$.ajax({
+		
+		type: "POST",
+        url: "http://localhost:8080/get-village",
+		data: {
+			districtId: districtId
+			
+		},
+		success: function(value) {
+			
+			$("#dropdown-village").html(value); 
+			
+		},error: () => {
+		console.log('Error');
+	}
+
+	})
+	
+})
+
+
+$("#btn-verify-buy").click(function() {
+		$("#check-name-field").hide(); 
+		$("#check-phone-field").hide(); 
+		$(".alert-over-quantity").hide(); 
+		
+		var checkValidate = true; 
+		var fullname = $("#fullname").val();
+		var phone = $("#phone").val(); 
+		var address= $("#address").val(); 
+		var village = $("#dropdown-village").val(); 
+		
+		
+	if(fullname.length==0){
+		$("#check-name-field").show(); 
+		checkValidate = false; 
+	}
+	if(phone.length!=10){
+		$("#check-phone-field").show(); 
+		checkValidate = false;
+	}
+	
+	if(checkValidate==true){
+		$.ajax({
+		
+		type: "POST",
+        url: "http://localhost:8080/order",
+		data: {
+			fullname : fullname, 
+			phone: phone, 
+			village: village, 
+			address: address
+			
+		},
+		success: function(value) {
+			alert(value); 
+			if (value == "false") {
+				alert("Order thất bại"); 
+				
+			}else if(value=="true"){
+				alert("order thành công!"); 
+				location.reload(); 
+			}else{
+				let arr = value.split("-"); 
+				var id = "#over-maximum-quantity-"+arr[0]; 
+				$(id).find("p").replaceWith("<p>Số lượng còn lại chỉ là: "+arr[1]+"</p>"); 
+				$(id).show();
+				
+			}
+		},error: () => {
+		console.log('Error');
+	}
+
+	})
+	} 
+	
+})
 
 
 

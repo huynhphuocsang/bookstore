@@ -2,30 +2,8 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>Admin</title>
-	<link rel="icon" type="image/png" sizes="32x32" th:href="@{/image/icon-book-shop-64.png}">
-	<link rel="stylesheet"
-		href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-		integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-		crossorigin="anonymous">
-	
-	<!-- LINK JQUERY -->
-	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
- 
-    <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-   		crossorigin="anonymous"></script>
-   	<link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
-   	<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js" ></script>
-   
-  	 <!-- LINK FONTAWESOME -->
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w==" crossorigin="anonymous" />
-    <!-- <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet"> -->
-    
-    <!-- LINK INTERNAL STYLE -->
-	<link th:href="@{/css/dashboard.css}" rel="stylesheet">
+	<title th:replace = "/admin/fragments/head-tag.html :: title">Title</title>
+	<th:block th:insert="/admin/fragments/head-tag.html :: link"></th:block>
 	<link th:href="@{/css/admin/book.css}" rel="stylesheet">
 </head>
 	
@@ -49,7 +27,8 @@
   		
 		<ul class="navbar-nav px-3">
 			<li class="nav-item text-nowrap">
-				<a class="nav-link text-light" href="#">Sign out</a>
+				<a class="nav-link text-light mr-1" style="font-size: 25px" th:href="@{/account/check-login}"><i class="far fa-user-circle"></i></a>
+				<!-- <a class="nav-link text-light" href="#">Sign out</a> -->
 			</li>
 		</ul>
 	</nav>
@@ -61,27 +40,7 @@
 		<div class="row">
 		
 			<!-- ================= NAVIGATION =================== -->
-			<nav class="col-md-2 d-none d-md-block bg-light sidebar">
-				<div class="sidebar-sticky">
-					<ul class="nav flex-column nav-style" style="font-size:1rem;">
-						<li class="nav-item"><a class="nav-link" th:href="@{/admin/statisticts}"> 
-							<i class="fas fa-tasks mr-2"></i>Statistics	
-						</a></li>
-						<li class="nav-item"><a class="nav-link active" th:href="@{/admin/book}">
-								<i class="fas fa-book mr-2"></i>Books
-						</a></li>
-						<li class="nav-item"><a class="nav-link" th:href="@{/admin/order}">
-						<i class="fas fa-shopping-cart mr-2"></i>Orders
-							</a></li>
-						<li class="nav-item"><a class="nav-link" th:href="@{/admin/review}"> 
-							<i class="far fa-comments mr-2"></i>Reviews
-						</a></li>
-						<li class="nav-item"><a class="nav-link" th:href="@{/admin/customer}">   
-							<i class="fas fa-users mr-2"></i>Customers
-						</a></li>
-					</ul>
-				</div>
-			</nav>
+			<nav th:replace="/admin/fragments/navigation.html :: admin-nav('Books')"></nav>
 			
 			<!-- ===================MAIN CONTENT=================== -->
 			<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4 position-relative">
@@ -341,7 +300,7 @@
             Validator.isRequired('#bookcategory'),
             Validator.isRequired('#total-quantity'),
             Validator.isNum('#price'),
-            Validator.isRequired('#picture'),
+            //Validator.isRequired('#picture'),
             Validator.isRequired('#datepickerfrom')
           ]
         });
