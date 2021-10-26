@@ -25,4 +25,6 @@ public interface OrderService {
 	List<Order> getAllBetweenDates(LocalDateTime startDate, LocalDateTime endDate);
 	public int updateOrderStatus(long idOrder, int status);
 	public boolean createNewOrder(String name, String phone, User user, List<Items> list,BigDecimal totalPrice, String addressName, String villageId) throws OverMaximumQuantityException ; 
+	public List<Order> getOrdersByUser(User user);
+	public void cancelOrder(long orderId); 
 }

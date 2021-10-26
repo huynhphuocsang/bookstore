@@ -147,6 +147,21 @@ public class OrderServiceImp implements OrderService {
 	
 		return true; 
 	}
+
+	@Override
+	public List<Order> getOrdersByUser(User user){
+		
+		List<Order> list = orderdao.findByUser(user); 
+		
+		return list; 
+	}
+
+	@Override
+	public void cancelOrder(long orderId) {
+		Order order = orderdao.getById(orderId); 
+		order.setOrderStatus(3);
+		orderdao.save(order); 
+	}
 	
 	
 }

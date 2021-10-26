@@ -81,7 +81,7 @@ $(".btn-delete-item").click(function() {
 				alert("Xóa thất bại"); 
 				
 			}else{
-				
+				if(value ==0) $("#btn-buy").hide(); 
 				
 				block.remove();  
 				var totalPriceFormat = parseInt(value).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,").replace(".00", "");

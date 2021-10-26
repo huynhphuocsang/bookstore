@@ -60,11 +60,11 @@
 								class="fa fa-home"></i><span class="ms-2">Thông tin tài
 									khoản</span>
 						</a></li>
-						<li><a href="/account/cart" class="nav-link active"> <i
+						<li><a href="#" class="nav-link active"> <i
 								class="fa fa-cart-plus" aria-hidden="true"></i> <span
 								class="ms-2">Giỏ hàng</span>
 						</a></li>
-						<li><a href="#" class="nav-link text-white"><i
+						<li><a href="/account/getAllOrder" class="nav-link text-white"><i
 								class="fa fa-list" aria-hidden="true"></i> <span class="ms-2">Danh
 									sách đơn hàng</span> </a></li>
 
@@ -138,7 +138,7 @@
 						</p>
 
 						<div style="text-align: center">
-							<button type="button" id="btn-buy" class="btn btn-success">
+							<button type="button" id="btn-buy" class="btn btn-success" th:if="${totalPrice>0}")>
 								<i class="fa fa-shopping-cart" aria-hidden="true"> Mua ngay</i>
 							</button>
 						</div>

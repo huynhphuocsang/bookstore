@@ -2,6 +2,7 @@ package com.ptit.controller;
 
 import java.security.Principal;
 import java.time.LocalDate;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -26,9 +27,11 @@ import com.ptit.model.Cart;
 import com.ptit.model.CartManager;
 import com.ptit.model.District;
 import com.ptit.model.Items;
+import com.ptit.model.Order;
 import com.ptit.model.Province;
 import com.ptit.model.Village;
 import com.ptit.service.DistrictService;
+import com.ptit.service.OrderService;
 import com.ptit.service.ProvinceService;
 import com.ptit.service.UserService;
 import com.ptit.service.VillageService;
@@ -52,6 +55,12 @@ public class AccountController {
 	
 	@Autowired
 	VillageService villageService; 
+	
+	
+	
+	
+	@Autowired
+	OrderService orderService; 
 	@GetMapping("/login")
 	public String login() {
 		return "login"; 
@@ -241,6 +250,21 @@ public class AccountController {
 			model.addAttribute("listVillage", listVillage); 
 			return "userCart"; 
 	 }
+	 
+	 
+	 
+	 @GetMapping("/getAllOrder")
+		public String getAllByUser(ModelMap model,Principal principal) {
+			if(principal!=null) {
+				com.ptit.model.User user = userService.getUserByUsername(principal.getName()); 
+				List<Order> orders = orderService.getOrdersByUser(user); 
+				model.addAttribute("orders", orders); 
+				model.addAttribute("username",principal.getName()); 
+				
+				return "userOrders"; 
+			}
+			return "redirect:/account/login"; 
+		}
 	 
 }
 	
