@@ -35,6 +35,7 @@ import com.ptit.service.ItemsService;
 import com.ptit.service.OrderDetailService;
 import com.ptit.service.OrderService;
 import com.ptit.service.ProvinceService;
+import com.ptit.service.ReviewService;
 import com.ptit.service.UserService;
 import com.ptit.service.VillageService;
 import com.ptit.serviceImp.ItemsServiceImp;
@@ -69,7 +70,10 @@ public class AjaxCallController {
 	OrderService orderService;
 
 	@Autowired
-	OrderDetailService orderDetailService; 
+	OrderDetailService orderDetailService;
+	
+	@Autowired
+	ReviewService reviewService; 
 	
 	@PostMapping("/verify-old-password")
 	@ResponseBody
@@ -287,6 +291,23 @@ public class AjaxCallController {
 	@PostMapping("/cancel-order")
 	public void cancelOrder(@RequestParam long orderId) {
 		orderService.cancelOrder(orderId); 
+		
+	}
+	
+	
+	@PostMapping("/review")
+	public void review(@RequestParam long idBook, @RequestParam String comment, @RequestParam float star, Principal principal) {
+		String username = principal.getName(); 
+		User user = userService.getUserByUsername(username); 
+		
+		try {
+			Book book = bookService.getBookById(idBook);
+			reviewService.addReview(user, book, star, comment); 
+		} catch (ResourceNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		
 		
 	}
 }
