@@ -36,6 +36,7 @@ import com.ptit.repository.BookDao;
 import com.ptit.service.BookService;
 import com.ptit.service.CategoryService;
 import com.ptit.service.ItemsService;
+import com.ptit.service.ReviewService;
 import com.ptit.service.UserService;
 
 @Controller
@@ -59,6 +60,9 @@ public class HomeController {
 	
 	@Autowired
 	UserService userService; 
+	
+	
+	
 	
 	@GetMapping("/view")
 	public String getView(ModelMap map) {
@@ -203,7 +207,7 @@ public class HomeController {
 	
 	@GetMapping("/test")
 	public String test() {
-		return "temphome"; 
+		return "rating"; 
 	}
 	
 	
@@ -239,8 +243,7 @@ public class HomeController {
 		return "redirect:/home/view/1"; 
 	}
 	
-	
-	
+
 	
 	public void syncSessionToDB(List<Items> list, List<Items> listDb, User user) {
 		for(Items i0: list) {
