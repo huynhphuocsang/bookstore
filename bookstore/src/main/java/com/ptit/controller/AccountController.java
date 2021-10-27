@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,9 +29,11 @@ import com.ptit.model.CartManager;
 import com.ptit.model.District;
 import com.ptit.model.Items;
 import com.ptit.model.Order;
+import com.ptit.model.OrderDetail;
 import com.ptit.model.Province;
 import com.ptit.model.Village;
 import com.ptit.service.DistrictService;
+import com.ptit.service.OrderDetailService;
 import com.ptit.service.OrderService;
 import com.ptit.service.ProvinceService;
 import com.ptit.service.UserService;
@@ -57,7 +60,8 @@ public class AccountController {
 	VillageService villageService; 
 	
 	
-	
+	@Autowired
+	OrderDetailService orderDetailService; 
 	
 	@Autowired
 	OrderService orderService; 
@@ -266,6 +270,21 @@ public class AccountController {
 			return "redirect:/account/login"; 
 		}
 	 
+	 @GetMapping("/order-again/{orderId}")
+	 public String orderAgain(@PathVariable long orderId, Principal principal, HttpSession session) {
+		 
+		 if(principal== null) return "redirect:/account/login"; 
+		 com.ptit.model.User user = userService.getUserByUsername(principal.getName()); 
+		 List<OrderDetail> listDetail = orderDetailService.getListDetailByOrderId(orderId); 
+		 //lưu vào list item
+		 
+		 Cart cart = cartManager.getCart(session); 
+		 for(OrderDetail detail : listDetail) {
+			 cart.addItem(detail.getBook(), detail.getQuantity()); 
+		 }
+		
+		 return "redirect:/home/synccart?orderAgain=true"; 
+	 }
 }
 	
 	

@@ -1,10 +1,10 @@
 CREATE DATABASE  IF NOT EXISTS `bookstore` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
 USE `bookstore`;
--- MySQL dump 10.13  Distrib 8.0.26, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.27, for Win64 (x86_64)
 --
 -- Host: localhost    Database: bookstore
 -- ------------------------------------------------------
--- Server version	8.0.26
+-- Server version	8.0.27
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -31,7 +31,7 @@ CREATE TABLE `address` (
   PRIMARY KEY (`address_id`),
   KEY `FKgufu9edl0iiai9gwjs84iwmgb` (`village_id`),
   CONSTRAINT `FKgufu9edl0iiai9gwjs84iwmgb` FOREIGN KEY (`village_id`) REFERENCES `village` (`village_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -40,6 +40,7 @@ CREATE TABLE `address` (
 
 LOCK TABLES `address` WRITE;
 /*!40000 ALTER TABLE `address` DISABLE KEYS */;
+INSERT INTO `address` VALUES (40,'47A','00028'),(41,'47A','00001'),(42,'','24118'),(43,'','24157'),(44,'47A','30181'),(45,'90','29986'),(46,'','24721');
 /*!40000 ALTER TABLE `address` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -101,7 +102,7 @@ CREATE TABLE `book` (
 
 LOCK TABLES `book` WRITE;
 /*!40000 ALTER TABLE `book` DISABLE KEYS */;
-INSERT INTO `book` VALUES (1,'Chuông nguyện hồn ai','Đây là cuốn sách kể về thời chiến tranh thế giới thứ 2','chuong-nguyen-hon-ai.jpg',120000.00,'1940-10-21',200,5,3,3),(2,'Đắc nhân tâm','Đây là cuồn sách giúp bạn thu phục lòng người','dac-nhan-tam.jpg',200000.00,'1936-10-01',150,7,2,3),(3,'You Can Win','Đây là cuốn sách giúp bạn chinh phục mọi thứ trong cuộc đời','you-can-win.jpg',80000.00,'1998-01-01',210,9,2,3),(4,'Bí mật tư duy triệu phú','Làm giàu không khó ','bi-mat-tu-duy-trieu-phu.jpg',110000.00,'2005-05-12',180,10,2,10),(5,'Nghĩ giàu làm giàu','Nghĩ là làm, không nói nhiều','nghi-giau-lam-giau.jpg',95000.00,'1937-01-01',90,8,2,7),(7,'Trên đường băng','Tuổi trẻ phải đọc một lần','tren-duong-bang.jpg',78000.00,'2015-01-01',120,11,2,7);
+INSERT INTO `book` VALUES (1,'Chuông nguyện hồn ai','Đây là cuốn sách kể về thời chiến tranh thế giới thứ 2','chuong-nguyen-hon-ai.jpg',120000.00,'1940-10-21',190,5,3,3),(2,'Đắc nhân tâm','Đây là cuồn sách giúp bạn thu phục lòng người','dac-nhan-tam.jpg',200000.00,'1936-10-01',150,7,2,3),(3,'You Can Win','Đây là cuốn sách giúp bạn chinh phục mọi thứ trong cuộc đời','you-can-win.jpg',80000.00,'1998-01-01',204,9,2,3),(4,'Bí mật tư duy triệu phú','Làm giàu không khó ','bi-mat-tu-duy-trieu-phu.jpg',110000.00,'2005-05-12',180,10,2,10),(5,'Nghĩ giàu làm giàu','Nghĩ là làm, không nói nhiều','nghi-giau-lam-giau.jpg',95000.00,'1937-01-01',63,8,2,7),(7,'Trên đường băng','Tuổi trẻ phải đọc một lần','tren-duong-bang.jpg',78000.00,'2015-01-01',71,11,2,7);
 /*!40000 ALTER TABLE `book` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -174,7 +175,7 @@ CREATE TABLE `items` (
   KEY `FKmhqj9105yawax1y8dp68i66xm` (`user_id`),
   CONSTRAINT `FKjt4lglxyfbs0kv25yorn3c7m6` FOREIGN KEY (`id_book`) REFERENCES `book` (`id_book`),
   CONSTRAINT `FKmhqj9105yawax1y8dp68i66xm` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=89 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -204,7 +205,7 @@ CREATE TABLE `order_detail` (
   KEY `FKrws2q0si6oyd6il8gqe2aennc` (`order_id`),
   CONSTRAINT `FKhf74ol57vvqf2ld97ddjb37eq` FOREIGN KEY (`id_book`) REFERENCES `book` (`id_book`),
   CONSTRAINT `FKrws2q0si6oyd6il8gqe2aennc` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -213,6 +214,7 @@ CREATE TABLE `order_detail` (
 
 LOCK TABLES `order_detail` WRITE;
 /*!40000 ALTER TABLE `order_detail` DISABLE KEYS */;
+INSERT INTO `order_detail` VALUES (24,95000.00,1,5,NULL),(25,95000.00,1,5,37),(26,78000.00,5,7,38),(27,95000.00,4,5,38),(28,95000.00,1,5,39),(29,78000.00,1,7,39),(30,95000.00,5,5,40),(31,80000.00,3,3,41),(32,78000.00,5,7,41),(33,95000.00,3,5,41),(34,78000.00,5,7,42),(35,80000.00,3,3,42),(36,95000.00,3,5,42);
 /*!40000 ALTER TABLE `order_detail` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -230,11 +232,14 @@ CREATE TABLE `orders` (
   `order_status` int DEFAULT NULL,
   `phone_of_customer` varchar(10) DEFAULT NULL,
   `total_price` decimal(19,2) DEFAULT NULL,
+  `address_id` bigint DEFAULT NULL,
   `user_id` bigint DEFAULT NULL,
   PRIMARY KEY (`order_id`),
+  KEY `FKf5464gxwc32ongdvka2rtvw96` (`address_id`),
   KEY `FKel9kyl84ego2otj2accfd8mr7` (`user_id`),
-  CONSTRAINT `FKel9kyl84ego2otj2accfd8mr7` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  CONSTRAINT `FKel9kyl84ego2otj2accfd8mr7` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`),
+  CONSTRAINT `FKf5464gxwc32ongdvka2rtvw96` FOREIGN KEY (`address_id`) REFERENCES `address` (`address_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -243,6 +248,7 @@ CREATE TABLE `orders` (
 
 LOCK TABLES `orders` WRITE;
 /*!40000 ALTER TABLE `orders` DISABLE KEYS */;
+INSERT INTO `orders` VALUES (36,'sang','2021-10-25',3,'0987654321',95000.00,40,4),(37,'sang','2021-10-24',2,'0327890098',95000.00,41,4),(38,'tuyền','2021-10-26',1,'0987654321',770000.00,42,NULL),(39,'Quân','2021-10-26',1,'0327890098',173000.00,43,NULL),(40,'Sang đẹp trai','2021-10-26',3,'0987654321',475000.00,44,4),(41,'Sang đẹp trai','2021-10-26',4,'0987654321',915000.00,45,4),(42,'tuyền','2021-10-26',1,'0327890098',915000.00,46,4);
 /*!40000 ALTER TABLE `orders` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -321,6 +327,7 @@ CREATE TABLE `review` (
 
 LOCK TABLES `review` WRITE;
 /*!40000 ALTER TABLE `review` DISABLE KEYS */;
+INSERT INTO `review` VALUES (1,4,'quá hay',5,NULL),(1,5,'tạm được',1,NULL),(1,6,'sang đẹp trai',2,NULL),(1,8,'vì anh sang mới đọc nên mới mua đó nhé',5,NULL),(1,9,'cũng ổn',4,NULL),(7,4,'ship thì rất đúng giờ, nhưng sai ngày',1,NULL),(7,8,'sản phẩm rât tốt',5,NULL),(7,9,'shop dẹp đi cho rồi',1,NULL);
 /*!40000 ALTER TABLE `review` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -364,7 +371,7 @@ CREATE TABLE `user` (
   `phone` varchar(10) DEFAULT NULL,
   `username` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -373,7 +380,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (4,10,NULL,_binary '\0','$2a$12$JOrvjOaN5XDVyxTj9XqMAOlQ6avTihPYzPD3tzpbmYJWdWAdN/Q96','0987890098','sang'),(5,10,NULL,_binary '\0','$2a$12$AUp3RXQB77Cn/iib6hMkU.Pi78Al30lqLyKp.QIevh4Hc59RVVnQu','0987654321','quan'),(6,10,NULL,_binary '\0','$2a$12$rt/VyNFmBf6OtpadCMgYRONxEBfPUAlKB2unvxXBLQe7wffI.5VeC','0987666555','truong');
+INSERT INTO `user` VALUES (4,10,NULL,_binary '\0','$2a$12$JOrvjOaN5XDVyxTj9XqMAOlQ6avTihPYzPD3tzpbmYJWdWAdN/Q96','0987890098','sang'),(5,10,NULL,_binary '\0','$2a$12$AUp3RXQB77Cn/iib6hMkU.Pi78Al30lqLyKp.QIevh4Hc59RVVnQu','0987654321','quan'),(6,10,NULL,_binary '\0','$2a$12$rt/VyNFmBf6OtpadCMgYRONxEBfPUAlKB2unvxXBLQe7wffI.5VeC','0987666555','truong'),(8,10,NULL,_binary '\0','$2a$12$8FJ/pHKWljx5fNqQYGxQ6OYFMZfv7yEqoFNEfVFSGZdIns9gllCDy','0327890098','tuyen'),(9,10,NULL,_binary '\0','$2a$12$h6rBQdS0jyFTSqpYlDW86eyI35sfNWwE8wCPmSmPslHxjPC38RZTq','0987654322','tai');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -419,7 +426,7 @@ CREATE TABLE `user_role` (
   KEY `FK859n2jvi8ivhui0rl0esws6o` (`user_id`),
   CONSTRAINT `FK2aam9nt2tv8vcfymi3jo9c314` FOREIGN KEY (`id_role`) REFERENCES `role` (`id_role`),
   CONSTRAINT `FK859n2jvi8ivhui0rl0esws6o` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -428,7 +435,7 @@ CREATE TABLE `user_role` (
 
 LOCK TABLES `user_role` WRITE;
 /*!40000 ALTER TABLE `user_role` DISABLE KEYS */;
-INSERT INTO `user_role` VALUES (1,1,4),(2,1,5),(3,1,6);
+INSERT INTO `user_role` VALUES (1,1,4),(2,1,5),(3,1,6),(5,2,8),(6,2,9);
 /*!40000 ALTER TABLE `user_role` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -469,4 +476,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-10-19 21:48:52
+-- Dump completed on 2021-10-27 17:29:37

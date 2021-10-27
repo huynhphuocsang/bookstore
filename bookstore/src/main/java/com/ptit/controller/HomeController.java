@@ -36,6 +36,7 @@ import com.ptit.repository.BookDao;
 import com.ptit.service.BookService;
 import com.ptit.service.CategoryService;
 import com.ptit.service.ItemsService;
+import com.ptit.service.ReviewService;
 import com.ptit.service.UserService;
 
 @Controller
@@ -59,6 +60,9 @@ public class HomeController {
 	
 	@Autowired
 	UserService userService; 
+	
+	
+	
 	
 	@GetMapping("/view")
 	public String getView(ModelMap map) {
@@ -203,7 +207,7 @@ public class HomeController {
 	
 	@GetMapping("/test")
 	public String test() {
-		return "temphome"; 
+		return "rating"; 
 	}
 	
 	
@@ -212,7 +216,7 @@ public class HomeController {
 	
 	//synchronization cart
 	@GetMapping("/synccart")
-	public String syncCart(ModelMap map, HttpSession session, Principal principal) {
+	public String syncCart(ModelMap map, HttpSession session, Principal principal, @RequestParam Optional<Boolean> orderAgain) {
 		
 		if(principal!=null) {
 			Cart cart = cartManager.getCart(session); 
@@ -230,23 +234,26 @@ public class HomeController {
 			//save to db: 
 			itemsService.updateListItems(listDb); 
 		}
+		if(orderAgain.isPresent()) {
+			if(orderAgain.get()==true) return "redirect:/account/cart"; 
+		}
 		
 		
 		
 		return "redirect:/home/view/1"; 
 	}
 	
-	
-	
+
 	
 	public void syncSessionToDB(List<Items> list, List<Items> listDb, User user) {
 		for(Items i0: list) {
 			boolean checkExist = false; 
 			for(Items i:listDb) {
 				if(i.getBook().getIdBook()==i0.getBook().getIdBook()) {
-					checkExist = true; 
-					i.setQuantityOfBooks(i0.getQuantityOfBooks()); 
-					break; 
+						checkExist = true; 
+						i.setQuantityOfBooks(i0.getQuantityOfBooks()); 
+						break; 
+					
 				}
 			}
 			if(checkExist==false) {

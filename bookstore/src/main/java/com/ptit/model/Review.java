@@ -29,7 +29,6 @@ public class Review {
 	
 	@Max(5)
 	@Min(1)
-	@NotEmpty
 	private float star; 
 	
 	
@@ -80,6 +79,26 @@ public class Review {
 
 	public void setStar(float star) {
 		this.star = star;
+	}
+
+
+	public User getUser() {
+		return user;
+	}
+
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+
+	public Book getBook() {
+		return book;
+	}
+
+
+	public void setBook(Book book) {
+		this.book = book;
 	} 
 	
 	

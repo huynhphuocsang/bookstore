@@ -35,6 +35,7 @@ import com.ptit.service.ItemsService;
 import com.ptit.service.OrderDetailService;
 import com.ptit.service.OrderService;
 import com.ptit.service.ProvinceService;
+import com.ptit.service.ReviewService;
 import com.ptit.service.UserService;
 import com.ptit.service.VillageService;
 import com.ptit.serviceImp.ItemsServiceImp;
@@ -69,7 +70,10 @@ public class AjaxCallController {
 	OrderService orderService;
 
 	@Autowired
-	OrderDetailService orderDetailService; 
+	OrderDetailService orderDetailService;
+	
+	@Autowired
+	ReviewService reviewService; 
 	
 	@PostMapping("/verify-old-password")
 	@ResponseBody
@@ -268,13 +272,15 @@ public class AjaxCallController {
 		buffer.append("<h1 style=\"color: red\">Chi tiết</h1>"); 
 		for(OrderDetail detail : list) {
 			
-			buffer.append("<p class=\"book\"> <span style=\"font-size: 20px; font-weight: bold\"><i class=\"fas fa-book\"></i>"+detail.getBook().getBookName() +"</span></p>\n");
+			buffer.append("<p class=\"book\"> <span style=\"font-size: 20px; font-weight: bold\"><i class=\"fas fa-book\"></i>"+" "+detail.getBook().getBookName() +"</span></p>\n");
 			buffer.append("<p class=\"book-price\">Đơn giá: <span style=\"font-weight:bold\">"+ detail.getPrice()+"</span></p>\n");
 			buffer.append("<p style=\" margin-right: 20px\"> Số lượng: <span style=\"font-weight:bold\">"+detail.getQuantity()+"</span></p>"); 
 			buffer.append("<a style=\"text-decoration: none; margin-left: 10%; \" href=\"\\book\\"+detail.getBook().getIdBook()+"\" >\n"
 					+ "								<button type=\"button\" class=\"btn btn-info\">Xem sản phẩm</button></a> <hr>");
 			 
 		}
+		buffer.append("<a href=\"/account/order-again/"+orderId+"\" style=\"margin-left: 25%; text-decoration: none\"><button id=\"btn-order-again\" th:data-orderid = \"sang\" type=\"button\" class=\"btn btn-danger\">Mua lại đơn hàng</button></a>");
+
 		buffer.append("</div>\n");
 		buffer.append("</div>\n");
 		buffer.append("</div>\n"); 
@@ -285,6 +291,23 @@ public class AjaxCallController {
 	@PostMapping("/cancel-order")
 	public void cancelOrder(@RequestParam long orderId) {
 		orderService.cancelOrder(orderId); 
+		
+	}
+	
+	
+	@PostMapping("/review")
+	public void review(@RequestParam long idBook, @RequestParam String comment, @RequestParam float star, Principal principal) {
+		String username = principal.getName(); 
+		User user = userService.getUserByUsername(username); 
+		
+		try {
+			Book book = bookService.getBookById(idBook);
+			reviewService.addReview(user, book, star, comment); 
+		} catch (ResourceNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		
 		
 	}
 }
