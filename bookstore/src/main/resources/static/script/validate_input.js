@@ -57,7 +57,7 @@ Validator.isEmail=function(selector){
         selector: selector,
         test: function(value){
             var regex=/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
-            return regex.test(value)?undefined:'Không hợp lệ'
+            return regex.test(value)?undefined:'Email không hợp lệ'
         }
     }
 }

@@ -8,9 +8,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.ptit.model.Book;
 import com.ptit.model.User;
@@ -38,9 +41,7 @@ public class UserController {
 		
 		int pageSize = 5;
 		int pageFirst = 1;
-		User user=new User();
-		user.setUsername(" ");
-		model.addAttribute("user", user);
+		model.addAttribute("user", new User());
 		
 		Page<User> page = userService.findPaginated(pageNo, pageSize, sortField, sortDir);
 
@@ -57,4 +58,24 @@ public class UserController {
 		
 		return "admin/customers";
 	}
+	
+	@PostMapping("/save")
+	public String updateUser(@ModelAttribute("user") User user, RedirectAttributes ra) {
+		boolean isError=false;
+		boolean existUsername=userService.checkExistUsernameInfo(user.getUsername());
+		boolean existPhone=userService.checkExistUsernameInfo(user.getPhone());
+		boolean existEmail=userService.checkExistUsernameInfo(user.getEmail());
+		
+		if(existUsername || existPhone || existEmail) {
+			isError=true;
+			ra.addFlashAttribute("isError", isError);
+			ra.addFlashAttribute("existUsername", existUsername);
+			ra.addFlashAttribute("existPhone", existPhone);
+			ra.addFlashAttribute("existEmail", existEmail);
+			ra.addFlashAttribute("user2", user);
+			return "redirect:/admin/customer";
+		}
+		return "redirect:/admin/customer";
+	}
+	
 }

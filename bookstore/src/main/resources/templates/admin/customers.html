@@ -127,6 +127,7 @@
 										<label for="user-name">Tên người dùng</label> 
 										<input th:field="*{username}" type="text" class="form-control" id="user-name" placeholder="VD: vanTeo">
 										<p class="form-message" >Không hợp lệ !!</p>
+										<p th:if="${existUsername==true}" class="form-message invalid" >Tên người dùng này đã được sử dụng !!</p>
 									</div>
 								</div>
 								<!-- =================== FIELD TUỔI ================== -->
@@ -159,6 +160,7 @@
 										<label for="user-phone">SĐT</label> 
 										<input th:field="*{phone}" type="text" class="form-control" id="user-phone" placeholder="VD: 0325436152">
 										<p class="form-message" >Không hợp lệ !!</p>
+										<p th:if="${existPhone==true}" class="form-message invalid" >SĐT đã được sử dụng !!</p>
 									</div>
 								</div>
 								</div>
@@ -171,6 +173,7 @@
 										<label for="user-email">Email</label> 
 										<input th:field="*{email}" type="text" class="form-control" id="user-email" placeholder="VD: vanTeo@gmail.com">
 										<p class="form-message" >Không hợp lệ !!</p>
+										<p th:if="${existEmail==true}" class="form-message invalid" >Email đã được sử dụng !!</p>
 									</div>
 								</div>
 								<!-- =================== FIELD Mật khẩu ================== -->
@@ -228,5 +231,36 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script th:src="@{/script/adminJs/headerHandle.js}"></script>
 	<script th:src="@{/script/adminJs/customer.js}"></script>
+	<script th:src="@{/script/validate_input.js}"></script>
+    <script th:inline="javascript">
+      Validator({
+        form: '.from__add--user',
+        rules:[
+          Validator.isRequired('#user-name'),
+          Validator.isRequired('#user-age'),
+          Validator.isRequired('#user-phone'),
+          Validator.isEmail('#user-email'),
+          Validator.isRequired('#user-pass'),
+          Validator.confirmMes('#user-confirm','#user-pass','Mật khẩu nhập lại không hợp lệ')
+        ]
+      });
+      /*<![CDATA[*/
+	    var isError = /*[[${isError}]]*/ 'default';
+	   
+	    //kiểm tra nếu them user nhận về lỗi thì hiện form nhập và hiện lại các thông tin vừa nhập
+	    if(isError) {
+	    	$(".btn__add--user").click();
+	    	var user2 = /*[[${user2}]]*/ 'default';
+	    	$('#user-name').val(user2.username);
+			$('#user-age').val(user2.age);
+			$('#user-phone').val(user2.phone);
+			$('#user-email').val(user2.email);
+			$('#user-pass').val(user2.password);
+			$('#user-confirm').val(user2.password);
+	    }
+	/*]]>*/
+	
+		
+    </script>
 </body>
 </html>

@@ -115,7 +115,7 @@
 								<input type="hidden" id="orderId" name="orderId"
 									th:value="${order.orderId}">
 								<td class="align-middle text-center" th:text="${order.orderId}">##</td>
-								<td class="align-middle" th:text="${order.user.username}">##</td>
+								<td class="align-middle" th:text="${order.nameOfCustomer}">##</td>
 								<td class="align-middle text-center" th:text="${order.orderDay}">##</td>
 								<td class="align-middle text-center"
 									th:text="${#numbers.formatDecimal(order.totalPrice,3,0)}">##</td>

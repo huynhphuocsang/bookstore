@@ -1,10 +1,11 @@
 
-/* =================EVENT BUTTON ADD BOOK============== */
+/* =================EVENT BUTTON ADD USER============== */
 const btnAddUser = $(".btn__add--user");/* btn Add new book */
 const frmAddUser = $(".from__add--user");/* Form add new book */
 
 btnAddUser.click(() => {
 	$(".main__overlay").css("display", "block");//làm mờ background
+	clearnField();
 	frmAddUser.css("display", "block");		// hiển thị form
 	
 	frmAddUser.find(".card-header:first").children("span").text("NEW USER") //đổi tiêu đề form
@@ -15,7 +16,7 @@ btnAddUser.click(() => {
 		$(".main__overlay").css("display", "none");
 		frmAddUser.css("display", "none");
 		$(".form-message.invalid").removeClass("invalid")
-		//clearnField();
+		clearnField();
 		
 	})
 });
@@ -35,7 +36,7 @@ btnEditUser.click(() => {
 		$(".main__overlay").css("display", "none");
 		frmAddUser.css("display", "none");
 		$(".form-message.invalid").removeClass("invalid")
-		//clearnField();
+		clearnField();
 		
 	})
 });
@@ -66,19 +67,13 @@ btnDeleteUser.click((e) => {
 });
 
 function clearnField(){
-	$('.form-row #idBook').val("");
-	$('#book-name').val("");
-	$('#author').val("");
-	$('#company').val("");
-	$('#datepickerfrom').val("");
-	$('#price').val("");
-	$('#img-output').attr("src","/image/choosing-img-icon.png");
-	$('#bookcategory').val("");
-	$('#total-quantity').val("");
-	$('#describe-book').val("");
-	$('.option-input').each((i,input)=>{
-		input.onchange();
-	})
+	$('.form-row #userId').val(0);
+	$('#user-name').val("");
+	$('#user-age').val("");
+	$('#user-phone').val("");
+	$('#user-email').val("");
+	$('#user-pass').val("");
+	$('#user-confirm').val("");
 }
 
 
