@@ -17,7 +17,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.ptit.model.Book;
 import com.ptit.model.User;
+import com.ptit.model.Village;
+import com.ptit.repository.DistrictDao;
+import com.ptit.repository.ProvinceDao;
 import com.ptit.repository.UserRoleDao;
+import com.ptit.repository.VillageDao;
 import com.ptit.service.UserService;
 
 @Controller
@@ -28,6 +32,18 @@ public class UserController {
 	
 	@Autowired
     UserRoleDao userRoleDao;
+	
+	@Autowired
+	VillageDao villageDao;
+	
+	@Autowired
+	DistrictDao listVil;
+	
+	@Autowired
+	ProvinceDao provinceDao;
+	
+	@Autowired
+	DistrictDao districtDao;
 	
 	@GetMapping()
 	public String getHomeCustomer(Model model) {
@@ -55,7 +71,10 @@ public class UserController {
 		model.addAttribute("currentPage", pageNo);
 		model.addAttribute("totalPage", page.getTotalPages());
 		model.addAttribute("totalItem", page.getTotalElements());
-		
+		List<Village> listVil = villageDao.findAll();
+		model.addAttribute("vill", villageDao.findAll());
+		model.addAttribute("district", districtDao.findAll());
+		model.addAttribute("province", provinceDao.findAll());
 		return "admin/customers";
 	}
 	

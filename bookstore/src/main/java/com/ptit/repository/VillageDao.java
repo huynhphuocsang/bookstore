@@ -11,4 +11,5 @@ import com.ptit.model.Village;
 @Repository
 public interface VillageDao extends JpaRepository<Village, String>{
 	public List<Village> findByDistrict(District district);
+	
 }

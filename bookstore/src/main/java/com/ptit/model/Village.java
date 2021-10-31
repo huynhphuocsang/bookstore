@@ -27,7 +27,7 @@ public class Village {
 	private String villageName; 
 	
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="district_id")
 	private District district; 
 	

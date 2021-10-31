@@ -30,7 +30,7 @@ public class District {
 	@Size(max=45)
 	private String districtName; 
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="province_id")
 	private Province province; 
 	
