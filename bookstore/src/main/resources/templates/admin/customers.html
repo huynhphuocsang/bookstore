@@ -216,12 +216,12 @@
 								</div>
 							</div>
 							<div class="form-row">
-								<!-- =================== FIELD SĐT ================== -->
+								<!-- =================== FIELD TỈNH ================== -->
 								<div class="form-group col-md-6"></div>
 								<div class="form-group col-md-6">
 									<div class="form-group col-md-12">
 										<lable>Tỉnh thành phố</lable>
-										<select id="province">
+										<select class="form-control" id="province">
 											<option th:each="pro : ${province}"
 												th:utext="${pro.provinceName}" th:value="${pro.provinceId}"></option>
 										</select>
@@ -230,12 +230,12 @@
 							</div>
 
 							<div class="form-row">
-								<!-- =================== FIELD SĐT ================== -->
+								<!-- =================== FIELD HUYỆN ================== -->
 								<div class="form-group col-md-6"></div>
 								<div class="form-group col-md-6">
 									<div class="form-group col-md-12">
 										<lable>Quận Huyện</lable>
-										<select id="district">
+										<select class="form-control" id="district">
 											
 										</select>
 									</div>
@@ -244,23 +244,23 @@
 
 
 							<div class="form-row">
-								<!-- =================== FIELD SĐT ================== -->
+								<!-- =================== FIELD Xã ================== -->
 								<div class="form-group col-md-6"></div>
 								<div class="form-group col-md-6">
 									<div class="form-group col-md-12">
-										<lable> Quận Huyện</lable>
-										<select id="address.ward.district.vil">
-											<option th:each="vil : ${vill}" th:utext="${vil.villageName}"
-												th:value="${vil.villageId}"></option>
+										<lable> Xã </lable>
+										<select class="form-control" id="village">
+											<!-- <option th:each="vil : ${vill}" th:utext="${vil.villageName}"
+												th:value="${vil.villageId}"></option> -->
 										</select>
 									</div>
 								</div>
 							</div>
 
-							<select>
+						<!-- 	<select>
 								<option value="1">One</option>
 								<option value="2">Two</option>
-							</select>
+							</select> -->
 
 							<!-- BUTTON SUBMIT -->
 							<div style="text-align: center;">
@@ -352,6 +352,7 @@
 
     	const province = document.getElementById("province");
     	const district = document.getElementById("district");
+    	const village = document.getElementById("village");
     	
     	function getProvince() {
     		$.ajax({ type : 'GET',
@@ -369,16 +370,8 @@
 			})
     		}
     		function getDistrict(provinceId) {
-    			
-    		}
-        
-    		document.addEventListener("DOMContentLoaded",function () { 
-    		     getProvince();
-    		   province.addEventListener("change",function () {
-    		       /* getDistrict(this.value); */
-    		       
-    		       $.ajax({ type : 'GET',
-       				url : '/api/address/district/01',
+    			$.ajax({ type : 'GET',
+       				url : '/api/address/district/'+provinceId,
        				success : function(data) {1
        					 district.innerHTML = "";
        			            data.forEach(item => {
@@ -390,6 +383,32 @@
        			            
        				}
        			})
+    		}
+    		
+    		function getVillage(districtId) {
+    			$.ajax({ type : 'GET',
+       				url : '/api/address/village/'+districtId,
+       				success : function(data) {1
+       					village.innerHTML = "";
+       			            data.forEach(item => {
+       			                let e = document.createElement('option');
+       			                e.setAttribute("value",item.villageId);
+       			                e.innerHTML = item.villageName;
+       			             village.appendChild(e);
+       			            })
+       			            
+       				}
+       			})
+    		}
+        
+    		document.addEventListener("DOMContentLoaded",function () { 
+    		     //getProvince();
+    		   province.addEventListener("change",function () {
+    		       getDistrict(this.value); 
+    		   });
+    		   
+    		   district.addEventListener("change",function () {
+    			   getVillage(this.value);
     		   });
     		  
     		})

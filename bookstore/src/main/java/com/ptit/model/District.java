@@ -15,6 +15,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Data;
 
 @Entity
@@ -30,10 +32,12 @@ public class District {
 	@Size(max=45)
 	private String districtName; 
 	
+	@JsonIgnore
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="province_id")
 	private Province province; 
 	
+	@JsonIgnore
 	@OneToMany(mappedBy = "district")
 	Set<Village> setVillage= new HashSet<Village>(); 
 	

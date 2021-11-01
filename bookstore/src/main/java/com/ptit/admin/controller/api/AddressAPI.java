@@ -42,6 +42,11 @@ public class AddressAPI {
     private List<District> getAllDistrictByProvinceId(@PathVariable("id") String provinceId){
         return districtDao.findAllDistrictByIdProvince(provinceId);
     }
+    
+    @GetMapping("/village/{id}")
+    private List<Village> getAllVillageByDistrictId(@PathVariable("id") String districtId){
+        return  villageDao.findAllVillageByIdDistrict(districtId);
+    }
 //    get all ward by district_id
 //    @GetMapping("/ward/{id}")
 //    private List<Village> getAllWardByDistrictId(@PathVariable("id") String districtId){
