@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.ptit.model.Book;
+import com.ptit.model.Province;
 import com.ptit.model.User;
 import com.ptit.model.Village;
 import com.ptit.repository.DistrictDao;
@@ -72,6 +73,7 @@ public class UserController {
 		model.addAttribute("totalPage", page.getTotalPages());
 		model.addAttribute("totalItem", page.getTotalElements());
 		List<Village> listVil = villageDao.findAll();
+		List<Province> listPro = provinceDao.findAll();
 		model.addAttribute("vill", villageDao.findAll());
 		model.addAttribute("district", districtDao.findAll());
 		model.addAttribute("province", provinceDao.findAll());
