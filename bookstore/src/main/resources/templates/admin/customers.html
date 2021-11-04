@@ -222,26 +222,26 @@
 									<div class="form-group col-md-12">
 										<lable>Tỉnh thành phố</lable>
 										<select class="form-control" id="province">
+											
 											<option th:each="pro : ${province}"
 												th:utext="${pro.provinceName}" th:value="${pro.provinceId}"></option>
 										</select>
 									</div>
 								</div>
-							</div>
-
-							<div class="form-row">
 								<!-- =================== FIELD HUYỆN ================== -->
 								<div class="form-group col-md-6"></div>
 								<div class="form-group col-md-6">
 									<div class="form-group col-md-12">
 										<lable>Quận Huyện</lable>
 										<select class="form-control" id="district">
-											
+											<option th:each="dis : ${district}"
+												th:utext="${dis.districtName}" th:value="${dis.districtId}"></option>
 										</select>
 									</div>
 								</div>
 							</div>
 
+							
 
 							<div class="form-row">
 								<!-- =================== FIELD Xã ================== -->
@@ -249,18 +249,26 @@
 								<div class="form-group col-md-6">
 									<div class="form-group col-md-12">
 										<lable> Xã </lable>
-										<select class="form-control" id="village">
-											<!-- <option th:each="vil : ${vill}" th:utext="${vil.villageName}"
-												th:value="${vil.villageId}"></option> -->
+										<select name="villageId"  class="form-control" id="village">
+											<option th:each="vil : ${village}"
+												th:utext="${vil.villageName}" th:value="${vil.villageId}"></option>
 										</select>
+									</div>
+								</div>
+								<!-- =================== FIELD địa chỉ cụ thể ================== -->
+								<div class="form-group col-md-6">
+									<div class="form-group col-md-12">
+										<label for="user-email">Địa chỉ cụ thể </label> <input
+											name="addressName"   type="text" class="form-control"
+											id="address" placeholder="VD: thôn Hiệp Hưng">
+										<p class="form-message">Không hợp lệ !!</p>
+										<p th:if="${existEmail==true}" class="form-message invalid">Email
+											đã được sử dụng !!</p>
 									</div>
 								</div>
 							</div>
 
-						<!-- 	<select>
-								<option value="1">One</option>
-								<option value="2">Two</option>
-							</select> -->
+						
 
 							<!-- BUTTON SUBMIT -->
 							<div style="text-align: center;">
@@ -353,7 +361,6 @@
     	const province = document.getElementById("province");
     	const district = document.getElementById("district");
     	const village = document.getElementById("village");
-    	
     	function getProvince() {
     		$.ajax({ type : 'GET',
 				url : '/api/address/province',
@@ -380,7 +387,7 @@
        			                e.innerHTML = item.districtName;
        			                district.appendChild(e);
        			            })
-       			            
+       			       getVillage(data[0].districtId);     
        				}
        			})
     		}
@@ -401,12 +408,10 @@
        			})
     		}
         
-    		document.addEventListener("DOMContentLoaded",function () { 
-    		     //getProvince();
+    		document.addEventListener("DOMContentLoaded",function () {  
     		   province.addEventListener("change",function () {
     		       getDistrict(this.value); 
     		   });
-    		   
     		   district.addEventListener("change",function () {
     			   getVillage(this.value);
     		   });

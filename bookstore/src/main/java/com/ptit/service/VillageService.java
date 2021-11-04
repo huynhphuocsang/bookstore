@@ -7,4 +7,5 @@ import com.ptit.model.Village;
 
 public interface VillageService {
 	public List<Village> getVillageByDistrict(District district); 
+	public Village getById(String id);
 }

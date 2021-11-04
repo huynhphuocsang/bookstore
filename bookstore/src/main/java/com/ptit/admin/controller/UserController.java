@@ -3,6 +3,8 @@ package com.ptit.admin.controller;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.persistence.CascadeType;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -15,15 +17,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.ptit.model.Address;
 import com.ptit.model.Book;
 import com.ptit.model.Province;
 import com.ptit.model.User;
 import com.ptit.model.Village;
+import com.ptit.repository.AddressDao;
 import com.ptit.repository.DistrictDao;
 import com.ptit.repository.ProvinceDao;
 import com.ptit.repository.UserRoleDao;
 import com.ptit.repository.VillageDao;
 import com.ptit.service.UserService;
+import com.ptit.service.VillageService;
 
 @Controller
 @RequestMapping("/admin/customer")
@@ -46,6 +51,12 @@ public class UserController {
 	@Autowired
 	DistrictDao districtDao;
 	
+	@Autowired
+	VillageService villageService;
+	
+	@Autowired
+	AddressDao addressDao;
+	
 	@GetMapping()
 	public String getHomeCustomer(Model model) {
 		model.addAttribute("user", new User());
@@ -59,7 +70,7 @@ public class UserController {
 		int pageSize = 5;
 		int pageFirst = 1;
 		model.addAttribute("user", new User());
-		
+		model.addAttribute("address", new Address());
 		Page<User> page = userService.findPaginated(pageNo, pageSize, sortField, sortDir);
 
 		List<User> listUser = page.getContent()/*.stream().filter(u -> userRoleDao.getByUser(u).getRole().getIdRole()==2).collect(Collectors.toList())*/;
@@ -72,21 +83,27 @@ public class UserController {
 		model.addAttribute("currentPage", pageNo);
 		model.addAttribute("totalPage", page.getTotalPages());
 		model.addAttribute("totalItem", page.getTotalElements());
-		List<Village> listVil = villageDao.findAll();
-		List<Province> listPro = provinceDao.findAll();
-		model.addAttribute("vill", villageDao.findAll());
+		
+		model.addAttribute("village", villageDao.findAll());
 		model.addAttribute("district", districtDao.findAll());
 		model.addAttribute("province", provinceDao.findAll());
 		return "admin/customers";
 	}
 	
 	@PostMapping("/save")
-	public String updateUser(@ModelAttribute("user") User user, RedirectAttributes ra) {
+	public String updateUser(@ModelAttribute("user") User user, 
+			RedirectAttributes ra,
+			@RequestParam(name="addressName") String addressName,
+			@RequestParam(name="villageId") String villageId) {
 		boolean isError=false;
 		boolean existUsername=userService.checkExistUsernameInfo(user.getUsername());
 		boolean existPhone=userService.checkExistUsernameInfo(user.getPhone());
 		boolean existEmail=userService.checkExistUsernameInfo(user.getEmail());
+		User u = userService.getUserByUsername("quan");
 		
+		Address ad2 = addressDao.findByAddressId(1);
+		u.addAddress(ad2);
+		userService.saveUser(user);
 		if(existUsername || existPhone || existEmail) {
 			isError=true;
 			ra.addFlashAttribute("isError", isError);
@@ -96,6 +113,14 @@ public class UserController {
 			ra.addFlashAttribute("user2", user);
 			return "redirect:/admin/customer";
 		}
+		return "redirect:/admin/customer";
+	}
+	
+	@PostMapping("/edit/{id}")
+	public String edit(Model model, RedirectAttributes ra,@PathVariable(value = "id") long id) {
+			
+		User userEdit = userService.findById(id);		
+		boolean edit=true;
 		return "redirect:/admin/customer";
 	}
 	
