@@ -17,7 +17,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
 
@@ -34,13 +34,14 @@ public class Address {
 	@Size(max=45)
 	private String addressName; //appartmentNumber + streetName
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@JsonIgnore
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="village_id")
 	private Village village; 
 	
 	
 	
-	
+	 @JsonIgnore
 	 @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	   @JoinTable(name = "user_address",
 	            joinColumns = @JoinColumn(name = "address_id"),  
