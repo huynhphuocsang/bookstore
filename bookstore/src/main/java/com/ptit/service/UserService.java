@@ -27,5 +27,7 @@ public interface UserService {
 	public List<User> findUser(String key); 
 	public Page<User> findPage(int pageNo, int pageSize);
 	public Page<User> findPaginated(int pageNo, int pageSize, String sortField, String sortDirection);
+	public User findById(long id);
+	public void saveUser(User user);
 	
 }

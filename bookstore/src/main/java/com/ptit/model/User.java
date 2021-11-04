@@ -21,6 +21,8 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Data;
 
 @Entity
@@ -57,8 +59,8 @@ public class User {
 	@OneToMany(fetch = FetchType.EAGER,mappedBy = "user")
 	private Set<Items> setItems = new HashSet<Items>(); 
 	
-	
-	 @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JsonIgnore
+	 @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	   @JoinTable(name = "user_address",
 	            joinColumns = @JoinColumn(name = "user_id"),  
 	            inverseJoinColumns = @JoinColumn(name = "address_id")
@@ -134,6 +136,14 @@ public class User {
 
 	public Set<Address> getSetAddress() {
 		return setAddress;
+	}
+	
+	public void addAddress(Address address) {
+		this.setAddress.add(address);
+	}
+	
+	public void removeAddress(Address address) {
+		this.setAddress.remove(address);
 	}
 
 	public void setSetAddress(Set<Address> setAddress) {

@@ -163,4 +163,17 @@ public class UserServiceImp implements UserService{
 		return userDao.findAll(pageable);
 	}
 
+	@Override
+	public User findById(long id) {
+		
+		return userDao.getById(id);
+		
+	}
+
+	@Override
+	public void saveUser(User user) {
+		userDao.save(user);
+		
+	}
+
 }
