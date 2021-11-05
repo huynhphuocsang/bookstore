@@ -128,7 +128,9 @@ public class UserController {
 			@RequestParam(name="id") long id) throws ResourceNotFoundException {
 		
 		User userEdit = userService.findById(id);
+		List<Address> list = addressDao.findBySetUsers_UserId(id);
 		ra.addFlashAttribute("user2", userEdit);
+		ra.addFlashAttribute("address", list);
 		boolean edit=true;
 		ra.addFlashAttribute("idEdit", edit);
 		return "redirect:/admin/customer";
