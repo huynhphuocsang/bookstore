@@ -60,7 +60,7 @@ public class User {
 	private Set<Items> setItems = new HashSet<Items>(); 
 	
 	@JsonIgnore
-	 @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	 @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	   @JoinTable(name = "user_address",
 	            joinColumns = @JoinColumn(name = "user_id"),  
 	            inverseJoinColumns = @JoinColumn(name = "address_id")
