@@ -37,7 +37,7 @@ public class Address {
 	@Size(max=45)
 	private String addressName; //appartmentNumber + streetName
 	
-	@JsonIgnore
+	//@JsonIgnore
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="village_id")
 	private Village village; 

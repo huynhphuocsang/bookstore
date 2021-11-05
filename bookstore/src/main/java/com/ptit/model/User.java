@@ -59,7 +59,7 @@ public class User {
 	@OneToMany(fetch = FetchType.EAGER,mappedBy = "user")
 	private Set<Items> setItems = new HashSet<Items>(); 
 	
-	@JsonIgnore
+	//@JsonIgnore
 	 @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	   @JoinTable(name = "user_address",
 	            joinColumns = @JoinColumn(name = "user_id"),  

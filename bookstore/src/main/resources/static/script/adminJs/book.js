@@ -120,7 +120,7 @@ btnDeleteBook.click((e) => {
 });
 
 function clearnField(){
-	$('.form-row #idBook').val("");
+	$('.form-row #idBook').val(0);
 	$('#book-name').val("");
 	$('#author').val("");
 	$('#company').val("");
