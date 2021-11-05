@@ -1,7 +1,7 @@
 package com.ptit.serviceImp;
 
 import java.util.List;
-
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,6 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.ptit.exception.ResourceNotFoundException;
 import com.ptit.model.Role;
 import com.ptit.model.User;
 import com.ptit.model.UserRole;
@@ -164,9 +165,13 @@ public class UserServiceImp implements UserService{
 	}
 
 	@Override
-	public User findById(long id) {
-		
-		return userDao.getById(id);
+	public User findById(long id) throws ResourceNotFoundException {
+		Optional<User> user = userDao.findById(id);
+
+		if(!user.isPresent()) {
+			throw new ResourceNotFoundException("Book not found by id"); 
+		}
+		return user.get();
 		
 	}
 

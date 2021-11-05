@@ -1,6 +1,7 @@
 package com.ptit.admin.controller;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.persistence.CascadeType;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.ptit.exception.ResourceNotFoundException;
 import com.ptit.model.Address;
 import com.ptit.model.Book;
 import com.ptit.model.Province;
@@ -99,11 +101,15 @@ public class UserController {
 		boolean existUsername=userService.checkExistUsernameInfo(user.getUsername());
 		boolean existPhone=userService.checkExistUsernameInfo(user.getPhone());
 		boolean existEmail=userService.checkExistUsernameInfo(user.getEmail());
-		User u = userService.getUserByUsername("quan");
 		
-		Address ad2 = addressDao.findByAddressId(1);
-		u.addAddress(ad2);
+		
+		Address ad = new Address();
+		ad.setAddressName(addressName);
+		ad.setVillage(villageService.getById(villageId));
+		user.getSetAddress().add(ad);
 		userService.saveUser(user);
+		
+		
 		if(existUsername || existPhone || existEmail) {
 			isError=true;
 			ra.addFlashAttribute("isError", isError);
@@ -116,11 +122,15 @@ public class UserController {
 		return "redirect:/admin/customer";
 	}
 	
-	@PostMapping("/edit/{id}")
-	public String edit(Model model, RedirectAttributes ra,@PathVariable(value = "id") long id) {
-			
-		User userEdit = userService.findById(id);		
+	@PostMapping("/edit")
+	public String edit(Model model,
+			RedirectAttributes ra,
+			@RequestParam(name="id") long id) throws ResourceNotFoundException {
+		
+		User userEdit = userService.findById(id);
+		ra.addFlashAttribute("user2", userEdit);
 		boolean edit=true;
+		ra.addFlashAttribute("idEdit", edit);
 		return "redirect:/admin/customer";
 	}
 	

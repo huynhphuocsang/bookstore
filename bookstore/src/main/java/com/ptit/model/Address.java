@@ -20,10 +20,13 @@ import javax.validation.constraints.Size;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name="address")
-@Data
+@Getter
+@Setter
 public class Address {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

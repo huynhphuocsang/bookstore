@@ -162,6 +162,35 @@ public class OrderServiceImp implements OrderService {
 		order.setOrderStatus(3);
 		orderdao.save(order); 
 	}
+
+	@Override
+	public List<Float> getMoneyPerMonthByYear(int year) {
+		List<Float> listMoney = orderdao.getPrice(year);
+		List<Integer> listMonth = orderdao.getMonthByYearOrderDate(year);
+		List<Float> moneyPerMonth = new ArrayList<Float>();
+		float a = 0;
+		moneyPerMonth.add(a);
+		moneyPerMonth.add(a);
+		moneyPerMonth.add(a);
+		moneyPerMonth.add(a);
+		moneyPerMonth.add(a);
+		moneyPerMonth.add(a);
+		moneyPerMonth.add(a);
+		moneyPerMonth.add(a);
+		moneyPerMonth.add(a);
+		moneyPerMonth.add(a);
+		moneyPerMonth.add(a);
+		moneyPerMonth.add(a);
+		
+		for(int i = 0;i < listMoney.size(); i++) {
+			for(int j =0; j < 12; j++) {
+				if(listMonth.get(i) == j+1) {
+					moneyPerMonth.set(j, listMoney.get(i));
+				}
+			}
+		}
+		return moneyPerMonth;
+	}
 	
 	
 }
