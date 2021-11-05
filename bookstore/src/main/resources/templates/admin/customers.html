@@ -362,13 +362,20 @@
 		if (idEdit) {
 			$(".btn__add--user").click();
 			const province = document.getElementById("province");
-			var user2 = /*[[${user2}]]*/'default';
-			$('#user-name').val(user2.username);
-			$('#user-age').val(user2.age);
-			$('#user-phone').val(user2.phone);
-			$('#user-email').val(user2.email);
-			$('#user-pass').val(user2.password);
-			$('#user-confirm').val(user2.password);
+			var address2 = /*[[${address2}]]*/'default';
+			var user3 = /*[[${user3}]]*/'default';
+			
+			$('#user-name').val(user3.username);
+			$('#user-age').val(user3.age);
+			$('#user-phone').val(user3.phone);
+			$('#user-email').val(user3.email);
+			$('#user-pass').val(user3.password);
+			$('#user-confirm').val(user3.password);
+			console.log(user3);
+			/* for(let i = 0 ; i < address.length ; i++){
+				console.log(address[i].addressName);
+			} */
+			
 		}
 		/*]]>*/
 		
