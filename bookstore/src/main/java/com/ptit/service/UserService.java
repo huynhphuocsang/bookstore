@@ -1,11 +1,13 @@
 package com.ptit.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.ptit.exception.ResourceNotFoundException;
 import com.ptit.model.Book;
 import com.ptit.model.User;
 
@@ -27,7 +29,7 @@ public interface UserService {
 	public List<User> findUser(String key); 
 	public Page<User> findPage(int pageNo, int pageSize);
 	public Page<User> findPaginated(int pageNo, int pageSize, String sortField, String sortDirection);
-	public User findById(long id);
+	public User findById(long id) throws ResourceNotFoundException;
 	public void saveUser(User user);
 	
 }

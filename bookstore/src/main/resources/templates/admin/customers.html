@@ -71,10 +71,14 @@
 								<td th:text="${user.phone}">##</td>
 
 								<td class="align-middle text-center">
-									<button type="button"
+									<!-- <button type="button"
 										class="btn btn-warning m-1 btn__edit--user">
 										<i class="far fa-edit"></i>
-									</button>
+									</button> -->
+									<form  method="post" th:action="@{/admin/customer/edit}">
+										<input type="hidden" id="id" name="id" th:value="${user.userId}" >
+										 <input type="submit" value="Edit" />
+									</form>					
 									<button type="button" class="btn btn-danger btn__delete--user"
 										th:id="${user.userId}">
 										<i style="color: black;" class="far fa-trash-alt"></i>
@@ -204,7 +208,7 @@
 								</div>
 							</div>
 							<div class="form-row">
-								<!-- =================== FIELD SĐT ================== -->
+								<!-- =================== FIELD Nhập lại mật khẩu ================== -->
 								<div class="form-group col-md-6"></div>
 								<div class="form-group col-md-6">
 									<div class="form-group col-md-12">
@@ -215,6 +219,7 @@
 									</div>
 								</div>
 							</div>
+							<th:block th:if="${idEdit != true}">
 							<div class="form-row">
 								<!-- =================== FIELD TỈNH ================== -->
 								<div class="form-group col-md-6"></div>
@@ -222,7 +227,7 @@
 									<div class="form-group col-md-12">
 										<lable>Tỉnh thành phố</lable>
 										<select class="form-control" id="province">
-											
+
 											<option th:each="pro : ${province}"
 												th:utext="${pro.provinceName}" th:value="${pro.provinceId}"></option>
 										</select>
@@ -241,7 +246,7 @@
 								</div>
 							</div>
 
-							
+
 
 							<div class="form-row">
 								<!-- =================== FIELD Xã ================== -->
@@ -249,7 +254,7 @@
 								<div class="form-group col-md-6">
 									<div class="form-group col-md-12">
 										<lable> Xã </lable>
-										<select name="villageId"  class="form-control" id="village">
+										<select name="villageId" class="form-control" id="village">
 											<option th:each="vil : ${village}"
 												th:utext="${vil.villageName}" th:value="${vil.villageId}"></option>
 										</select>
@@ -259,7 +264,7 @@
 								<div class="form-group col-md-6">
 									<div class="form-group col-md-12">
 										<label for="user-email">Địa chỉ cụ thể </label> <input
-											name="addressName"   type="text" class="form-control"
+											name="addressName" type="text" class="form-control"
 											id="address" placeholder="VD: thôn Hiệp Hưng">
 										<p class="form-message">Không hợp lệ !!</p>
 										<p th:if="${existEmail==true}" class="form-message invalid">Email
@@ -267,8 +272,19 @@
 									</div>
 								</div>
 							</div>
+							</th:block>
+							
+							<div th:if="${idEdit == true}" class="form-group col-md-6">
+									<div class="form-group col-md-12">
+										<lable>Địa chỉ</lable>
+										<select name="villageId" class="form-control" id="village">
+											<option th:each="addr : ${address}"
+												th:utext="${addr.addressName}"></option>
+										</select>
+									</div>
+								</div>
 
-						
+
 
 							<!-- BUTTON SUBMIT -->
 							<div style="text-align: center;">
@@ -334,28 +350,27 @@
 			$('#user-email').val(user2.email);
 			$('#user-pass').val(user2.password);
 			$('#user-confirm').val(user2.password);
+			
 		}
 		/*]]>*/
 
-		/* $(document).ready(function() {
-			$('#province').on('change', function() {
+		
+		/*<![CDATA[*/
+		var idEdit = /*[[${idEdit}]]*/'default';
 
-				var select = document.getElementById('province');
-				var value = select.options[select.selectedIndex].value;
-				console.log(value);
-				
-				$.ajax({ type : 'GET',
-					url : '/api/address/district/'+ value,
-					success : function(data) {
-						var row = document.querySelector("#district");
-						row.innerHTML = data;
-					}
-				})
-
-				
-
-			});
-		}); */
+		//kiểm tra nếu them user nhận về lỗi thì hiện form nhập và hiện lại các thông tin vừa nhập
+		if (idEdit) {
+			$(".btn__add--user").click();
+			const province = document.getElementById("province");
+			var user2 = /*[[${user2}]]*/'default';
+			$('#user-name').val(user2.username);
+			$('#user-age').val(user2.age);
+			$('#user-phone').val(user2.phone);
+			$('#user-email').val(user2.email);
+			$('#user-pass').val(user2.password);
+			$('#user-confirm').val(user2.password);
+		}
+		/*]]>*/
 		
 
     	const province = document.getElementById("province");
@@ -386,6 +401,7 @@
        			                e.setAttribute("value",item.districtId);
        			                e.innerHTML = item.districtName;
        			                district.appendChild(e);
+       			                
        			            })
        			       getVillage(data[0].districtId);     
        				}

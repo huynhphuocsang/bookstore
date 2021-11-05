@@ -24,6 +24,14 @@ public interface OrderDao extends JpaRepository<Order, Long>{
 			+ "group by month(orderDay)"
 			+ "ORDER BY orderDay")
 	public List<Float> getPrice(int year);
+	
+	@Query(value ="select month(order_day)\r\n"
+			+ "from bookstore.orders o\r\n"
+			+ "where year(o.order_day) = ?1\r\n"
+			+ "and order_status = 0\r\n"
+			+ "group by month(order_day)\r\n"
+			+ "ORDER BY order_day", nativeQuery = true)
+	public List<Integer> getMonthByYearOrderDate(int year);
 	public List<Order> findByNameOfCustomerContainsOrPhoneOfCustomerContainsAllIgnoreCaseOrderByNameOfCustomerAsc(String name,String phone); 
 	public Page<Order> findByOrderStatus(int status, Pageable pageable);
 	

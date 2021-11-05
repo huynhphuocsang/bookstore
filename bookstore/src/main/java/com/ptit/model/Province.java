@@ -31,7 +31,7 @@ public class Province {
 	@Size(max=45)
 	private String provinceName; 
 	
-	@JsonIgnore
+	
 	@OneToMany(mappedBy = "province")
 	Set<District> setDistrict = new HashSet<District>(); 
 	
