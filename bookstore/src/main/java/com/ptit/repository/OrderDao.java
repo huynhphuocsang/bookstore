@@ -20,7 +20,7 @@ public interface OrderDao extends JpaRepository<Order, Long>{
 	@Query("SELECT SUM(totalPrice)\n"
 			+ "FROM Order\r\n"
 			+ "WHERE year(orderDay) = ?1\r\n"
-			+ "AND orderStatus = 0\r\n"
+			+ "AND orderStatus = 2\r\n"
 			+ "group by month(orderDay)"
 			+ "ORDER BY orderDay")
 	public List<Float> getPrice(int year);
@@ -28,7 +28,7 @@ public interface OrderDao extends JpaRepository<Order, Long>{
 	@Query(value ="select month(order_day)\r\n"
 			+ "from bookstore.orders o\r\n"
 			+ "where year(o.order_day) = ?1\r\n"
-			+ "and order_status = 0\r\n"
+			+ "and order_status = 2\r\n"
 			+ "group by month(order_day)\r\n"
 			+ "ORDER BY order_day", nativeQuery = true)
 	public List<Integer> getMonthByYearOrderDate(int year);

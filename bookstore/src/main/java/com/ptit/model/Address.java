@@ -1,5 +1,6 @@
 package com.ptit.model;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -25,9 +26,7 @@ import lombok.Setter;
 
 @Entity
 @Table(name="address")
-@Getter
-@Setter
-public class Address {
+public class Address implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="address_id")
@@ -50,5 +49,56 @@ public class Address {
 	            joinColumns = @JoinColumn(name = "address_id"),  
 	            inverseJoinColumns = @JoinColumn(name = "user_id")
 	    )
-	    private Set<User> setUsers = new HashSet<User>(); 
+	    private Set<User> setUsers = new HashSet<User>();
+
+
+
+	public long getAddressId() {
+		return addressId;
+	}
+
+
+
+	public void setAddressId(long addressId) {
+		this.addressId = addressId;
+	}
+
+
+
+	public String getAddressName() {
+		return addressName;
+	}
+
+
+
+	public void setAddressName(String addressName) {
+		this.addressName = addressName;
+	}
+
+
+
+	public Village getVillage() {
+		return village;
+	}
+
+
+
+	public void setVillage(Village village) {
+		this.village = village;
+	}
+
+
+
+	public Set<User> getSetUsers() {
+		return setUsers;
+	}
+
+
+
+	public void setSetUsers(Set<User> setUsers) {
+		this.setUsers = setUsers;
+	} 
+	 
+	 
+	 
 }

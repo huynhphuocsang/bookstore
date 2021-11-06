@@ -57,22 +57,22 @@
 								cả</a> <a th:unless="${status == -1}"
 								class="btn btn-outline-primary"
 								th:href="@{'/admin/order/1'  + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&status=-1' }">Tất
-								cả</a> <a th:if="${status == 0}"
+								cả</a> <a th:if="${status == 2}"
 								class="btn btn-outline-primary active">Đã xác nhận</a> <a
-								th:unless="${status == 0}" class="btn btn-outline-primary"
-								th:href="@{'/admin/order/1' + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&status=0' }">Đã
+								th:unless="${status == 2}" class="btn btn-outline-primary"
+								th:href="@{'/admin/order/1' + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&status=2' }">Đã
 								xác nhận</a> <a th:if="${status == 1}"
 								class="btn btn-outline-primary active">Chờ xác nhận</a> <a
 								th:unless="${status == 1}" class="btn btn-outline-primary"
 								th:href="@{'/admin/order/1' + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&status=1' }">Chờ
-								xác nhận</a> <a th:if="${status == 2}"
+								xác nhận</a> <a th:if="${status == 3}"
 								class="btn btn-outline-primary active">Yêu cầu hủy</a> <a
-								th:unless="${status == 2}" class="btn btn-outline-primary"
-								th:href="@{'/admin/order/1' + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&status=2' }">
-								Yêu cầu hủy</a> <a th:if="${status == 3}"
-								class="btn btn-outline-primary active">Đã Hủy</a> <a
 								th:unless="${status == 3}" class="btn btn-outline-primary"
-								th:href="@{'/admin/order/1'  + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&status=3' }">Đã
+								th:href="@{'/admin/order/1' + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&status=3' }">
+								Yêu cầu hủy</a> <a th:if="${status == 4}"
+								class="btn btn-outline-primary active">Đã Hủy</a> <a
+								th:unless="${status == 4}" class="btn btn-outline-primary"
+								th:href="@{'/admin/order/1'  + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&status=4' }">Đã
 								Hủy</a>
 
 						</div>
@@ -124,24 +124,24 @@
 								<!-- status order -->
 								<td>
 
-									<p th:if="${order.orderStatus == 0}">Đã Giao</p> <a
+									<p th:if="${order.orderStatus == 2}">Đã Giao</p> <a
 									th:if="${order.orderStatus == 1}"
 									class="btn btn-outline-primary btn__change--status"> <input
 										type="hidden" th:id="${order.orderId}" name="actionStatus"
-										th:value="@{'/admin/order/save/' + ${currentPage} + '?idOrder=' + ${order.orderId} + '&statusNew=0' + '&statusOld='  + ${status} }">Xác
+										th:value="@{'/admin/order/save/' + ${currentPage} + '?idOrder=' + ${order.orderId} + '&statusNew=2' + '&statusOld='  + ${status} }">Xác
 										nhận
 								</a> <a th:if="${order.orderStatus == 1}"
 									class="btn btn-outline-primary btn__change--status"> <input
 										type="hidden" th:id="${order.orderId}" name="actionStatus"
-										th:value="@{'/admin/order/save/'  + ${currentPage} + '?idOrder=' + ${order.orderId} + '&statusNew=3' + '&statusOld=' + ${status} }">Hủy
-								</a> <a th:if="${order.orderStatus == 2}"
+										th:value="@{'/admin/order/save/'  + ${currentPage} + '?idOrder=' + ${order.orderId} + '&statusNew=4' + '&statusOld=' + ${status} }">Hủy
+								</a> <a th:if="${order.orderStatus == 3}"
 									class="btn btn-outline-primary btn__change--status"> <input
 										type="hidden" th:id="${order.orderId}" name="actionStatus"
-										th:value="@{'/admin/order/save/'  + ${currentPage} + '?idOrder=' + ${order.orderId} + '&statusNew=3' + '&statusOld=' + ${status} }">Xác
+										th:value="@{'/admin/order/save/'  + ${currentPage} + '?idOrder=' + ${order.orderId} + '&statusNew=4' + '&statusOld=' + ${status} }">Xác
 										nhận hủy
 								</a>
 
-									<p th:if="${order.orderStatus == 3}">Đã Hủy</p>
+									<p th:if="${order.orderStatus == 4}">Đã Hủy</p>
 
 								</td>
 

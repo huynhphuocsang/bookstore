@@ -29,12 +29,12 @@ public interface OrderDetailDao extends JpaRepository<OrderDetail, Long>{
 	@Query(value ="select sum(quantity)\r\n"
 			+ "from bookstore.order_detail o,bookstore.orders d\r\n"
 			+ "where o.order_id = d.order_id\r\n"
-			+ "and d.order_status = 0",nativeQuery = true)
+			+ "and d.order_status = 2",nativeQuery = true)
 	public BigDecimal getTotalItemSold();
 	
 	@Query(value ="select sum(quantity*price)\r\n"
 			+ "from bookstore.order_detail o,bookstore.orders d\r\n"
 			+ "where o.order_id = d.order_id\r\n"
-			+ "and d.order_status = 0",nativeQuery = true)
+			+ "and d.order_status = 2",nativeQuery = true)
 	public int getTotalEarning();
 }
