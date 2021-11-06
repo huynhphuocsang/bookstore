@@ -25,7 +25,7 @@
 				<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-1 pb-1 mb-1 border-bottom">
 					<div class="m-2">
 					<form  method="post" th:action="@{/admin/customer/edit}">
-						<input type="hidden" class="id" name="id" th:value="${user.userId}" >
+						<input type="hidden" class="id" name="userId" th:value="${user.userId}" >
 						<button type="submit" class="btn btn-primary btn__turn--back">
 							<i class="fas fa-angle-double-left"> Trở về</i>
 						</button>
@@ -83,9 +83,10 @@
 							<span>NEW USER</span><i style="z-index: 1000;"
 								class="far fa-times-circle btn-close-from"></i>
 						</div>
-						<div class="card-body ">
+						<div class="card-body">
 								<!-- =================== FIELD ID ================== -->
-								<input th:field="*{addressId}" type="hidden" id="adressId">
+								<input type="hidden" class="id" name="userId" th:value="${user.userId}" >
+								<input th:field="*{addressId}" type="hidden">
 								
 							<div class="form-row">
 								<!-- =================== FIELD TỈNH ================== -->
@@ -113,7 +114,7 @@
 								<!-- =================== FIELD Xã ================== -->
 								<div class="form-group col-md-12">
 									<label> Xã </label>
-									<select name="villageId" class="form-control" id="village">
+									<select th:field="*{village}" name="village" class="form-control" id="village">
 										<option th:each="vil : ${village}"
 											th:utext="${vil.villageName}" th:value="${vil.villageId}"></option>
 									</select>
@@ -123,9 +124,9 @@
 							<div class="form-row">
 								<!-- =================== FIELD địa chỉ cụ thể ================== -->
 								<div class="form-group col-md-12">
-									<label>Địa chỉ cụ thể </label> <input
-										name="addressName" type="text" class="form-control"
-										id="addressName" placeholder="VD: thôn Hiệp Hưng">
+									<label>Địa chỉ cụ thể </label> <input th:field="*{addressName}"
+										 type="text" class="form-control"
+										placeholder="VD: thôn Hiệp Hưng">
 									<p class="form-message">Không hợp lệ !!</p>
 								</div>
 							</div>
@@ -224,6 +225,8 @@
 		
 		//Load address to EDIT
 		function getAddress(addressId) {
+			 var id = $(this).parent().find('#addressId').val();
+			 
 			$.ajax({ type : 'GET',
    				url : '/api/address/'+addressId,
    				success : function(data) {
@@ -231,6 +234,7 @@
    					$('#district option').removeAttr('selected').filter('[value='+data[2]+']').attr('selected', true)
    					$('#village option').removeAttr('selected').filter('[value='+data[1]+']').attr('selected', true)
    			        $("#addressName").val(data[0])
+   			     	$('.card-body #addressId').val(addressId);
    				}
    			})
 		}

@@ -404,12 +404,12 @@
 				console.log(address[i].addressName);
 			} */
 			var listAddress=user3.setAddress.map((ele,i)=>
-				"<option value="+ele.village.villageId+">"+ele.addressName+"</option>")
+				"<option value="+ele.village.villageId+">"+ele.addressName+"-"+ele.village.villageName+"</option>")
 			$("#village").html(listAddress)
 			$("#linkAddress").attr("href",$("#linkAddress").attr("href")+user3.userId)
 		}
 		/*]]>*/
-		
+		s
 
     	const province = document.getElementById("province");
     	const district = document.getElementById("district");
