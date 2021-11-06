@@ -44,7 +44,7 @@ public class Address {
 	
 	
 	
-	 @JsonIgnore
+
 	 @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	   @JoinTable(name = "user_address",
 	            joinColumns = @JoinColumn(name = "address_id"),  
