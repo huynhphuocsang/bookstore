@@ -37,7 +37,7 @@ public class Address {
 	@Size(max=45)
 	private String addressName; //appartmentNumber + streetName
 	
-	@JsonIgnore
+	//@JsonIgnore
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="village_id")
 	private Village village; 
@@ -45,7 +45,7 @@ public class Address {
 	
 	
 
-	 @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	 @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	   @JoinTable(name = "user_address",
 	            joinColumns = @JoinColumn(name = "address_id"),  
 	            inverseJoinColumns = @JoinColumn(name = "user_id")

@@ -12,12 +12,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ptit.model.Address;
 import com.ptit.model.Book;
 import com.ptit.model.District;
 import com.ptit.model.Order;
 import com.ptit.model.OrderDetail;
 import com.ptit.model.Province;
 import com.ptit.model.Village;
+import com.ptit.repository.AddressDao;
 import com.ptit.repository.DistrictDao;
 import com.ptit.repository.ProvinceDao;
 import com.ptit.repository.VillageDao;
@@ -32,6 +34,9 @@ public class AddressAPI {
     private DistrictDao districtDao;
     @Autowired
     private VillageDao villageDao;
+    @Autowired
+    private AddressDao addressDao;
+    
     @GetMapping("/province")
     private List<Province> getAllProvince(){
     	ArrayList<Province> list = (ArrayList<Province>) provinceDao.findAll();
@@ -46,6 +51,17 @@ public class AddressAPI {
     @GetMapping("/village/{id}")
     private List<Village> getAllVillageByDistrictId(@PathVariable("id") String districtId){
         return  villageDao.findAllVillageByIdDistrict(districtId);
+    }
+    
+    @GetMapping("/{id}")
+    private List<String> getAddressById(@PathVariable("id") long addressId){
+    	Address address=addressDao.findByAddressId(addressId);
+    	List<String> listAddressValues= new ArrayList<>();
+    	listAddressValues.add(address.getAddressName());
+    	listAddressValues.add(address.getVillage().getVillageId());
+    	listAddressValues.add(address.getVillage().getDistrict().getDistrictId());
+    	listAddressValues.add(address.getVillage().getDistrict().getProvince().getProvinceId());
+        return  listAddressValues;
     }
 //    get all ward by district_id
 //    @GetMapping("/ward/{id}")

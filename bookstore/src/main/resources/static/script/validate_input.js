@@ -9,7 +9,7 @@ function Validator(option){
             errorEle.classList.add('invalid') 
             check.isValid=false;
         }else {
-            errorEle.innerText='';
+            //errorEle.innerText='';
             errorEle.classList.remove('invalid')
         }
     }
@@ -27,7 +27,7 @@ function Validator(option){
 
                 inputEle.oninput=function(){
                     var errorEle= inputEle.parentElement.querySelector('.form-message');           
-                    errorEle.innerText='';
+                    //errorEle.innerText='';
                     errorEle.classList.remove('invalid')
                 }
             }

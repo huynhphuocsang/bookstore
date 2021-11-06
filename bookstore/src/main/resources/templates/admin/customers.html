@@ -76,7 +76,7 @@
 										<i class="far fa-edit"></i>
 									</button> -->
 									<form  method="post" th:action="@{/admin/customer/edit}">
-										<input type="hidden" id="id" name="id" th:value="${user.userId}" >
+										<input type="hidden" class="id" name="id" th:value="${user.userId}" >
 										 <input type="submit" value="Edit" />
 									</form>					
 									<button type="button" class="btn btn-danger btn__delete--user"
@@ -121,7 +121,7 @@
 					</div>
 
 				</div>
-				<!-- ===============FORM ADD BOOK =========================-->
+				<!-- ===============FORM ADD USER =========================-->
 				<form th:action="@{/admin/customer/save}" th:object="${user}"
 					method="post" enctype="multipart/form-data" class="from__add--user">
 					<div class="card">
@@ -184,7 +184,6 @@
 								</div>
 							</div>
 
-
 							<div class="form-row">
 								<!-- =================== FIELD EMAIL ================== -->
 								<div class="form-group col-md-6">
@@ -197,6 +196,7 @@
 											đã được sử dụng !!</p>
 									</div>
 								</div>
+								
 								<!-- =================== FIELD Mật khẩu ================== -->
 								<div class="form-group col-md-6">
 									<div class="form-group col-md-12">
@@ -207,9 +207,48 @@
 									</div>
 								</div>
 							</div>
+							
 							<div class="form-row">
+								<!-- =================== Danh sách địa chỉ user ================== -->
+								<div th:if="${idEdit == true}" class="form-group col-md-6">
+									<div class="form-group col-md-12">
+										<label>Địa chỉ</label>
+										<div class="d-flex align-items-center">
+											<select name="villageId" class="form-control" id="village">
+												<option th:each="addr : ${address}"
+													th:utext="${addr.addressName}"></option>
+											</select>
+											<a class="btn btn-outline-warning ml-2" id="linkAddress" th:href="@{'/admin/userAddress'+'?id='}"><i class="fas fa-pencil-alt"></i></a>
+										</div>
+									</div>
+								</div>
+								
+								<th:block th:if="${idEdit != true}">
+								<!-- =================== FIELD TỈNH ================== -->
+								<div class="form-group col-md-3">
+									<div class="form-group col-md-12">
+										<label>Tỉnh\Thành phố</label>
+										<select class="form-control" id="province">
+
+											<option th:each="pro : ${province}"
+												th:utext="${pro.provinceName}" th:value="${pro.provinceId}"></option>
+										</select>
+									</div>
+								</div>
+								
+								<!-- =================== FIELD HUYỆN ================== -->
+								<div class="form-group col-md-3">
+									<div class="form-group col-md-12">
+										<label >Quận\Huyện</label>
+										<select class="form-control" id="district">
+											<option th:each="dis : ${district}"
+												th:utext="${dis.districtName}" th:value="${dis.districtId}"></option>
+										</select>
+									</div>
+								</div>
+								</th:block>
+								
 								<!-- =================== FIELD Nhập lại mật khẩu ================== -->
-								<div class="form-group col-md-6"></div>
 								<div class="form-group col-md-6">
 									<div class="form-group col-md-12">
 										<label for="user-confirm">Nhập lại mật khẩu</label> <input
@@ -219,38 +258,35 @@
 									</div>
 								</div>
 							</div>
+							
 							<th:block th:if="${idEdit != true}">
 							<div class="form-row">
-								<!-- =================== FIELD TỈNH ================== -->
-								<div class="form-group col-md-6"></div>
+								<!-- =================== FIELD Xã ================== -->
 								<div class="form-group col-md-6">
 									<div class="form-group col-md-12">
-										<lable>Tỉnh thành phố</lable>
-										<select class="form-control" id="province">
-
-											<option th:each="pro : ${province}"
-												th:utext="${pro.provinceName}" th:value="${pro.provinceId}"></option>
+										<label> Xã </label>
+										<select name="villageId" class="form-control" id="village">
+											<option th:each="vil : ${village}"
+												th:utext="${vil.villageName}" th:value="${vil.villageId}"></option>
 										</select>
 									</div>
 								</div>
-								<!-- =================== FIELD HUYỆN ================== -->
-								<div class="form-group col-md-6"></div>
+								
+								<!-- =================== FIELD địa chỉ cụ thể ================== -->
 								<div class="form-group col-md-6">
 									<div class="form-group col-md-12">
-										<lable>Quận Huyện</lable>
-										<select class="form-control" id="district">
-											<option th:each="dis : ${district}"
-												th:utext="${dis.districtName}" th:value="${dis.districtId}"></option>
-										</select>
+										<label>Địa chỉ cụ thể </label> <input
+											name="addressName" type="text" class="form-control"
+											id="address" placeholder="VD: thôn Hiệp Hưng">
+										<p class="form-message">Không hợp lệ !!</p>
 									</div>
 								</div>
 							</div>
 
 
 
-							<div class="form-row">
-								<!-- =================== FIELD Xã ================== -->
-								<div class="form-group col-md-6"></div>
+							<!-- <div class="form-row">
+								=================== FIELD Xã ==================
 								<div class="form-group col-md-6">
 									<div class="form-group col-md-12">
 										<lable> Xã </lable>
@@ -260,7 +296,7 @@
 										</select>
 									</div>
 								</div>
-								<!-- =================== FIELD địa chỉ cụ thể ================== -->
+								=================== FIELD địa chỉ cụ thể ==================
 								<div class="form-group col-md-6">
 									<div class="form-group col-md-12">
 										<label for="user-email">Địa chỉ cụ thể </label> <input
@@ -271,18 +307,10 @@
 											đã được sử dụng !!</p>
 									</div>
 								</div>
-							</div>
+							</div> -->
 							</th:block>
 							
-							<div th:if="${idEdit == true}" class="form-group col-md-6">
-									<div class="form-group col-md-12">
-										<lable>Địa chỉ</lable>
-										<select name="villageId" class="form-control" id="village">
-											<option th:each="addr : ${address}"
-												th:utext="${addr.addressName}"></option>
-										</select>
-									</div>
-								</div>
+							
 
 
 
@@ -331,7 +359,7 @@
 			rules : [
 					Validator.isRequired('#user-name'),
 					Validator.isRequired('#user-age'),
-					Validator.isRequired('#user-phone'),
+					Validator.isNum('#user-phone'),
 					Validator.isEmail('#user-email'),
 					Validator.isRequired('#user-pass'),
 					Validator.confirmMes('#user-confirm', '#user-pass',
@@ -361,25 +389,29 @@
 		//kiểm tra nếu them user nhận về lỗi thì hiện form nhập và hiện lại các thông tin vừa nhập
 		if (idEdit) {
 			$(".btn__add--user").click();
-			const province = document.getElementById("province");
+			const province = document.querySelector(".province");
 			var address2 = /*[[${address2}]]*/'default';
+			console.log(address2);
 			var user3 = /*[[${user3}]]*/'default';
-			
+			console.log(user3);
 			$('#user-name').val(user3.username);
 			$('#user-age').val(user3.age);
 			$('#user-phone').val(user3.phone);
 			$('#user-email').val(user3.email);
 			$('#user-pass').val(user3.password);
 			$('#user-confirm').val(user3.password);
-			console.log(user3);
+			
 			/* for(let i = 0 ; i < address.length ; i++){
 				console.log(address[i].addressName);
 			} */
 			
+			var listAddress=user3.setAddress.map((ele,i)=>
+				"<option value="+ele.village.villageId+">"+ele.addressName+"</option>")
+			$("#village").html(listAddress)
+			$("#linkAddress").attr("href",$("#linkAddress").attr("href")+user3.userId)
 		}
 		/*]]>*/
 		
-
     	const province = document.getElementById("province");
     	const district = document.getElementById("district");
     	const village = document.getElementById("village");

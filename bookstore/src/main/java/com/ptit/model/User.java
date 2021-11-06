@@ -56,10 +56,11 @@ public class User {
 	
 	
 	//avoid infinitive loop
-	@OneToMany(fetch = FetchType.EAGER,mappedBy = "user")
+	@OneToMany(fetch = FetchType.LAZY,mappedBy = "user")
 	private Set<Items> setItems = new HashSet<Items>(); 
 	
-	
+
+	//@JsonIgnore
 	 @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	   @JoinTable(name = "user_address",
 	            joinColumns = @JoinColumn(name = "user_id"),  
