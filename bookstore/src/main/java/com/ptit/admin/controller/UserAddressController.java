@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.ptit.exception.ResourceNotFoundException;
 import com.ptit.model.Address;
@@ -44,7 +45,8 @@ public class UserAddressController {
 	AddressService addressService;
 	
 	@GetMapping()
-	public String getUserAddress(Model model, @RequestParam(value = "id") long userId) throws ResourceNotFoundException {
+	public String getUserAddress(Model model, 
+			@RequestParam(value = "id") long userId) throws ResourceNotFoundException {
 		User user =userService.findById(userId);
 		Set<Address> listAddress=user.getSetAddress();
 		model.addAttribute("user", user);
@@ -66,19 +68,53 @@ public class UserAddressController {
 	@PostMapping("/save")
 	public String save(Model model, 
 			@RequestParam(value = "userId") long userId,
-			@ModelAttribute("address") Address address) throws ResourceNotFoundException {
+			@ModelAttribute("address") Address address,
+			RedirectAttributes ra) throws ResourceNotFoundException {
 		
 		
 		User user =userService.findById(userId);
 		addressService.addOrUpdateAddress(address, user);
-		Set<Address> listAddress=user.getSetAddress();
-		model.addAttribute("user", user);
+		ra.addAttribute("user", user);
 	
+
+		
+		return "redirect:/admin/userAddress/";
+	}
+	
+	@GetMapping("/")
+	public String getUserAddressAfterSave( 
+			Model model,
+			RedirectAttributes ra,
+			 @ModelAttribute("user") final User mapping1FormObject) throws ResourceNotFoundException {
+		User u = mapping1FormObject;
+		
+		Set<Address> listAddress=u.getSetAddress();
+		model.addAttribute("user", u);
+		model.addAttribute("address", new Address());
 		model.addAttribute("listAddress", listAddress);
+		
 		model.addAttribute("village", villageDao.findAll());
 		model.addAttribute("district", districtDao.findAll());
 		model.addAttribute("province", provinceDao.findAll());
 		
 		return "admin/userAddress";
 	}
+	
+	@PostMapping("/delete")
+	public String delete(@RequestParam("id") Long idAddress,
+			@RequestParam(value = "userId") long userId,
+			RedirectAttributes ra) throws ResourceNotFoundException{
+		
+		
+		
+		User user =userService.findById(userId);
+		user.removeAddress(addressService.findById(idAddress));
+		
+		userService.saveUser(user);
+		addressService.deleteAddress(addressService.findById(idAddress));
+		ra.addAttribute("user", user);
+		
+		return "redirect:/admin/userAddress/";
+	}
+	
 }

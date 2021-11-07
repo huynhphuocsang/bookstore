@@ -53,6 +53,22 @@ public class AddressServiceImp implements AddressService{
 		// TODO Auto-generated method stub
 		
 	}
+	@Override
+	public boolean deleteAddress(Address address) {
+		addressDao.delete(address);
+		
+		return true;
+	}
+	@Override
+	public Address findById(long id) throws ResourceNotFoundException {
+		Optional<Address> address = addressDao.findById(id);
+
+		if(!address.isPresent()) {
+			throw new ResourceNotFoundException("Address not found by id"); 
+		}
+		return address.get();
+	
+	}
 
 }
 

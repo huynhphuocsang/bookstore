@@ -33,5 +33,6 @@ public interface UserService {
 	public User findById(long id) throws ResourceNotFoundException;
 	public void saveUser(User user);
 	public UserDto convertUserDto(User user);
+	public void deleteUser(User user);
 	
 }

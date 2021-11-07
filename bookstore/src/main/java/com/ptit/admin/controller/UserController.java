@@ -127,7 +127,7 @@ public class UserController {
 	public String edit(Model model,
 			RedirectAttributes ra,
 			@RequestParam(name="id") long id) throws ResourceNotFoundException {
-		System.out.println("ok");
+		
 		User userEdit = userService.findById(id);
 		UserDto user3 = userService.convertUserDto(userEdit);
 		
@@ -138,6 +138,17 @@ public class UserController {
 		ra.addFlashAttribute("idEdit", edit);
 		return "redirect:/admin/customer";
 	}
+	
+//	@PostMapping("/delete")
+//	public String updateUser(
+//			@RequestParam(name="id") long id) throws ResourceNotFoundException {
+//		boolean isError=false;
+//		User user = userService.findById(id);
+//		userService.deleteUser(user);
+//		
+//		
+//		return "redirect:/admin/customer";
+//	}
 	
 	
 }
