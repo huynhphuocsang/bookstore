@@ -4,6 +4,7 @@
 <meta charset="ISO-8859-1">
 <title>Tìm kiếm với "${searchValue}"</title>
 <link rel="stylesheet" type="text/css" th:href="@{../css/style.css}">
+<link rel="stylesheet" th:href="@{../../css/animate.css}">
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
 	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
@@ -28,7 +29,7 @@
 
 			<div class="col-md-4 col-sm-6" th:each="product, state: ${list}"
 				style="margin-top: 50px">
-				<div class="card card-book" style="width: 18rem;">
+				<div class="wow bounceIn card card-book" style="width: 18rem;">
 					<img class="card-img-top" th:src="@{'../../image/' + ${product.picture}}"
 						alt="Card image cap">
 					<div class="card-body">
@@ -87,5 +88,11 @@
 		src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
 		integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
 		crossorigin="anonymous"></script>
+		
+	<script th:src="@{../../script/wow.js}"></script>
+<script th:src="@{../../script/wow.min.js}"></script>
+    <script>
+          new WOW().init();
+    </script>
 </body>
 </html>

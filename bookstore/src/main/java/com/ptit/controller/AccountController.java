@@ -4,11 +4,13 @@ import java.security.Principal;
 import java.time.LocalDate;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
 import javax.swing.event.TableColumnModelListener;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
@@ -256,12 +258,39 @@ public class AccountController {
 	 }
 	 
 	 
-	 
 	 @GetMapping("/getAllOrder")
-		public String getAllByUser(ModelMap model,Principal principal) {
+		public String getView(ModelMap map) {
+			
+			
+			return "redirect:/account/getAllOrder/1"; 
+		}
+	 
+	 @GetMapping("/getAllOrder/{pageNo}")
+		public String getAllByUser(ModelMap model,Principal principal, @PathVariable Optional<String> pageNo) {
 			if(principal!=null) {
+				int pageSize = 3; 
+				String sortDir = "desc"; 
+				String sortField = "orderId"; 
+				int pageNoOffical = 1; 
+				
+				
+				try {
+					pageNoOffical = Integer.parseInt(pageNo.get()); 
+					
+				}catch (Exception e) {
+					return "redirect:/account/getAllOrder/1"; 
+				}
+				
 				com.ptit.model.User user = userService.getUserByUsername(principal.getName()); 
-				List<Order> orders = orderService.getOrdersByUser(user); 
+				
+				
+				Page<Order> page = orderService.findPaginated(pageNoOffical, pageSize, sortField, sortDir, -1); 
+				List<Order> orders = page.getContent(); 
+				
+				model.addAttribute("currentPage", pageNoOffical); 
+				model.addAttribute("totalPage", page.getTotalPages()); 
+				model.addAttribute("pageFirst", 1); 
+				
 				model.addAttribute("orders", orders); 
 				model.addAttribute("username",principal.getName()); 
 				
