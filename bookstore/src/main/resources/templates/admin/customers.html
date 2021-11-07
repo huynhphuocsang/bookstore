@@ -391,7 +391,7 @@
 			$(".btn__add--user").click();
 			const province = document.querySelector(".province");
 			var address2 = /*[[${address2}]]*/'default';
-			var user3 = /*[[${user3.setItems}]]*/'default';
+			var user3 = /*[[${user3}]]*/'default';
 			
 			$('#user-name').val(user3.username);
 			$('#user-age').val(user3.age);
@@ -404,12 +404,12 @@
 				console.log(address[i].addressName);
 			} */
 			var listAddress=user3.setAddress.map((ele,i)=>
-				"<option value="+ele.village.villageId+">"+ele.addressName+"</option>")
+				"<option value="+ele.village.villageId+">"+ele.addressName+"-"+ele.village.villageName+"</option>")
 			$("#village").html(listAddress)
 			$("#linkAddress").attr("href",$("#linkAddress").attr("href")+user3.userId)
 		}
 		/*]]>*/
-		
+		s
 
     	const province = document.getElementById("province");
     	const district = document.getElementById("district");

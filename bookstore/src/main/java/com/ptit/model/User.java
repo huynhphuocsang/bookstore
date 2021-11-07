@@ -1,5 +1,6 @@
 package com.ptit.model;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -22,12 +23,13 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.ptit.dto.UserDto;
 
 import lombok.Data;
 
 @Entity
 @Table(name="user")
-public class User {
+public class User implements Serializable{
 
 	//bo: idgiohang
 	@Id
@@ -179,7 +181,17 @@ public class User {
 	} 
 	 
 	 
-	 
+	public void convertUser(UserDto userDto) {
+		this.setUserId(userDto.getUserId());
+		this.setUsername(userDto.getUsername());
+		this.setPhone(userDto.getPhone());
+		this.setEmail(userDto.getEmail());
+		this.setAge(userDto.getAge());
+		this.setPassword(userDto.getPassword());
+		this.setGender(userDto.isGender());
+		this.setSetAddress(userDto.getSetAddress());
+		
+	}
 	 
 	 
 }

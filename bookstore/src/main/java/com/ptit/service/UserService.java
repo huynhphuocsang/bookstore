@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.ptit.dto.UserDto;
 import com.ptit.exception.ResourceNotFoundException;
 import com.ptit.model.Book;
 import com.ptit.model.User;
@@ -31,5 +32,7 @@ public interface UserService {
 	public Page<User> findPaginated(int pageNo, int pageSize, String sortField, String sortDirection);
 	public User findById(long id) throws ResourceNotFoundException;
 	public void saveUser(User user);
+	public UserDto convertUserDto(User user);
+	public void deleteUser(User user);
 	
 }

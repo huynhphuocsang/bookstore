@@ -13,6 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.ptit.dto.UserDto;
 import com.ptit.exception.ResourceNotFoundException;
 import com.ptit.model.Role;
 import com.ptit.model.User;
@@ -169,7 +170,7 @@ public class UserServiceImp implements UserService{
 		Optional<User> user = userDao.findById(id);
 
 		if(!user.isPresent()) {
-			throw new ResourceNotFoundException("Book not found by id"); 
+			throw new ResourceNotFoundException("User not found by id"); 
 		}
 		return user.get();
 		
@@ -180,5 +181,27 @@ public class UserServiceImp implements UserService{
 		userDao.save(user);
 		
 	}
+
+	@Override
+	public UserDto convertUserDto(User user) {
+		UserDto userDto = new UserDto();
+		userDto.setUserId(user.getUserId());
+		userDto.setUsername(user.getUsername());
+		userDto.setPhone(user.getPhone());
+		userDto.setEmail(user.getEmail());
+		userDto.setAge(user.getAge());
+		userDto.setPassword(user.getPassword());
+		userDto.setGender(user.isGender());
+		userDto.setSetAddress(user.getSetAddress());
+		return userDto;
+	}
+
+	@Override
+	public void deleteUser(User user) {
+		userDao.delete(user);
+		
+	}
+
+	
 
 }

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.ptit.dto.UserDto;
 import com.ptit.exception.ResourceNotFoundException;
 import com.ptit.model.Address;
 import com.ptit.model.Book;
@@ -128,13 +129,26 @@ public class UserController {
 			@RequestParam(name="id") long id) throws ResourceNotFoundException {
 		
 		User userEdit = userService.findById(id);
-		List<Address> list = addressDao.findBySetUsers_UserId(id);
-		ra.addFlashAttribute("user3", userEdit);
-		ra.addFlashAttribute("address2", list);
+		UserDto user3 = userService.convertUserDto(userEdit);
+		
+//		List<Address> list = addressDao.findBySetUsers_UserId(id);
+		ra.addFlashAttribute("user3", user3);
+//		ra.addFlashAttribute("address2", list);
 		boolean edit=true;
 		ra.addFlashAttribute("idEdit", edit);
 		return "redirect:/admin/customer";
 	}
+	
+//	@PostMapping("/delete")
+//	public String updateUser(
+//			@RequestParam(name="id") long id) throws ResourceNotFoundException {
+//		boolean isError=false;
+//		User user = userService.findById(id);
+//		userService.deleteUser(user);
+//		
+//		
+//		return "redirect:/admin/customer";
+//	}
 	
 	
 }
