@@ -20,4 +20,7 @@ public interface BookDao extends JpaRepository<Book, Long>,JpaSpecificationExecu
 	@Query("SELECT  MAX(idBook)\r\n"
 			+ "from Book")
 	public int getLastIdBook();
+	
+	
+	
 }

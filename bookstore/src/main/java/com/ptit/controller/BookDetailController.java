@@ -63,7 +63,13 @@ public class BookDetailController {
 				company = companyService.getCompanyById(id); 
 				listReviews = reviewService.getAllReviewViaBook(book); 
 				
+				float star = 0; 
+				for(Review r: listReviews) {
+					star +=r.getStar(); 
+					
+				}
 				
+				map.addAttribute("star", Math.ceil(star/listReviews.size())); 
 			} catch (ResourceNotFoundException e) {
 				return "notfound"; 
 			}

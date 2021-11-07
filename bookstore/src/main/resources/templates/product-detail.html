@@ -4,6 +4,8 @@
 <meta charset="ISO-8859-1">
 <title th:text="${book.bookName}"></title>
 <link rel="stylesheet" type="text/css" th:href="@{../css/style.css}">
+<link rel="stylesheet" th:href="@{../css/animate.css}">
+
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
 	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
@@ -43,11 +45,22 @@
 				<h2
 					th:text="${#numbers.formatDecimal(book.price, 0, 'COMMA', 0, 'POINT')} + ' VND'"
 					style="text-align: center"></h2>
+					
+					<div class= "wow bounceIn" style="font-size: 70px; text-align: center">
+					<label th:if="${star==1}" style="color: orange">☆</label> <label
+						th:if="${star==2}" style="color: orange">☆☆</label> <label
+						th:if="${star==3}" style="color: orange">☆☆☆</label> <label
+						th:if="${star==4}" style="color: orange">☆☆☆☆</label> <label
+						th:if="${star==5}" style="color: orange">☆☆☆☆☆</label> <br>
+					</div>
+					
+						
+						
 			</div>
 			<div class="col-md-6 col-sm-12">
 				<div class="row" style="margin-bottom: 50px">
 					<div class="col-md-6 col-sm-12">
-						<div style="margin-bottom: 50px">
+						<div style="margin-bottom: 50px" class="wow fadeInRight">
 							<ul>
 
 								<li><span>Tác giả: </span> <span style="font-weight: bold">[[
@@ -80,7 +93,7 @@
 										class="form-control" style="width: 70px" th:value="1"
 										th:min="1" th:max="${book.totalQuantity}"></td>
 									<td><button type="button" id="btn-add-to-cart"
-											class="btn btn-success">
+											class="btn btn-success wow tada">
 											<i class="fas fa-plus-circle"></i> giỏ hàng
 										</button></td>
 
@@ -94,7 +107,7 @@
 
 				</div>
 				<div class="row">
-					<div class="col-md-12">
+					<div class="col-md-12  wow flipInY">
 						<h1>
 							<i class="fas fa-star"></i>Mô tả
 						</h1>
@@ -169,7 +182,7 @@
 				</div>
 
 				<div class="buttons px-4 mt-0">
-					<button class="btn btn-warning btn-block rating-submit"
+					<button class="btn btn-warning btn-block rating-submit "
 						th:data-bookId="${book.idBook}">Đánh giá</button>
 				</div>
 			</div>
@@ -178,7 +191,7 @@
 	
 </div>	
 	<div th:if="${login==false}">
-			<div class="container d-flex justify-content-left mt-5"> 
+			<div class="container d-flex justify-content-left mt-5 wow tada"> 
 		<p 
 			style="margin-left: 5%; color: green; font-size: 20px; font-weight: bold">
 			<i class="fa fa-bell" aria-hidden="true"></i> Hãy đăng nhập và đóng góp cùng cộng đồng BookStore bạn nhé!
@@ -196,7 +209,7 @@
 	<div class="container" style="margin-top: 50px">
 		<div class="row">
 			<div class="col-md-6 col-sm-12">
-				<div th:each="review:  ${reviews}">
+				<div th:each="review:  ${reviews}" class="wow fadeInRight">
 					<label th:if="${review.star==1}" style="color: orange">☆</label> <label
 						th:if="${review.star==2}" style="color: orange">☆☆</label> <label
 						th:if="${review.star==3}" style="color: orange">☆☆☆</label> <label
@@ -230,5 +243,11 @@
 		src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
 		integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
 		crossorigin="anonymous"></script>
+		
+		<script th:src="@{../../script/wow.js}"></script>
+<script th:src="@{../../script/wow.min.js}"></script>
+    <script>
+          new WOW().init();
+    </script>
 </body>
 </html>

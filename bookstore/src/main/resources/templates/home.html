@@ -5,6 +5,7 @@
 <title>Home page</title>
 
 <link rel="stylesheet" type="text/css" th:href="@{../../css/style.css}">
+<link rel="stylesheet" th:href="@{../../css/animate.css}">
 
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
@@ -16,6 +17,8 @@
 	href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
 	integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p"
 	crossorigin="anonymous" />
+	
+
 </head>
 
 <body>
@@ -144,9 +147,9 @@
 	
 			<div class="row body-homepage">
 	
-				<div class="col-md-4 col-sm-6" th:each="product, state: ${list}"
+				<div class="col-md-4 col-sm-6 " th:each="product, state: ${list}"
 					style="margin-top: 50px">
-					<div class="card card-book" style="width: 18rem;">
+					<div class="wow bounceIn card card-book " style="width: 18rem;">
 						<img class="card-img-top"
 							th:src="@{'../../image/' + ${product.picture}}"
 							alt="Card image cap">
@@ -163,7 +166,7 @@
 	
 			</div>
 	
-	
+	 
 			<!-- PAGEING -->
 	
 			<div class="row" style="padding-top: 20px">
@@ -201,6 +204,8 @@
 
 	</div>
 
+
+
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
 		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
 		crossorigin="anonymous"></script>
@@ -214,7 +219,11 @@
 		crossorigin="anonymous"></script>
 
 
-
+<script th:src="@{../../script/wow.js}"></script>
+<script th:src="@{../../script/wow.min.js}"></script>
+    <script>
+          new WOW().init();
+    </script>
 
 </body>
 </html>
