@@ -25,7 +25,7 @@
 				<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-1 pb-1 mb-1 border-bottom">
 					<div class="m-2">
 					<form  method="post" th:action="@{/admin/customer/edit}">
-						<input type="hidden" class="id" name="userId" th:value="${user.userId}" >
+						<input type="hidden" class="id" name="id" th:value="${user.userId}" >
 						<button type="submit" class="btn btn-primary btn__turn--back">
 							<i class="fas fa-angle-double-left"> Trở về</i>
 						</button>
@@ -150,6 +150,7 @@
 								Bạn chắc chắn muốn xóa địa chỉ có id: <strong id="userAddress-id"></strong>
 								<input type="text" class="form-control input-delete d-none"
 									name="id" th:value="${address.addressId}">
+								<input type="hidden" class="id" name="userId" th:value="${user.userId}" >
 							</p>
 							<div class="btns-comfirm d-flex justify-content-end">
 

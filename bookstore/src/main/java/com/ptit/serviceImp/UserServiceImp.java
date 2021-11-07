@@ -170,7 +170,7 @@ public class UserServiceImp implements UserService{
 		Optional<User> user = userDao.findById(id);
 
 		if(!user.isPresent()) {
-			throw new ResourceNotFoundException("Book not found by id"); 
+			throw new ResourceNotFoundException("User not found by id"); 
 		}
 		return user.get();
 		
@@ -194,6 +194,12 @@ public class UserServiceImp implements UserService{
 		userDto.setGender(user.isGender());
 		userDto.setSetAddress(user.getSetAddress());
 		return userDto;
+	}
+
+	@Override
+	public void deleteUser(User user) {
+		userDao.delete(user);
+		
 	}
 
 	
