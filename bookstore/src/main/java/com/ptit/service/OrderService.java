@@ -21,6 +21,7 @@ public interface OrderService {
 	public List<Order> findOrder(String str);
 	public Page<Order> findPage(int pageNo, int pageSize);
 	public Page<Order> findPaginated(int pageNo, int pageSize, String sortField, String sortDirection, int status);
+	
 	public int save(Order order);
 	List<Order> getAllBetweenDates(LocalDateTime startDate, LocalDateTime endDate);
 	public int updateOrderStatus(long idOrder, int status);
