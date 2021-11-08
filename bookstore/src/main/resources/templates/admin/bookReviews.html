@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title th:replace = "/admin/fragments/head-tag.html :: title">Title</title>
+	<th:block th:insert="/admin/fragments/head-tag.html :: link"></th:block>
+	<link th:href="@{/css/admin/review.css}" rel="stylesheet">
+</head>
+	
+<body style="background-color: #F5F5F5">
+	<!-- ============================== HEADER ================================= -->
+	<nav class="navbar navbar-dark fixed-top bg-primary flex-md-nowrap p-0 shadow">
+		<a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#" >
+			<img style="max-height: 30px;" alt="book-store" th:src="@{/image/icon-book-shop-64.png}">
+			Book store
+		</a> 
+		
+		<div class="input-group col-sm-6 col-md-5">
+		    <input type="text" class="form-control " placeholder="Search please..">
+		    <div class="input-group-append">
+		      <button class="btn btn-secondary" type="button">
+		        <i class="fa fa-search"></i>
+		      </button>
+		    </div>
+  		</div>
+  		
+		<ul class="navbar-nav px-3">
+			<li class="nav-item text-nowrap">
+				<a class="nav-link text-light mr-1" style="font-size: 25px" th:href="@{/account/check-login}"><i class="far fa-user-circle"></i></a>
+				<!-- <a class="nav-link text-light" href="#">Sign out</a> -->
+			</li>
+		</ul>
+	</nav>
+	
+	<button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!">
+		<span data-feather="home"></button>
+	
+	<div class="container-fluid">
+		<div class="row">
+		
+			<!-- ================= NAVIGATION =================== -->
+			<nav th:replace="/admin/fragments/navigation.html :: admin-nav('Reviews')"></nav>
+			
+			<!-- ===================MAIN CONTENT=================== -->
+			<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4 mb-3 main-content">
+				<div class="row book-detail p-2">
+					<div class="col-xs-2 col-md-2">
+						<img style="height:180px;width:auto;" class="card-img-top " th:src="@{'/image/dac-nhan-tam.jpg'}"
+												alt="Card image cap">
+					</div>
+					<div class="col-xs-10 col-md-9">
+						<h3>Đắc nhân tâm</h3>
+						<div class="row">
+							<div class="col-xs-6 col-md-5">
+								<p>Tác giả:</p>
+							</div>
+							<div class="col-xs-6 col-md-5">
+								<p>Thể loại:</p>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs-6 col-md-5">
+								<p>Nhà xuất bản:</p>
+							</div>
+							<div class="col-xs-6 col-md-5">
+								<p>Ngày xuất bản:</p>
+							</div>
+						</div>
+						<h5 class="text-danger">200.00vnđ</h5>
+					</div>
+				</div>
+				<br>
+				<div class="container">
+				    <div class="row ">
+				        <div class="panel panel-default widget book-reviews p-2">
+				            <div class="panel-heading">
+				                <span class="glyphicon glyphicon-comment"></span>
+				                <h3 class="panel-title">
+				                  Danh sách các lượt đánh giá</h3>
+				                <span class="label label-info  p-1 bg-info text-white rounded">Tổng: 
+				                    78</span>
+				            </div>
+				            <div class="panel-body">
+				                <ul class="list-group">
+				                    <li class="list-group-item">
+				                        <div class="row">
+				                            <div class="col-xs-2 col-md-1">
+				                                <img th:src="@{'/image/user-girl.png'}" class="img-circle img-responsive" alt="" style="width:80px"/></div>
+				                            <div class="col-xs-10 col-md-10">
+				                                <div>
+				                                    <a href="http://www.jquery2dotnet.com/2013/10/google-style-login-page-desing-usign.html">
+				                                        Google Style Login Page Design Using Bootstrap</a>
+				                                    <div class="mic-info">
+				                                        By: <a href="#">Bhaumik Patel</a> on 2 Aug 2013
+				                                    </div>
+				                                </div>
+				                                <div class="comment-text">
+				                                    Awesome design
+				                                </div>
+				                                
+				                            </div>
+				                            <div class="col-xs-1 col-md-1">
+				                            	<div class="action">
+				                                    <button type="button" class="btn btn-danger btn__delete--book" >
+											          <i style="color:black;" class="far fa-trash-alt"></i>
+											        </button>
+				                                </div>
+				                            </div>
+				                        </div>
+				                    </li>
+				                    <li class="list-group-item">
+				                        <div class="row">
+				                            <div class="col-xs-2 col-md-1">
+				                                <img th:src="@{'/image/user.png'}" class="img-circle img-responsive" alt="" style="width:80px"/></div>
+				                            <div class="col-xs-10 col-md-10">
+				                                <div>
+				                                    <a href="http://bootsnipp.com/BhaumikPatel/snippets/Obgj">Admin Panel Quick Shortcuts</a>
+				                                    <div class="mic-info">
+				                                        By: <a href="#">Bhaumik Patel</a> on 11 Nov 2013
+				                                    </div>
+				                                </div>
+				                                <div class="comment-text">
+				                                    Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh
+				                                    euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim
+				                                </div>
+				                            </div>
+				                            <div class="col-xs-1 col-md-1">
+				                            	<div class="action">
+				                                    <button type="button" class="btn btn-danger btn__delete--book" >
+											          <i style="color:black;" class="far fa-trash-alt"></i>
+											        </button>
+				                                </div>
+				                            </div>
+				                        </div>
+				                    </li>
+				                </ul>
+				                <a href="#" class="btn btn-primary btn-sm btn-block" role="button"><span class="glyphicon glyphicon-refresh"></span> More</a>
+				            </div>
+				        </div>
+				    </div>
+				</div>
+				
+			</main>
+		</div>
+	</div>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script th:src="@{/script/adminJs/headerHandle.js}"></script>
+</body>
+</html>

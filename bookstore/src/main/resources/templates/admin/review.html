@@ -2,23 +2,16 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>Admin</title>
-	<link rel="icon" type="image/png" sizes="32x32" th:href="@{../image/icon-book-shop-64.png}">
-	<link rel="stylesheet"
-		href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-		integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-		crossorigin="anonymous">
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w==" crossorigin="anonymous" />
-	    <link rel="preconnect" href="https://fonts.gstatic.com">
-	    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-	<link th:href="@{../css/dashboard.css}" rel="stylesheet">
+	<title th:replace = "/admin/fragments/head-tag.html :: title">Title</title>
+	<th:block th:insert="/admin/fragments/head-tag.html :: link"></th:block>
+	<link th:href="@{/css/admin/review.css}" rel="stylesheet">
 </head>
 	
 <body>
 	<!-- ============================== HEADER ================================= -->
 	<nav class="navbar navbar-dark fixed-top bg-primary flex-md-nowrap p-0 shadow">
 		<a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#" >
-			<img style="max-height: 30px;" alt="book-store" th:src="@{../image/icon-book-shop-64.png}">
+			<img style="max-height: 30px;" alt="book-store" th:src="@{/image/icon-book-shop-64.png}">
 			Book store
 		</a> 
 		
@@ -46,45 +39,50 @@
 		<div class="row">
 		
 			<!-- ================= NAVIGATION =================== -->
-			<nav class="col-md-2 d-none d-md-block bg-light sidebar">
-				<div class="sidebar-sticky">
-					<ul class="nav flex-column nav-style" style="font-size:1rem;">
-						<li class="nav-item"><a class="nav-link" th:href="@{/admin/statisticts}"> 
-							<i class="fas fa-tasks mr-2"></i>Statistics	
-						</a></li>
-						<li class="nav-item"><a class="nav-link" th:href="@{/admin/book}">
-								<i class="fas fa-book mr-2"></i>Books
-						</a></li>
-						<li class="nav-item"><a class="nav-link" th:href="@{/admin/order}">
-						<i class="fas fa-shopping-cart mr-2"></i>Orders
-							</a></li>
-						<li class="nav-item"><a class="nav-link active" th:href="@{/admin/review}"> 
-							<i class="far fa-comments mr-2"></i>Reviews
-						</a></li>
-						<li class="nav-item"><a class="nav-link" th:href="@{/admin/customer}">   
-							<i class="fas fa-users mr-2"></i>Customers
-						</a></li>
-					</ul>
-				</div>
-			</nav>
+			<nav th:replace="/admin/fragments/navigation.html :: admin-nav('Reviews')"></nav>
 			
 			<!-- ===================MAIN CONTENT=================== -->
-			<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
-				
+			<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4 mb-3 main-content">
+				<!-- TABLE VIEW -->
+				<div class="table-responsive rounded-top rounded-bottom">
+					<table class="table table-bordered" id="myTable">
+						<thead>
+							<tr class="table-warning">
+								<th scope="col">
+								<a th:href="@{'/admin/review/' + ${currentPage} + '?sortField=idBook&sortDir=' +${reverseSortDir}} ">Mã sách</a></th></th>
+						      	<th scope="col">
+						      	<a th:href="@{'/admin/review/' + ${currentPage} + '?sortField=bookName&sortDir=' +${reverseSortDir}} ">Tên sách</a>
+						      	</th>
+						      	<th  scope="col">Ảnh</th>
+						      	<th  scope="col">
+						      	<a th:href="@{'/admin/review/' + ${currentPage} + '?sortField=totalQuantity&sortDir=' +${reverseSortDir}} ">Tổng số lượt bình luận</a></th>
+						      	<th class="align-middle" scope="col">Alter</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="book : ${listBook}">
+								<td th:text="${book.idBook}">##</td>
+								<td th:text="${book.getBookName()}">##</td>
+								<td class="align-middle text-center" >
+									<img style="height:120px;width:auto;" class="card-img-top " th:src="@{'/image/' + ${book.getPicture()}}"
+										alt="Card image cap">
+								</td>
+								<td th:text="${book.getTotalQuantity}">##</td>
+								 
+								<td class="align-middle text-center">
+									<button type="button" class="btn btn-warning m-1 btn__edit--book">
+							          <i class="far fa-edit"></i> Chi tiết
+							        </button>
+							       <input type="hidden" id="idBook" name="idBook" th:value="${book.idBook}" >
+						      </td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
 			</main>
 		</div>
 	</div>
-	<!-- SCRIPT HANDLE NAVIGATION -->
-	<script type="text/javascript">
-		const $=document.querySelector.bind(document);
-		const $$=document.querySelectorAll.bind(document);
-		const listNav=$$(".nav-style > .nav-item");
-		listNav.forEach((nav,index)=>{
-			nav.onclick=()=>{
-				$(".nav-link.active").classList.remove("active")
-				nav.querySelector(".nav-link").classList.add("active");
-			}
-		})
-	</script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script th:src="@{/script/adminJs/headerHandle.js}"></script>
 </body>
 </html>
