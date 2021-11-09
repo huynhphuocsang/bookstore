@@ -76,7 +76,8 @@ public class UserController {
 		model.addAttribute("address", new Address());
 		Page<User> page = userService.findPaginated(pageNo, pageSize, sortField, sortDir);
 
-		List<User> listUser = page.getContent()/*.stream().filter(u -> userRoleDao.getByUser(u).getRole().getIdRole()==2).collect(Collectors.toList())*/;
+		List<User> listUser = page.getContent();
+		List<User> listUser2 = listUser.stream().filter(u -> 2==userRoleDao.getByUser(u).getRole().getIdRole()).collect(Collectors.toList());
 		model.addAttribute("listUser", listUser);
 		model.addAttribute("sortField", sortField);
 		model.addAttribute("sortDir", sortDir);
