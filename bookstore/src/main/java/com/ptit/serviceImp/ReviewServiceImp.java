@@ -49,4 +49,15 @@ public class ReviewServiceImp implements ReviewService{
 		return false; 
 	}
 
+	@Override
+	public List<Review> findListByLeng(long id, int leng){
+		List<Review> listAll=reviewDao.findByIdIdBook(id);
+		if(leng>listAll.size()) leng=listAll.size();
+		return listAll.subList(0, leng); 
+	}
+	
+	@Override
+	public void deleteById(ReviewId id) {
+		reviewDao.deleteById(id);
+	}
 }
