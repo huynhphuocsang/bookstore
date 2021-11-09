@@ -48,41 +48,86 @@
 					<table class="table table-bordered" id="myTable">
 						<thead>
 							<tr class="table-warning">
-								<th scope="col">
+								<th class="align-middle text-center" scope="col">
 								<a th:href="@{'/admin/review/' + ${currentPage} + '?sortField=idBook&sortDir=' +${reverseSortDir}} ">Mã sách</a></th></th>
-						      	<th scope="col">
+						      	<th class="align-middle text-center" scope="col">
 						      	<a th:href="@{'/admin/review/' + ${currentPage} + '?sortField=bookName&sortDir=' +${reverseSortDir}} ">Tên sách</a>
 						      	</th>
-						      	<th  scope="col">Ảnh</th>
-						      	<th  scope="col">
-						      	<a th:href="@{'/admin/review/' + ${currentPage} + '?sortField=totalQuantity&sortDir=' +${reverseSortDir}} ">Tổng số lượt bình luận</a></th>
-						      	<th class="align-middle" scope="col">Alter</th>
+						      	<th class="align-middle text-center"  scope="col">Ảnh</th>
+						      	<th class="align-middle text-center"  scope="col">
+						      	<a th:href="@{'/admin/review/' + ${currentPage} + '?sortField=totalQuantity&sortDir=' +${reverseSortDir}} ">Tổng số lượt đánh giá</a></th>
+						      	<th  class="align-middle text-center" scope="col">Alter</th>
 							</tr>
 						</thead>
 						<tbody>
-							<tr th:each="book : ${listBook}">
+							<tr th:each="book, iState : ${listBook}" >
 								<td th:text="${book.idBook}">##</td>
 								<td th:text="${book.getBookName()}">##</td>
 								<td class="align-middle text-center" >
 									<img style="height:120px;width:auto;" class="card-img-top " th:src="@{'/image/' + ${book.getPicture()}}"
 										alt="Card image cap">
 								</td>
-								<td th:text="${book.getTotalQuantity}">##</td>
+								<td>
+									<div th:each="star : ${listBookStar.get(iState.index)}">
+										<div  class="d-flex justify-content-center align-items-center">
+								            <div class="ratings"> 
+								            	<i class="fa fa-star" th:classappend="${star[0] >=1 }? rating-color : ''"></i> 
+								            	<i class="fa fa-star" th:classappend="${star[0] >=2 }? rating-color : ''"></i> 
+								            	<i class="fa fa-star" th:classappend="${star[0] >=3 }? rating-color : ''"></i> 
+								            	<i class="fa fa-star" th:classappend="${star[0] >=4 }? rating-color : ''"></i> 
+								            	<i class="fa fa-star" th:classappend="${star[0] >=5 }? rating-color : ''"></i>  
+								            </div>
+								            <h5 class="review-count align-self-end" th:text="'('+${star[1]}+')'"></h5>
+								        </div>
+								        <hr style="width: 120px; margin-top: 2px; margin-bottom: 2px">
+							        </div>
+								</td>
 								 
 								<td class="align-middle text-center">
-									<button type="button" class="btn btn-warning m-1 btn__edit--book">
+									<a th:href="@{'/admin/review/bookReviews/' + ${book.idBook}}" type="button" class="btn btn-warning m-1 btn__edit--book">
 							          <i class="far fa-edit"></i> Chi tiết
-							        </button>
-							       <input type="hidden" id="idBook" name="idBook" th:value="${book.idBook}" >
+							        </a>
 						      </td>
 							</tr>
 						</tbody>
 					</table>
-				</div>
+					</div>
+					<!-- Page number -->
+					<div th:if = "${totalPage > 1}">
+						<div class = "row ">
+							<div class = "col-2">
+								Total Items: [[${totalItem}]]	
+							</div>
+							<div class = "col-10 d-flex  align-items-center">
+								<a class="btn btn-outline-primary" th:if="${currentPage > 1}" th:href="@{'/admin/review/' + ${pageFirst}  + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">First</a>&nbsp; &nbsp;
+								<span class="btn btn-outline-primary active" th:unless="${currentPage > 1}">First</span>&nbsp; &nbsp;
+									
+								<a class="btn btn-outline-primary" th:if="${currentPage > 1}" th:href="@{'/admin/review/' + ${currentPage -1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} }">Prev</a>
+								<span class="btn btn-outline-primary active" th:unless="${currentPage > 1}">Prev</span>&nbsp; &nbsp;
+								
+									
+								<span th:each="i : ${#numbers.sequence(1, totalPage)}">
+									<a class="btn btn-outline-primary" th:if="${currentPage != i}" th:href= "@{'/admin/review/' + ${i} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} }">[[${i}]]</a>
+									<span class="btn btn-outline-primary active" th:unless="${currentPage != i}">[[${i}]]</span> &nbsp;
+								</span>&nbsp; &nbsp;
+								
+								<a class="btn btn-outline-primary" th:if="${currentPage < totalPage}" th:href="@{'/admin/review/' + ${currentPage +1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} }">Next</a>
+								<span class="btn btn-outline-primary" th:unless="${currentPage < totalPage}">Next </span>&nbsp; &nbsp;
+									
+								<a class="btn btn-outline-primary" th:if="${currentPage < totalPage}" th:href="@{'/admin/review/'+${totalPage} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} }">Last</a>
+								<span class="btn btn-outline-primary active" th:unless="${currentPage < totalPage}">Last</span>
+							</div>
+						</div>
+					
+					</div>
+				
 			</main>
 		</div>
 	</div>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script th:src="@{/script/adminJs/headerHandle.js}"></script>
+	<script type="text/javascript">
+	
+	</script>
 </body>
 </html>
