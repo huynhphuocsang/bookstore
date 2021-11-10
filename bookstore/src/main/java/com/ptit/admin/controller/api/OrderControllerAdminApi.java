@@ -1,6 +1,7 @@
 package com.ptit.admin.controller.api;
 
 import java.io.PrintWriter;
+import java.text.NumberFormat;
 import java.util.List;
 import java.util.Set;
 
@@ -100,7 +101,7 @@ public class OrderControllerAdminApi {
 						+ "											<p class=\"title\" id=\"book-name\">"+listBook.get(i).getBookName()+" <br> \r\n"
 						+ "												<span class=\"text-muted\" id=\"book-author\"> "+listBook.get(i).getAuthor().getName()+"</span>\r\n"
 						+ "											</p>\r\n"
-						+ "											<span class=\"text-muted\" id=\"book-price\">"+list.get(i).getPrice()+"</span>\r\n"
+						+ "											<span class=\"text-muted\" id=\"book-price\">"+NumberFormat.getNumberInstance(java.util.Locale.UK).format(list.get(i).getPrice())+"VNĐ</span>\r\n"
 						+ "											x <span class=\"text-muted\" id=\"order-quantity\">"+list.get(i).getQuantity()+"</span>\r\n"
 						+ "										</figcaption>\r\n"
 						+ "									</figure>\r\n"
@@ -110,7 +111,9 @@ public class OrderControllerAdminApi {
 			out.println("</ul>\r\n"
 					+ "\r\n"
 					+ "								<hr>\r\n"
-					+ "								<p class=\"text text-right\">Thành tiền: "+order.getTotalPrice()+" VNĐ </p>\r\n"
+					+ "								<p class=\"text text-right\">Thành tiền: "
+					+ "									<strong class=\"text-danger text-boild\">"+NumberFormat.getNumberInstance(java.util.Locale.UK).format(order.getTotalPrice())+" VNĐ </strong>\r\n "
+					+ "								</p>\r\n"
 					+ "								<hr>\r\n"
 					+ "								<a href=\"#\" class=\"btn btn-warning btn-close-from\" onclick=\"closeOrderDetail()\"\r\n"
 					+ "									data-abc=\"true\"> <i class=\"fa fa-chevron-left\"></i> Trở về\r\n"
