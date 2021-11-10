@@ -1,9 +1,12 @@
 package com.ptit.serviceImp;
 
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.ptit.model.Book;
@@ -52,6 +55,14 @@ public class ReviewServiceImp implements ReviewService{
 	@Override
 	public List<Review> findListByLeng(long id, int leng){
 		List<Review> listAll=reviewDao.findByIdIdBook(id);
+		
+		//Sắp xếp đánh giá theo tgian
+		/*
+		 * Collections.sort(listAll, new Comparator<Review>() {
+		 * 
+		 * @Override public int compare(Review o1, Review o2) { return
+		 * o1.getTime().compareTo(o2.getTime()); } });
+		 */
 		if(leng>listAll.size()) leng=listAll.size();
 		return listAll.subList(0, leng); 
 	}
