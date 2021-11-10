@@ -127,8 +127,13 @@
 				                        </div>
 				                    </li>
 				                </ul>
-				                <a th:if="${leng< totalReview}" th:href="@{'/admin/review/bookReviews/' + ${book.idBook}+'?leng='+ ${leng+2}}"  class="btn btn-primary btn-sm btn-block btn-see-more" role="button"><span class="glyphicon glyphicon-refresh"></span> Xem thêm</a>
-				            	<a th:unless="${leng < totalReview}" th:href="@{'/admin/review/bookReviews/' + ${book.idBook}+'?leng='+ ${2}}" class="btn btn-warning btn-sm btn-block btn-see-more" role="button"><span class="glyphicon glyphicon-refresh"></span> Thu gọn</a>
+				                <th:block th:if="${totalReview > 2}">
+					                <a th:if="${listReview.size()< totalReview}" th:href="@{'/admin/review/bookReviews/' + ${book.idBook}+'?leng='+ ${leng+2}}"  class="btn btn-primary btn-sm btn-block btn-see-more" role="button"> Xem thêm</a>
+					            	<a th:unless="${listReview.size() < totalReview}" th:href="@{'/admin/review/bookReviews/' + ${book.idBook}+'?leng='+ ${2}}" class="btn btn-warning btn-sm btn-block btn-see-more" role="button">Thu gọn</a>
+				            	</th:block>
+				            	<th:block  th:if="${totalReview == 0}">
+					               <div class="align-middle text-center">(Chưa có đánh giá nào)</div>
+				            	</th:block>
 				            </div>
 				        </div>
 				    </div>
