@@ -50,9 +50,12 @@ public class ReviewController {
 		Page<Book> page = bookService.findPaginated(pageNo, pageSize, sortField, sortDir);
 
 		List<Book> listBook = page.getContent();
+		
 		List<List<int[]>> listBookStar = new ArrayList<List<int[]>>();
+		
 		List<int[]> emptyStar=new ArrayList<int[]>();
 		emptyStar.add(new int[] {0,0});
+		
 		for(Book ele: listBook) {
 			if(!reviewDao.getListStar(ele.getIdBook()).isEmpty()) {
 				listBookStar.add(reviewDao.getListStar(ele.getIdBook()));
