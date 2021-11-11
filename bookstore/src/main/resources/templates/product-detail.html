@@ -215,8 +215,11 @@
 						th:if="${review.star==3}" style="color: orange">☆☆☆</label> <label
 						th:if="${review.star==4}" style="color: orange">☆☆☆☆</label> <label
 						th:if="${review.star==5}" style="color: orange">☆☆☆☆☆</label> <br>
+					<i class="fas fa-clock"></i>
+					<p style="display: inline" th:text="${#dates.format(review.time, 'dd-MM-yyyy')}"></p>
+					<br>
 					<i class="fa fa-user-circle-o" aria-hidden="true"></i>
-					<p style="display: inline" th:text="${review.user.username}"></p>
+					<p style="display: inline" th:text="${review.user.username}" ></p>
 					<p style="margin-left: 10%; color: gray">
 						<i class="fa fa-quote-left" aria-hidden="true"
 							th:text="' '+${review.comments}"></i> <i

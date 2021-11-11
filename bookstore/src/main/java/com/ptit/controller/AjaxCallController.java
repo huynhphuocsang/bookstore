@@ -310,6 +310,27 @@ public class AjaxCallController {
 		
 		
 	}
+	
+	
+	@PostMapping("/check-quantity")
+	@ResponseBody
+	public String checkQuantity(HttpSession session, @RequestParam long id, @RequestParam Optional<Integer> quantity) {
+		Book book = null;
+		try {
+			book = bookService.getBookById(id);
+		} catch (ResourceNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+
+		}
+		int quantityofBook = quantity.orElse(1);
+		int maximumQuantity = book.getTotalQuantity();
+		if (quantityofBook > maximumQuantity) {
+			return maximumQuantity+""; // vượt quá số lượng hiện có
+		}
+		
+		return "-1"; //hợp lệ
+	}
 }
 
 
