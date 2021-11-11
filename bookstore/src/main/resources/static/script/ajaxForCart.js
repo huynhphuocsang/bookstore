@@ -200,6 +200,9 @@ $("#btn-verify-buy").click(function() {
 	}
 	
 	if(checkValidate==true){
+	
+	var r = confirm("Bạn sẽ mua đơn hàng này? ");
+	if (r == true) {
 		$.ajax({
 		
 		type: "POST",
@@ -212,12 +215,12 @@ $("#btn-verify-buy").click(function() {
 			
 		},
 		success: function(value) {
-			alert(value); 
+		
 			if (value == "false") {
 				alert("Order thất bại"); 
 				
 			}else if(value=="true"){
-				alert("order thành công!"); 
+				alert("Đặt hàng thành công!"); 
 				location.reload(); 
 			}else{
 				let arr = value.split("-"); 
@@ -228,14 +231,38 @@ $("#btn-verify-buy").click(function() {
 			}
 		},error: () => {
 		console.log('Error');
-	}
+		}
 
 	})
+	}
+		
 	} 
 	
 })
 
-
+$("#quantity").change(function() {
+	var bookId = $(this).closest("tr").find("#idBook").val(); 
+	var quantity = $(this).val(); 
+	 
+	
+	
+	$.ajax({
+		url: "/check-quantity",
+		type: "POST",
+		data: {
+			id : bookId,
+			quantity: quantity
+		},
+		success: function(value) {
+			
+			 if(value!="-1"){ //vượt quá số lượng hiện có
+				alert("Vượt quá số lượng hiện có!\nSố lượng hiện tại là: "+value); 
+				location.reload(); 
+				 
+			}
+		}
+	})
+})
 
 
 

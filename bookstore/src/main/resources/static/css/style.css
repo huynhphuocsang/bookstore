@@ -31,7 +31,16 @@ body,
 	
 }
 
-
+#footer {
+	margin-top: 42px;
+	text-align: center;
+	color: white;
+	background-color: black;
+	padding-top: 20px;
+	padding-bottom: 20px;
+	background: url(../../image/footer.jpg) no-repeat center center
+		fixed;
+}
 
 
 
