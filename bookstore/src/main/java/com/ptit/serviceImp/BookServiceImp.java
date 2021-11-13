@@ -19,6 +19,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.ptit.exception.ResourceNotFoundException;
+import com.ptit.model.Author;
 import com.ptit.model.Book;
 import com.ptit.model.Category;
 import com.ptit.repository.BookDao;
@@ -55,16 +56,17 @@ public class BookServiceImp implements BookService{
 	public List<Book> getBookByCategory(Category category) {
 
 		
-		String sortDirection = "desc"; 
-		String sortField = "idBook"; 
-		int pageNo = 2; 
-		int pageSize = 2; 
-		Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) 
-				? Sort.by(sortField).ascending() : Sort.by(sortField).descending() ;
-		Pageable pageable = PageRequest.of(pageNo -1, pageSize,sort);
-		Page<Book> page = bookdao.findByCategory(category, pageable); 
-		List<Book> list = page.getContent(); 
-		return list; 
+//		String sortDirection = "desc"; 
+//		String sortField = "idBook"; 
+//		int pageNo = 2; 
+//		int pageSize = 2; 
+//		Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) 
+//				? Sort.by(sortField).ascending() : Sort.by(sortField).descending() ;
+//		Pageable pageable = PageRequest.of(pageNo -1, pageSize,sort);
+//		Page<Book> page = bookdao.findByCategory(category, pageable); 
+//		List<Book> list = page.getContent(); 
+//		return list; 
+		return bookdao.findByCategory(category);
 	}
 	@Override
 	public Page<Book> getPageViaCategory(int pageNo, int pageSize, String sortField, String sortDirection,
@@ -126,8 +128,20 @@ public class BookServiceImp implements BookService{
 		
 	}
 
-	
+	@Override
+	public List<Book> getTopBook(){
+		return bookdao.getTopBook();
+	}
 
+	@Override
+	public List<Book> getNewBook(){
+		return bookdao.getNewBook();
+	}
+	
+	@Override
+	public List<Book> getBookByAuthor(Author author){
+		return bookdao.findByAuthor(author);
+	}
 }
 
 

@@ -75,7 +75,7 @@ public class HomeController {
 	}
 	@GetMapping("/view/{pageNo}")
 	public String pagingHomePage(@PathVariable Optional<String> pageNo, ModelMap map) {
-		int pageSize = 2; 
+		int pageSize = 8; 
 		String sortDir = "desc"; 
 		String sortField = "idBook"; 
 		int pageNoOffical = 1; 
@@ -95,6 +95,11 @@ public class HomeController {
 			map.addAttribute("pageFirst", 1); 
 			map.addAttribute("categories", listCategory); 
 		
+			List<Book> listTopBook=bookservice.getTopBook();
+			List<Book> listNewBook=bookservice.getNewBook();
+			map.addAttribute("listTopBook", listTopBook); 
+			map.addAttribute("listNewBook", listNewBook); 
+			
 		
 		return "home"; 
 	}
@@ -129,7 +134,7 @@ public class HomeController {
 			}
 		
 		
-		int pageSize = 2; 
+		int pageSize = 8; 
 		String sortDir = "desc"; 
 		String sortField = "idBook"; 
 		
@@ -176,7 +181,7 @@ public class HomeController {
 	@GetMapping("/search/{page}")
 	public String search(@RequestParam String searchvalue,ModelMap map,@PathVariable("page") Optional<String> pageNo) {
 		
-		int pageSize = 2; 
+		int pageSize = 8; 
 		String sortDir = "desc"; 
 		String sortField = "idBook"; 
 		int pageOffical=0; 

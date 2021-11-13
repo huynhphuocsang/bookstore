@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.ptit.exception.ResourceNotFoundException;
+import com.ptit.model.Author;
 import com.ptit.model.Book;
 import com.ptit.model.Category;
 
@@ -21,4 +22,8 @@ public interface BookService{
 	public Page<Book> getPageViaCategory(int pageNo, int pageSize, String sortField,String sortDirection,Category category); 
 	public int save(Book book);
 	public void deleteById(long idBook);
+	
+	public List<Book> getTopBook();
+	public List<Book> getNewBook();
+	public List<Book> getBookByAuthor(Author author);
 }
