@@ -60,7 +60,7 @@ public class BookDetailController {
 			try {
 				book = bookservice.getBookById(id);
 				author = authorService.getAuthorById(book.getAuthor().getIdAuthor()); 
-				company = companyService.getCompanyById(id); 
+				company = companyService.getCompanyById(book.getCompany().getIdCompany()); 
 				listReviews = reviewService.getAllReviewViaBook(book); 
 				
 				float star = 0; 
@@ -88,6 +88,14 @@ public class BookDetailController {
 			map.addAttribute("company", company); 
 			map.addAttribute("categories", listCategory);
 			map.addAttribute("reviews", listReviews); 
+			
+			List<Book> listAuthorBook= bookservice.getBookByAuthor(author);
+			List<Book> listCategoryBook = bookservice.getBookByCategory(book.getCategory()); 
+			listAuthorBook.remove(book);
+			listCategoryBook.remove(book);
+			map.addAttribute("listAuthorBook", listAuthorBook); 
+			map.addAttribute("listCategoryBook", listCategoryBook); 
+			
 			return "product-detail"; 
 		}
 		
