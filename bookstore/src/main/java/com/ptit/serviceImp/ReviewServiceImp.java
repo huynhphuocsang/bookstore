@@ -40,7 +40,8 @@ public class ReviewServiceImp implements ReviewService{
 		review.setBook(book);
 		review.setComments(comments);
 		review.setStar(star);
-		System.out.println("gia tri cua star: "+star);
+		review.setTime(date);
+		
 		reviewDao.save(review); 
 		
 	}
