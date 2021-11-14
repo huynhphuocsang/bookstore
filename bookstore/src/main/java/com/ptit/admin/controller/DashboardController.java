@@ -35,6 +35,9 @@ public class DashboardController {
 		model.addAttribute("price", list);
 		model.addAttribute("Totalearning", orderDetailDao.getTotalEarning());
 		model.addAttribute("TotalItem", orderDetailDao.getTotalItemSold());
+		
+		model.addAttribute("listYear", orderDao.getListYear());
+		
 		return "admin/statisticts";
 	}
 	
