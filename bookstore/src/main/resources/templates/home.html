@@ -30,7 +30,7 @@
 
 <body>
 	<!-- ======================================NAVIGATION====================================== -->
-	<div class="row header bg-primary">
+	<div class="row header bg-primary w-100">
 		<div id="header" th:fragment="navbar-fragment" class="container-fluid " style="text-align: center">
 			<nav class="navbar navbar-expand-lg navbar-dark" id="navbar-homepage">
 				<div class="container-md ">
@@ -249,24 +249,28 @@
 <script th:src="@{../../script/wow.min.js}"></script>
     <script>
           new WOW().init();
-        //load lại vị trí scroll chuột
-			var lastScrollTop = $.cookie('last-scroll-top');
-			if (lastScrollTop) {
-			    $(window).scrollTop(lastScrollTop);
-			    $.removeCookie('last-scroll-top');
-			} 
-			$(".page-link").on('click',function(){
-				$.cookie('last-scroll-top', $(window).scrollTop());
-			})
+       
+		$(document).ready(function(){
 			//event slider
-			$(document).ready(function(){
-
-        	  $('.items').slick({
-        	  infinite: true,
-        	  slidesToShow: 4,
-        	  slidesToScroll: 4
-        	  });
-        	  });
+        	 $('.items').slick({
+	        	 infinite: true,
+	        	 slidesToShow: 4,
+	        	 slidesToScroll: 4
+        	 });
+			
+        	//load lại vị trí scroll chuột
+ 			var lastScrollTop = $.cookie('last-scroll-top');
+ 			if (lastScrollTop) {
+ 			    $(window).scrollTop(lastScrollTop);
+ 			    console.log(lastScrollTop)
+ 			    $.removeCookie('last-scroll-top');
+ 			} 
+ 			
+ 			//lưu vị trí scroll trước khi chuyển page
+ 			$(".page-link").on('click',function(){
+ 				$.cookie('last-scroll-top', $(window).scrollTop());
+ 			})
+       	  });
     </script>
 
 </body>
