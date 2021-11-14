@@ -46,6 +46,13 @@ public interface OrderDao extends JpaRepository<Order, Long>{
 //	List<Order> getAllOrdersByUserid(@Param("userId") long userId);
 	
 	
+	@Query(value ="select distinct year(order_day)\r\n"
+			+ "from bookstore.orders o\r\n"
+			+ "where order_status = 2\r\n"
+			+ "group by year(order_day)\r\n"
+			+ "ORDER BY order_day", nativeQuery = true)
+	public List<Integer> getListYear();
+	
 }
 
 

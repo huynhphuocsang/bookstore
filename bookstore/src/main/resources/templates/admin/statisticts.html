@@ -4,6 +4,7 @@
 	<meta charset="UTF-8">
 	<title th:replace = "/admin/fragments/head-tag.html :: title">Title</title>
 	<th:block th:insert="/admin/fragments/head-tag.html :: link"></th:block>
+	<link th:href="@{/css/admin/statisticts.css}" rel="stylesheet">
 </head>
 	
 <body>
@@ -42,52 +43,109 @@
 			
 			<!-- ===================MAIN CONTENT=================== -->
 			<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
-				<div class="statistics_card mb-3" style="display: flex;justify-content: space-around;">
-					<div style="width:25%; height: 10%" class="card text-white bg-success" >
-					  <div style="display: flex; align-items: center; " class="card-body">
-					  	<div  class="card-icon mr-3">
-					  		<i style="font-size: 70px;" class="far fa-money-bill-alt"></i>
+				<div class="statistics_card row  mb-5" >
+					<div  class=" col-md-3" >
+					  <div class="card prod-p-card card-red" style="background-color: #FF5370">
+					  	<div class="card-body">
+					  		<div class="row align-items-center m-b-30">
+						  		<div class="col">
+							  		<h6 class="m-b-5 text-white">Total Profit</h6>
+								  	<h3 class="m-b-0 f-w-700 text-white" th:text="${#numbers.formatCurrency(Totalearning)}"></h3>
+							    </div>
+							    <div class="col-auto">
+							    	<i class="fas fa-money-bill-alt text-c-red f-18"></i>
+							    </div>
+						    </div>
+						    <p class="m-b-0 text-white">
+					  		<span class="label label-danger m-r-10">+11&</span>
+					  		From Previous Month
+					  	</p>
 					  	</div>
-					  	<div>
-						  	<h5 class="carsd-title" th:text="${#numbers.formatDecimal(Totalearning,3,0)}"></h5>
-						    <p class="csard-text">TOTAL EARNINGS</p>
+					  	
+					  </div>
+					</div>
+					
+					<div  class=" col-md-3" >
+					  <div class="card prod-p-card card-red" style="background-color: #4099FF">
+					  	<div class="card-body">
+					  		<div class="row align-items-center m-b-30">
+						  		<div class="col">
+							  		<h6 class="m-b-5 text-white">Total Oders</h6>
+								  	<h3 class="m-b-0 f-w-700 text-white" th:text="${TotalItem}"></h3>
+							    </div>
+							    <div class="col-auto">
+							    	<i class="fas fa-database text-c-blue f-18"></i>
+							    </div>
+						    </div>
+						    <p class="m-b-0 text-white">
+						  		<span class="label label-danger m-r-10">+11&</span>
+						  		From Previous Month
+						  	</p>
 					  	</div>
 					  </div>
 					</div>
 					
-					<div style="width:25%; height: 10%" class="card text-white bg-warning">
-					  <div style="display: flex; align-items: center;" class="card-body">
-					  	<div class="card-icon mr-3">
-					  		<i style="font-size: 70px;" class="fas fa-shopping-cart"></i>
-					  	</div>
-					  	<div>
-						  	<h5 class="card-title" th:text="${TotalItem}"></h5>
-						    <p class="card-text">ITEMS SOLD</p>
+					<div  class=" col-md-3" >
+					  <div class="card prod-p-card card-red" style="background-color: #2ed8b6">
+					  	<div class="card-body">
+					  		<div class="row align-items-center m-b-30">
+						  		<div class="col">
+							  		<h6 class="m-b-5 text-white">Average Price</h6>
+								  	<h3 class="m-b-0 f-w-700 text-white" th:text="${#numbers.formatCurrency(Totalearning/listYear.size())} "></h3>
+							    </div>
+							    <div class="col-auto">
+							    	<i class="fas fa-dollar-sign text-c-green f-18"></i>
+							    </div>
+						    </div>
+						    <p class="m-b-0 text-white">
+						  		<span class="label label-danger m-r-10">+11&</span>
+						  		From Previous Month
+						  	</p>
 					  	</div>
 					  </div>
 					</div>
 					
-					<div style="width:25%; height: 10%" class="card text-white bg-primary">
-					  <div style="display: flex; align-items: center;" class="card-body">
-					  	<div class="card-icon mr-3">
-					  		<i style="font-size: 70px;" class="far fa-user"></i>
-					  	</div>
-					  	<div>
-						  	<h5 class="card-title" th:text="${NumberUser}"></h5>
-						    <p class="card-text">TOTAL USERS</p>
+					<div  class=" col-md-3" >
+					  <div class="card prod-p-card card-red" style="background-color: #FFB64D">
+					  	<div class="card-body">
+					  		<div class="row align-items-center m-b-30">
+						  		<div class="col">
+							  		<h6 class="m-b-5 text-white">Total Users</h6>
+								  	<h3 class="m-b-0 f-w-700 text-white" th:text="${NumberUser}"></h3>
+							    </div>
+							    <div class="col-auto">
+							    	<i class="fas fa-tags text-c-yellow f-18"></i>
+							    </div>
+						    </div>
+						    <p class="m-b-0 text-white">
+						  		<span class="label label-danger m-r-10">+11&</span>
+						  		From Previous Month
+						  	</p>
 					  	</div>
 					  </div>
 					</div>
+					
 				</div>
 				
 				<div class="card mb-4">
-                            <div style="font-size: 24px" class="align-middle m-2">
-                                <i class="fas fa-chart-area me-1"></i>
-                                Revenue chart
-                            </div>
-                            <div class="card-body"><canvas id="myAreaChart" width="100%" height="30"></canvas></div>
-                            <div class="card-footer small text-muted">#####</div>
-                        </div>
+					<div class="row p-2">
+						<div class="col-md-10"></div>
+	                   	<form th:action="@{/admin/statisticts}" class="col-md-2 d-flex">
+	                    	<select name="year" class="form-control">
+	                    		<option th:each="year: ${listYear}"
+								th:utext="${year}"
+								th:value="${year}"></option>
+	                    	</select>
+	                    	<button type="submit" class="btn btn-info ml-1">Xem</button>
+	                   	</form>
+                   	</div>
+                   	
+                   	<div class="card-body"><canvas id="myAreaChart" width="100%" height="30"></canvas></div>
+                    <div style="font-size: 24px" class="align-middle m-2 text-center">
+                        <i class="fas fa-chart-area me-1"></i>
+                        THỐNG KÊ DOANH THU 
+                    </div>
+                </div>
 			</main>
 		</div>
 	</div>
@@ -113,7 +171,6 @@
 	/*<![CDATA[*/
 
 	var message = /*[[${price}]]*/ 'default';
-	
 	console.log(message);
 
 		/*]]>*/
@@ -127,7 +184,7 @@
 	  data: {
 	    labels:  a,
 	    datasets: [{
-	      label: "Sessions",
+	      label: "Lợi nhuận",
 	      lineTension: 0.3,
 	      backgroundColor: "rgba(2,117,216,0.2)",
 	      borderColor: "rgba(2,117,216,1)",
