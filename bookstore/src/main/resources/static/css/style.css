@@ -99,7 +99,13 @@ body,
      margin-bottom: 1rem
  }
 
-
+ .card-body .title{
+ 	word-wrap: break-word;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1
+ }
 
 
 .items {
