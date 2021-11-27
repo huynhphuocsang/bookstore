@@ -76,5 +76,23 @@ function clearnField(){
 	$('#user-confirm').val("");
 }
 
+function addAndEditNewUser()
+{
+	$(".main__overlay").css("display", "block");//làm mờ background
+	clearnField();
+	frmAddUser.css("display", "block");		// hiển thị form
+	
+	frmAddUser.find(".card-header:first").children("span").text("NEW USER") //đổi tiêu đề form
+	frmAddUser.find(".card-header:first").css({"background-color": "#28A745","color": "white"})// đổi màu form
+	
+	/* EVENT CLOSE FORM ADD BOOK */
+	$(".far.btn-close-from").click((e) => {
+		$(".main__overlay").css("display", "none");
+		frmAddUser.css("display", "none");
+		$(".form-message.invalid").removeClass("invalid")
+		clearnField();
+		
+	})
+}
 
 

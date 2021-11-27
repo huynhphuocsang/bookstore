@@ -24,10 +24,22 @@
 				<div
 					class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-1 pb-1 mb-1 border-bottom">
 					<div class="m-2">
-						<button type="button" class="btn btn-success btn__add--user">
+						<button  type="button" class="btn btn-success btn__add--user">
 							<i class="fas fa-plus"></i> New User</i>
-						</button>
+						</button> 
+						<form method="get" th:action="@{'/admin/customer/Add/' + ${currentPage}}">
+							<input type="hidden"  name="sortField" th:value="${sortField}"> 
+							<input type="hidden"  name="sortDir" th:value="${sortDir}">
+							<button type="submit" class="btn btn-success">Add</button> 
+						</form> 
 					</div>
+					<!-- search -->
+					<form class="form-inline my-2 my-lg-0 col-sm-10 col-md-10" th:action="@{/admin/customer/search}">
+							<input class="form-control mr-sm-2 col-sm-9 col-md-10" type="search" style="margin-right: 100px" placeholder="Search" aria-label="Search" name="searchvalue">
+							<button class="btn btn-secondary my-2 my-sm-0 " type="submit" style="color: white">
+								<i class="fas fa-search"></i>
+							</button>
+					</form>
 
 					<div class="btn-toolbar mb-2 mb-md-0">
 						<div class="btn-group mr-2">
@@ -75,10 +87,11 @@
 										class="btn btn-warning m-1 btn__edit--user">
 										<i class="far fa-edit"></i>
 									</button> -->
-									<form  method="post" th:action="@{/admin/customer/edit}">
-										<input type="hidden" class="id" name="id" th:value="${user.userId}" >
-										 <input type="submit" value="Edit" />
-									</form>					
+									<form method="post" th:action="@{/admin/customer/edit}">
+										<input type="hidden" class="id" name="id"
+											th:value="${user.userId}"> <input type="submit"
+											value="Edit" />
+									</form>
 									<button type="button" class="btn btn-danger btn__delete--user"
 										th:id="${user.userId}">
 										<i style="color: black;" class="far fa-trash-alt"></i>
@@ -123,7 +136,8 @@
 				</div>
 				<!-- ===============FORM ADD USER =========================-->
 				<form th:action="@{/admin/customer/save}" th:object="${user}"
-					method="post" enctype="multipart/form-data" class="from__add--user">
+									method="post" enctype="multipart/form-data" class="from__add--user">
+				
 					<div class="card">
 						<div class="card-header ">
 							<span>NEW USER</span><i style="z-index: 1000;"
@@ -132,7 +146,7 @@
 						<div class="card-body ">
 							<div class="form-row">
 								<!-- =================== FIELD ID ================== -->
-								<input th:field="*{userId}" type="hidden" id="userId">
+								<input th:field="*{userId}" type="hidden">
 
 								<!-- =================== FIELD TÊN NGƯỜI DÙNG ================== -->
 								<div class="form-group col-md-6">
@@ -196,7 +210,7 @@
 											đã được sử dụng !!</p>
 									</div>
 								</div>
-								
+
 								<!-- =================== FIELD Mật khẩu ================== -->
 								<div class="form-group col-md-6">
 									<div class="form-group col-md-12">
@@ -207,7 +221,7 @@
 									</div>
 								</div>
 							</div>
-							
+
 							<div class="form-row">
 								<!-- =================== Danh sách địa chỉ user ================== -->
 								<div th:if="${idEdit == true}" class="form-group col-md-6">
@@ -217,37 +231,40 @@
 											<select name="villageId" class="form-control" id="village">
 												<option th:each="addr : ${address}"
 													th:utext="${addr.addressName}"></option>
-											</select>
-											<a class="btn btn-outline-warning ml-2" id="linkAddress" th:href="@{'/admin/userAddress'+'?id='}"><i class="fas fa-pencil-alt"></i></a>
+											</select> <a class="btn btn-outline-warning ml-2" id="linkAddress"
+												th:href="@{'/admin/userAddress'+'?id='}"><i
+												class="fas fa-pencil-alt"></i></a>
 										</div>
 									</div>
+								<input name="addressName" class="form-control"  type="hidden">
+								<input name="villageId"  class="form-control"  type="hidden" >
 								</div>
-								
-								<th:block th:if="${idEdit != true}">
-								<!-- =================== FIELD TỈNH ================== -->
-								<div class="form-group col-md-3">
-									<div class="form-group col-md-12">
-										<label>Tỉnh\Thành phố</label>
-										<select class="form-control" id="province">
 
-											<option th:each="pro : ${province}"
-												th:utext="${pro.provinceName}" th:value="${pro.provinceId}"></option>
-										</select>
+								<th:block th:if="${idEdit != true}">
+									<!-- =================== FIELD TỈNH ================== -->
+									<div class="form-group col-md-3">
+										<div class="form-group col-md-12">
+											<label>Tỉnh\Thành phố</label> <select class="form-control"
+												id="province">
+
+												<option th:each="pro : ${province}"
+													th:utext="${pro.provinceName}" th:value="${pro.provinceId}"></option>
+											</select>
+										</div>
 									</div>
-								</div>
-								
-								<!-- =================== FIELD HUYỆN ================== -->
-								<div class="form-group col-md-3">
-									<div class="form-group col-md-12">
-										<label >Quận\Huyện</label>
-										<select class="form-control" id="district">
-											<option th:each="dis : ${district}"
-												th:utext="${dis.districtName}" th:value="${dis.districtId}"></option>
-										</select>
+
+									<!-- =================== FIELD HUYỆN ================== -->
+									<div class="form-group col-md-3">
+										<div class="form-group col-md-12">
+											<label>Quận\Huyện</label> <select class="form-control"
+												id="district">
+												<option th:each="dis : ${district}"
+													th:utext="${dis.districtName}" th:value="${dis.districtId}"></option>
+											</select>
+										</div>
 									</div>
-								</div>
 								</th:block>
-								
+
 								<!-- =================== FIELD Nhập lại mật khẩu ================== -->
 								<div class="form-group col-md-6">
 									<div class="form-group col-md-12">
@@ -257,35 +274,37 @@
 										<p class="form-message">Không hợp lệ !!</p>
 									</div>
 								</div>
-							</div>
-							
-							<th:block th:if="${idEdit != true}">
-							<div class="form-row">
-								<!-- =================== FIELD Xã ================== -->
-								<div class="form-group col-md-6">
-									<div class="form-group col-md-12">
-										<label> Xã </label>
-										<select name="villageId" class="form-control" id="village">
-											<option th:each="vil : ${village}"
-												th:utext="${vil.villageName}" th:value="${vil.villageId}"></option>
-										</select>
-									</div>
-								</div>
 								
-								<!-- =================== FIELD địa chỉ cụ thể ================== -->
-								<div class="form-group col-md-6">
-									<div class="form-group col-md-12">
-										<label>Địa chỉ cụ thể </label> <input
-											name="addressName" type="text" class="form-control"
-											id="address" placeholder="VD: thôn Hiệp Hưng">
-										<p class="form-message">Không hợp lệ !!</p>
-									</div>
-								</div>
+					
 							</div>
 
+							<th:block th:if="${idEdit != true}">
+								<div class="form-row">
+									<!-- =================== FIELD Xã ================== -->
+									<div class="form-group col-md-6">
+										<div class="form-group col-md-12">
+											<label> Xã </label> <select name="villageId"
+												class="form-control" id="village">
+												<option th:each="vil : ${village}"
+													th:utext="${vil.villageName}" th:value="${vil.villageId}"></option>
+											</select>
+										</div>
+									</div>
+
+									<!-- =================== FIELD địa chỉ cụ thể ================== -->
+									<div class="form-group col-md-6">
+										<div class="form-group col-md-12">
+											<label>Địa chỉ cụ thể </label> <input name="addressName"
+												type="text" class="form-control" id="address"
+												placeholder="VD: thôn Hiệp Hưng">
+											<p class="form-message">Không hợp lệ !!</p>
+										</div>
+									</div>
+								</div>
 
 
-							<!-- <div class="form-row">
+
+								<!-- <div class="form-row">
 								=================== FIELD Xã ==================
 								<div class="form-group col-md-6">
 									<div class="form-group col-md-12">
@@ -310,7 +329,8 @@
 							</div> -->
 							</th:block>
 							
-							
+						
+
 
 
 
@@ -381,7 +401,15 @@
 			
 		}
 		/*]]>*/
+		
+		/*<![CDATA[*/
+		var isAdd = /*[[${isAdd}]]*/'default';
 
+		//kiểm tra nếu them user nhận về lỗi thì hiện form nhập và hiện lại các thông tin vừa nhập
+		if (isAdd) {
+			addAndEditNewUser();
+		}
+		/*]]>*/
 		
 		/*<![CDATA[*/
 		var idEdit = /*[[${idEdit}]]*/'default';
@@ -392,7 +420,8 @@
 			const province = document.querySelector(".province");
 			var address2 = /*[[${address2}]]*/'default';
 			var user3 = /*[[${user3}]]*/'default';
-			
+			console.log(user3.userId);
+			$('.card #userId').val(user3.userId);
 			$('#user-name').val(user3.username);
 			$('#user-age').val(user3.age);
 			$('#user-phone').val(user3.phone);
@@ -409,7 +438,7 @@
 			$("#linkAddress").attr("href",$("#linkAddress").attr("href")+user3.userId)
 		}
 		/*]]>*/
-		s
+		
 
     	const province = document.getElementById("province");
     	const district = document.getElementById("district");

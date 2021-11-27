@@ -114,7 +114,7 @@ public class UserServiceImp implements UserService{
 
 	@Override //use for user update info
 	public boolean checkExistPhoneInfo(String phone, String username) {
-		List<User> list = userDao.verifyDuplicateEmail(phone, username); 
+		List<User> list = userDao.verifyDuplicatePhone(phone, username); 
 		
 		if(list.size()>0) return true; 
 		return false;
@@ -163,12 +163,13 @@ public class UserServiceImp implements UserService{
 		
 		Pageable pageable = PageRequest.of(pageNo -1, pageSize,sort);
 		return userDao.findAll(pageable);
+//		return userDao.findUserByRoleUser(pageable);
 	}
 
 	@Override
 	public User findById(long id) throws ResourceNotFoundException {
 		Optional<User> user = userDao.findById(id);
-
+		
 		if(!user.isPresent()) {
 			throw new ResourceNotFoundException("User not found by id"); 
 		}
@@ -179,6 +180,10 @@ public class UserServiceImp implements UserService{
 	@Override
 	public void saveUser(User user) {
 		userDao.save(user);
+		User userAfterSave = userDao.findByUsername(user.getUsername()); 
+		Role role = roleDao.findByRoleName("ROLE_USER"); 
+		UserRole userRole = new UserRole(0, userAfterSave, role);
+		userRoleDao.save(userRole); 
 		
 	}
 
@@ -201,6 +206,59 @@ public class UserServiceImp implements UserService{
 		userDao.delete(user);
 		
 	}
+
+	@Override
+	public Page<User> findPaginatedByAdmin(int pageNo, int pageSize, String sortField, String sortDirection) {
+		Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) 
+				? Sort.by(sortField).ascending() : Sort.by(sortField).descending() ;
+		
+		Pageable pageable = PageRequest.of(pageNo -1, pageSize,sort);
+		return userDao.findUserByRoleAdmin(pageable);
+	}
+
+	@Override
+	public Page<User> findPaginatedByAdminAndGmail(int pageNo, int pageSize, String sortField, String sortDirection,
+			String gmail) {
+		Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) 
+				? Sort.by(sortField).ascending() : Sort.by(sortField).descending() ;
+		
+		Pageable pageable = PageRequest.of(pageNo -1, pageSize,sort);
+		return userDao.findUserByRoleAdminAndGmail(gmail, pageable);
+	}
+
+	@Override
+	public Page<User> findPaginatedByUserAndGmail(int pageNo, int pageSize, String sortField, String sortDirection,
+			String gmail) {
+		Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) 
+				? Sort.by(sortField).ascending() : Sort.by(sortField).descending() ;
+		
+		Pageable pageable = PageRequest.of(pageNo -1, pageSize,sort);
+		return userDao.findUserByRoleUserAndGmail(gmail, pageable);
+	}
+
+	@Override
+	public void updateUser(User user) {
+		userDao.updateUser(user.getPhone(), user.getUsername(), user.getAge(), user.isGender(),user.getEmail());
+		
+	}
+
+	@Override
+	public Page<User>  findUserByUsername(int pageNo, int pageSize, String sortField, String sortDirection,String key) {
+		Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) 
+				? Sort.by(sortField).ascending() : Sort.by(sortField).descending() ;
+		
+		Pageable pageable = PageRequest.of(pageNo -1, pageSize,sort);
+		
+		return userDao.findByUsernameContainsAllIgnoreCase(key,pageable);
+	}
+
+	@Override
+	public List<User> findUserByUsername() {
+		
+		return null;
+	}
+
+	
 
 	
 
