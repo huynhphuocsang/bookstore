@@ -1,6 +1,7 @@
 package com.ptit.repository;
 
 import java.time.LocalDateTime;
+import java.sql.Date;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -36,8 +37,8 @@ public interface OrderDao extends JpaRepository<Order, Long>{
 	public Page<Order> findByOrderStatus(int status, Pageable pageable);
 	
 	
-	@Query(value = "SELECT * FROM Order WHERE orderDay >= :startDate AND orderDay <= :endDate", nativeQuery = true)
-	List<Order> getAllBetweenDates(@Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate);
+	@Query(value = "FROM Order WHERE orderDay BETWEEN  :startDate AND :endDate", nativeQuery = true)
+	public Page<Order> getAllBetweenDates(@Param("startDate") Date startDate, @Param("endDate") Date endDate, Pageable pageable);
 	 
 //	get stack overflow when: infinitive recursive
 	public List<Order> findByUserOrderByOrderIdDesc (User user); 
@@ -50,7 +51,7 @@ public interface OrderDao extends JpaRepository<Order, Long>{
 			+ "from bookstore.orders o\r\n"
 			+ "where order_status = 2\r\n"
 			+ "group by year(order_day)\r\n"
-			+ "ORDER BY order_day", nativeQuery = true)
+			+ "ORDER BY order_day desc", nativeQuery = true)
 	public List<Integer> getListYear();
 	
 }

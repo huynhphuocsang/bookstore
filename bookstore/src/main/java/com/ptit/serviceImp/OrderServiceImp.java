@@ -1,10 +1,11 @@
 package com.ptit.serviceImp;
 
 import java.math.BigDecimal;
-import java.sql.Date;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.sql.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -82,9 +83,15 @@ public class OrderServiceImp implements OrderService {
 	}
 
 	@Override
-	public List<Order> getAllBetweenDates(LocalDateTime startDate, LocalDateTime endDate) {
+	public Page<Order> getAllBetweenDates(int pageNo, int pageSize, String sortField, String sortDirection, int status,Date startDate, Date endDate) {
 		// TODO Auto-generated method stub
-		return orderdao.getAllBetweenDates(startDate, endDate);
+		Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) 
+				? Sort.by(sortField).ascending() : Sort.by(sortField).descending() ;
+				Pageable pageable = PageRequest.of(pageNo -1, pageSize,sort);
+				if(status<0) {
+					return orderdao.findAll(pageable);
+				}
+		return orderdao.getAllBetweenDates(startDate, endDate,pageable);
 	}
 
 	@Override
