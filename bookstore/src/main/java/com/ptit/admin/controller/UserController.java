@@ -8,8 +8,10 @@ import javax.persistence.CascadeType;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,12 +24,15 @@ import com.ptit.dto.UserDto;
 import com.ptit.exception.ResourceNotFoundException;
 import com.ptit.model.Address;
 import com.ptit.model.Book;
+import com.ptit.model.Category;
 import com.ptit.model.Province;
 import com.ptit.model.User;
 import com.ptit.model.Village;
 import com.ptit.repository.AddressDao;
 import com.ptit.repository.DistrictDao;
 import com.ptit.repository.ProvinceDao;
+import com.ptit.repository.RoleDao;
+import com.ptit.repository.UserDao;
 import com.ptit.repository.UserRoleDao;
 import com.ptit.repository.VillageDao;
 import com.ptit.service.UserService;
@@ -60,23 +65,37 @@ public class UserController {
 	@Autowired
 	AddressDao addressDao;
 	
+	@Autowired
+	RoleDao  roleDao;
+	
+	@Autowired 
+	UserDao userDao;
+	
 	@GetMapping()
 	public String getHomeCustomer(Model model) {
 		model.addAttribute("user", new User());
 		return getUser(model, 1, "username", "asc");
 	}
 	
-	@GetMapping("/{pageNo}")
-	public String getUser(Model model, @PathVariable(value = "pageNo") int pageNo,
-			@RequestParam("sortField") String sortField, @RequestParam("sortDir") String sortDir) {
+	@GetMapping("/search")
+	public String searchDefault(Model model,@RequestParam String searchvalue, ModelMap map) {
+		model.addAttribute("book", new Book());
+		return getBookSearch(model, 1, "username", "asc",searchvalue);
 		
+	}
+	
+	
+	@GetMapping("/search/{pageNo}")
+	public String getBookSearch(Model model, @PathVariable(value = "pageNo") int pageNo,
+			@RequestParam("sortField") String sortField, @RequestParam("sortDir") String sortDir,@RequestParam String searchvalue) {
 		int pageSize = 5;
 		int pageFirst = 1;
 		model.addAttribute("user", new User());
 		model.addAttribute("address", new Address());
-		Page<User> page = userService.findPaginated(pageNo, pageSize, sortField, sortDir);
-
-		List<User> listUser = page.getContent()/*.stream().filter(u -> userRoleDao.getByUser(u).getRole().getIdRole()==2).collect(Collectors.toList())*/;
+		Page<User> page =  userService.findUserByUsername(pageNo, pageSize, sortField, sortDir, searchvalue);
+		System.out.println("okok");
+		List<User> listUser = page.getContent();
+		//List<User> listUser2 = listUser.stream().filter(u -> 2==userRoleDao.getByUser(u).getRole().getIdRole()).collect(Collectors.toList());
 		model.addAttribute("listUser", listUser);
 		model.addAttribute("sortField", sortField);
 		model.addAttribute("sortDir", sortDir);
@@ -93,33 +112,150 @@ public class UserController {
 		return "admin/customers";
 	}
 	
+	@GetMapping("/{pageNo}")
+	public String getUser(Model model, @PathVariable(value = "pageNo") int pageNo,
+			@RequestParam("sortField") String sortField, @RequestParam("sortDir") String sortDir) {
+		
+		int pageSize = 5;
+		int pageFirst = 1;
+		model.addAttribute("user", new User());
+		model.addAttribute("address", new Address());
+		Page<User> page = userService.findPaginated(pageNo, pageSize, sortField, sortDir);
+
+		List<User> listUser = page.getContent();
+		//List<User> listUser2 = listUser.stream().filter(u -> 2==userRoleDao.getByUser(u).getRole().getIdRole()).collect(Collectors.toList());
+		model.addAttribute("listUser", listUser);
+		model.addAttribute("sortField", sortField);
+		model.addAttribute("sortDir", sortDir);
+		model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
+
+		model.addAttribute("pageFirst", pageFirst);
+		model.addAttribute("currentPage", pageNo);
+		model.addAttribute("totalPage", page.getTotalPages());
+		model.addAttribute("totalItem", page.getTotalElements());
+		
+		model.addAttribute("village", villageDao.findAll());
+		model.addAttribute("district", districtDao.findAll());
+		model.addAttribute("province", provinceDao.findAll());
+		return "admin/customers";
+	}
+	
+	@GetMapping("/Add/{pageNo}")
+	public String getUserAdd(RedirectAttributes ra,Model model, @PathVariable(value = "pageNo") int pageNo,
+			@RequestParam("sortField") String sortField, @RequestParam("sortDir") String sortDir) {
+		
+		int pageSize = 5;
+		int pageFirst = 1;
+		model.addAttribute("user", new User());
+		model.addAttribute("address", new Address());
+		Page<User> page = userService.findPaginated(pageNo, pageSize, sortField, sortDir);
+
+		List<User> listUser = page.getContent();
+	
+		model.addAttribute("listUser", listUser);
+		model.addAttribute("sortField", sortField);
+		model.addAttribute("sortDir", sortDir);
+		model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
+
+		model.addAttribute("pageFirst", pageFirst);
+		model.addAttribute("currentPage", pageNo);
+		model.addAttribute("totalPage", page.getTotalPages());
+		model.addAttribute("totalItem", page.getTotalElements());
+		
+		model.addAttribute("village", villageDao.findAll());
+		model.addAttribute("district", districtDao.findAll());
+		model.addAttribute("province", provinceDao.findAll());
+		
+		model.addAttribute("roles", roleDao.findAll());
+		boolean isAdd=true;
+		model.addAttribute("isAdd", isAdd);
+		
+		
+		return "admin/customers";
+	}
+	
+//	@PostMapping("/Add/{pageNo}")
+//	public String addu(Model model,
+//			RedirectAttributes ra) throws ResourceNotFoundException {
+//		
+////		List<Address> list = addressDao.findBySetUsers_UserId(id);
+//		ra.addFlashAttribute("user", new User());
+////		ra.addFlashAttribute("address2", list);
+//		boolean isAdd=true;
+//		ra.addFlashAttribute("isAdd", isAdd);
+//		return "redirect:/admin/customer";
+//	}
+	
 	@PostMapping("/save")
 	public String updateUser(@ModelAttribute("user") User user, 
 			RedirectAttributes ra,
 			@RequestParam(name="addressName") String addressName,
 			@RequestParam(name="villageId") String villageId) {
 		boolean isError=false;
-		boolean existUsername=userService.checkExistUsernameInfo(user.getUsername());
-		boolean existPhone=userService.checkExistUsernameInfo(user.getPhone());
-		boolean existEmail=userService.checkExistUsernameInfo(user.getEmail());
 		
-		
-		Address ad = new Address();
-		ad.setAddressName(addressName);
-		ad.setVillage(villageService.getById(villageId));
-		user.getSetAddress().add(ad);
-		userService.saveUser(user);
-		
-		
-		if(existUsername || existPhone || existEmail) {
-			isError=true;
-			ra.addFlashAttribute("isError", isError);
-			ra.addFlashAttribute("existUsername", existUsername);
-			ra.addFlashAttribute("existPhone", existPhone);
-			ra.addFlashAttribute("existEmail", existEmail);
-			ra.addFlashAttribute("user2", user);
-			return "redirect:/admin/customer";
+		Optional<User> user2 = userDao.findById(user.getUserId());
+
+		if(!user2.isPresent()) {
+			boolean existUsername=userService.checkExistUsernameInfo(user.getUsername());
+			boolean existPhone=userService.checkExistUsernameInfo(user.getPhone());
+			boolean existEmail=userService.checkExistUsernameInfo(user.getEmail());
+			
+			
+			if(existUsername || existPhone || existEmail) {
+				isError=true;
+				ra.addFlashAttribute("isError", isError);
+				ra.addFlashAttribute("existUsername", existUsername);
+				ra.addFlashAttribute("existPhone", existPhone);
+				ra.addFlashAttribute("existEmail", existEmail);
+				ra.addFlashAttribute("user2", user);
+				return "redirect:/admin/customer";
+			}else {
+				Address ad = new Address();
+				ad.setAddressName(addressName);
+				String passwordConvert = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(12));  
+				user.setPassword(passwordConvert);
+				ad.setVillage(villageService.getById(villageId));
+				user.getSetAddress().add(ad);
+				userService.saveUser(user);
+				boolean edit=false;
+				ra.addFlashAttribute("idEdit", edit);
+			}
+		}else {
+			
+			boolean existPhone=userService.checkExistPhoneInfo(user.getPhone(),user.getUsername());
+			boolean existEmail=userService.checkExistEmailInfo(user.getEmail(),user.getUsername());
+			
+			if(existPhone || existEmail) {
+				isError=true;
+				ra.addFlashAttribute("isError", isError);
+				ra.addFlashAttribute("existPhone", existPhone);
+				ra.addFlashAttribute("existEmail", existEmail);
+				ra.addFlashAttribute("user2", user);
+				return "redirect:/admin/customer";
+			}else {
+				
+				String passwordConvert = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(12));  
+				user.setPassword(passwordConvert);
+				userService.updateUser(user);
+				boolean edit=false;
+				ra.addFlashAttribute("idEdit", edit);
+			}
+			
+			
 		}
+		
+		
+		
+		return "redirect:/admin/customer";
+	}
+	
+	
+	@PostMapping("/saveEdit")
+	public String updateUserEdit(@ModelAttribute("user") User user) {
+			String passwordConvert = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(12));  
+			user.setPassword(passwordConvert);	
+			userService.saveUser(user);
+
 		return "redirect:/admin/customer";
 	}
 	
@@ -130,7 +266,7 @@ public class UserController {
 		
 		User userEdit = userService.findById(id);
 		UserDto user3 = userService.convertUserDto(userEdit);
-		
+	
 //		List<Address> list = addressDao.findBySetUsers_UserId(id);
 		ra.addFlashAttribute("user3", user3);
 //		ra.addFlashAttribute("address2", list);

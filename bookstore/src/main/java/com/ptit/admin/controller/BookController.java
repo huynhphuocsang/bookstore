@@ -7,6 +7,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -54,6 +55,7 @@ public class BookController {
 		model.addAttribute("book", new Book());
 		return getBook(model, 1, "bookName", "asc");
 	}
+	
 
 	@GetMapping("/book/{pageNo}")
 	public String getBook(Model model, @PathVariable(value = "pageNo") int pageNo,
@@ -142,6 +144,46 @@ public class BookController {
 		
 		bookService.deleteById(idBook);
 		return "redirect:/admin/book";
+	}
+	
+	@GetMapping("/book/search")
+	public String searchDefault(Model model,@RequestParam String searchvalue, ModelMap map) {
+		model.addAttribute("book", new Book());
+		return getBookSearch(model, 1, "bookName", "asc",searchvalue);
+		
+	}
+	
+	
+	@GetMapping("/book/search/{pageNo}")
+	public String getBookSearch(Model model, @PathVariable(value = "pageNo") int pageNo,
+			@RequestParam("sortField") String sortField, @RequestParam("sortDir") String sortDir,@RequestParam String searchvalue) {
+		int pageSize = 5;
+		int pageFirst = 1;
+		model.addAttribute("book", new Book());
+		Page<Book> page = bookService.findBook(searchvalue, pageNo, pageSize, sortField, sortDir);
+
+		List<Book> listBook = page.getContent();
+		model.addAttribute("listBook", listBook);
+		model.addAttribute("sortField", sortField);
+		model.addAttribute("sortDir", sortDir);
+		model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
+
+		model.addAttribute("pageFirst", pageFirst);
+		model.addAttribute("currentPage", pageNo);
+		model.addAttribute("totalPage", page.getTotalPages());
+		model.addAttribute("totalItem", page.getTotalElements());
+
+		// get Publishing Company
+		model.addAttribute("listCompany", publishingCompanyService.getAllCompanyService());
+
+		// Get category to view
+		List<Category> listCategory = categoryService.getAllCategories();
+		model.addAttribute("listCategory", listCategory);
+
+		// get author
+		model.addAttribute("listAuthor", authorService.getAllAuthor());
+
+		return "/admin/book";
 	}
 	
 	

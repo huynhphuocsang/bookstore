@@ -7,7 +7,9 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ptit.repository.OrderDao;
 import com.ptit.repository.OrderDetailDao;
@@ -31,7 +33,7 @@ public class DashboardController {
 	@RequestMapping(value={"", "/","statisticts"})
 	public String index(Model model) {
 		model.addAttribute("NumberUser", userService.countUsers());
-		List<Float> list = orderService.getMoneyPerMonthByYear(2021);
+		List<Float> list = orderService.getMoneyPerMonthByYear(orderDao.getListYear().get(0));
 		model.addAttribute("price", list);
 		model.addAttribute("Totalearning", orderDetailDao.getTotalEarning());
 		model.addAttribute("TotalItem", orderDetailDao.getTotalItemSold());
@@ -41,13 +43,16 @@ public class DashboardController {
 		return "admin/statisticts";
 	}
 	
-	@RequestMapping("/statisticts/{year}")
-	public String index2(Model model, @PathVariable int year) {
+	@PostMapping("/statisticts")
+	public String index2(Model model, 	@RequestParam(name="year")  int year) {
+		
 		model.addAttribute("NumberUser", userService.countUsers());
 		List<Float> list = orderService.getMoneyPerMonthByYear(year);
 		model.addAttribute("price", list);
 		model.addAttribute("Totalearning", orderDetailDao.getTotalEarning());
 		model.addAttribute("TotalItem", orderDetailDao.getTotalItemSold());
+		
+		model.addAttribute("listYear", orderDao.getListYear());
 		return "admin/statisticts";
 	}
 	

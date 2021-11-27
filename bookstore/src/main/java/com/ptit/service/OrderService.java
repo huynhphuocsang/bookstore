@@ -2,6 +2,7 @@ package com.ptit.service;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.sql.Date;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -23,7 +24,7 @@ public interface OrderService {
 	public Page<Order> findPaginated(int pageNo, int pageSize, String sortField, String sortDirection, int status);
 	
 	public int save(Order order);
-	List<Order> getAllBetweenDates(LocalDateTime startDate, LocalDateTime endDate);
+	public Page<Order> getAllBetweenDates(int pageNo, int pageSize, String sortField, String sortDirection, int status,Date startDate, Date endDate);
 	public int updateOrderStatus(long idOrder, int status);
 	public boolean createNewOrder(String name, String phone, User user, List<Items> list,BigDecimal totalPrice, String addressName, String villageId) throws OverMaximumQuantityException ; 
 	public List<Order> getOrdersByUser(User user);
