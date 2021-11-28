@@ -81,6 +81,7 @@
 					<!-- find book -->
 					<form class="form-inline my-2 my-lg-0 col-sm-10 col-md-10" th:action="@{/admin/order/search}">
 					<div class="form-row">
+					<input type="text" class="form-control input-delete d-none" name="statusOrderSearch" th:value="${status}"></p>
 							<div class="form-group col-md-6">
 											<label for="publish-day">Ngày bắt đầu:</label> 
 											<input name="startDate" class="form-control" id="datepickerfrom"  type="date" />
