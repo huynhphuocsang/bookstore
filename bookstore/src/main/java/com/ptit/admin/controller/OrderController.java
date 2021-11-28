@@ -36,7 +36,7 @@ public class OrderController {
 	
 	@GetMapping("/search")
 	public String searchDefault(Model model,@RequestParam Date startDate,@RequestParam Date endDate, ModelMap map) {
-		model.addAttribute("book", new Book());
+		model.addAttribute("book", new Order());
 		return getOrderSearch(model, 1, "nameOfCustomer", "asc", -1,startDate,endDate);
 		
 	}
