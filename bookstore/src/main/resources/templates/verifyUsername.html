@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Đăng nhập tài khoản</title>
+<title>Xác thực username</title>
 <link rel="stylesheet" type="text/css"
 	th:href="@{../css/loginstyle.css}">
 <link rel="stylesheet"
@@ -21,63 +21,33 @@
 					</div>
 				</div>
 				<div class="d-flex justify-content-center form_container">
-					<form name='f' th:action="@{/j_spring_security_check}"
+					<form name='f' th:action="@{/verify/username}"
 						method='POST'>
-						<div th:if="${logoutSuccess == true}"
-							style="color: black; margin: 10px 0px; font-size: 22px">
-							Bạn đã đăng xuất<br />
-
-						</div>
+						<h5>Nhập username của bạn</h5>
 						<div class="input-group mb-3">
 							<div class="input-group-append">
 								<span class="input-group-text"><i class="fas fa-user"></i></span>
 							</div>
 							<input type="text" name="username"
-								class="form-control input_user" value=""
+								class="form-control input_user" th:value="${#request.getParameter('inputUsername')}"
 								placeholder="Tên đăng nhập">
 						</div>
-						<div class="input-group mb-2">
-							<div class="input-group-append">
-								<span class="input-group-text"><i class="fas fa-key"></i></span>
-							</div>
-							<input type="password" name="password"
-								class="form-control input_pass" value="" placeholder="Mật khẩu">
-						</div>
-						<div class="form-group">
-							<div class="custom-control custom-checkbox">
-								<input type="checkbox" class="custom-control-input"
-									id="customControlInline" name="remember-me"> <label
-									class="custom-control-label" for="customControlInline">Remember
-									me</label>
-							</div>
-						</div>
-						<div class="d-flex justify-content-center mt-3 login_container">
-							<button type="submit" name="submit" class="btn login_btn">Đăng nhập</button>
+							<div class="d-flex justify-content-center mt-3 login_container">
+							<button type="submit" name="submit" class="btn username_btn">Xác thực</button>
 						</div>
 					</form>
 				</div>
 
-				<!-- LOGIN FAILED -->
-				<!-- <div th:if="${#request.getParameter('error') == 'true'}"
+				<div th:if="${#request.getParameter('userNotExist') == 'true'}"
 					style="color: red; margin: 10px 0px;">
-					Login Failed!!!<br /> Reason : <span
-						th:if="${#session!= null and #session.getAttribute('SPRING_SECURITY_LAST_EXCEPTION') != null}"
-						th:utext="${#session.getAttribute('SPRING_SECURITY_LAST_EXCEPTION').message}">
-						Static summary </span>
-
-				</div> -->
-				<div th:if="${#request.getParameter('error') == 'true'}"
-					style="color: red; margin: 10px 0px;">
-					Đăng nhập thất bại<br />Kiểm tra username và password
+					Xác thực thất bại<br />Tên đăng nhập không tồn tại!
 
 				</div>
 				<div class="mt-4">
 					<div class="d-flex justify-content-center links">
 						Bạn chưa có tài khoản <a href="/account/signup" class="ml-2">Đăng ký</a>
 					</div>
-					<div class="d-flex justify-content-center links">
-						<a th:href="@{/verify/username}">Quên mật khẩu</a>
-					</div>
+					
 				</div>
 			</div>
 		</div>
