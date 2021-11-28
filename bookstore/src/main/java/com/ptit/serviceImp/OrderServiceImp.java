@@ -89,8 +89,12 @@ public class OrderServiceImp implements OrderService {
 				? Sort.by(sortField).ascending() : Sort.by(sortField).descending() ;
 				
 		Pageable pageable = PageRequest.of(pageNo -1, pageSize,sort);
-				
-		return orderdao.getAllBetweenDates(startDate, endDate,pageable);
+		if(status<0) {
+			return orderdao.getAllBetweenDates(startDate, endDate,pageable);
+		}
+		System.out.println(status);
+		return orderdao.getAllBetweenDatesAndStatus(startDate, endDate,status, pageable);		
+		
 	}
 
 	@Override
