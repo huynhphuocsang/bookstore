@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ptit.dto.UserDto;
@@ -30,9 +31,18 @@ public interface UserService {
 	public List<User> findUser(String key); 
 	public Page<User> findPage(int pageNo, int pageSize);
 	public Page<User> findPaginated(int pageNo, int pageSize, String sortField, String sortDirection);
+	
+	public Page<User> findPaginatedByAdmin(int pageNo, int pageSize, String sortField, String sortDirection);
+	
+	public Page<User> findPaginatedByAdminAndGmail(int pageNo, int pageSize, String sortField, String sortDirection,String gmail);
+	public Page<User> findPaginatedByUserAndGmail(int pageNo, int pageSize, String sortField, String sortDirection,String gmail);
+	
 	public User findById(long id) throws ResourceNotFoundException;
 	public void saveUser(User user);
 	public UserDto convertUserDto(User user);
 	public void deleteUser(User user);
+	public void updateUser(User user);
 	
+	public Page<User> findUserByUsername(int pageNo, int pageSize, String sortField, String sortDirection,String key);
+	List<User> findUserByUsername();
 }

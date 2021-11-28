@@ -50,7 +50,15 @@
 							<i class="fas fa-plus"></i> Add new</i>
 						</button>
 					</div>
-					
+					<!-- find book -->
+					<form class="form-inline my-2 my-lg-0 col-sm-10 col-md-10" th:action="@{/admin/book/search}">
+							<input class="form-control mr-sm-2 col-sm-9 col-md-10" type="search" style="margin-right: 100px" placeholder="Search" aria-label="Search" name="searchvalue">
+							<button class="btn btn-secondary my-2 my-sm-0 " type="submit" style="color: white">
+								<i class="fas fa-search"></i>
+							</button>
+					</form>
+						
+						
 					<div class="btn-toolbar mb-2 mb-md-0">
 						<div class="btn-group mr-2">
 							<button class="btn btn-sm btn-outline-secondary">Share</button>

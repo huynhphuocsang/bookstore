@@ -19,6 +19,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -39,6 +41,7 @@ public class Order  implements Serializable{
 	@Column(name="total_price")
 	private BigDecimal totalPrice;
 	
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@Column(name="order_day")
 	private Date orderDay; 
 	
