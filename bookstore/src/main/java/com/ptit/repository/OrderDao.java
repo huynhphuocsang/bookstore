@@ -37,7 +37,7 @@ public interface OrderDao extends JpaRepository<Order, Long>{
 	public Page<Order> findByOrderStatus(int status, Pageable pageable);
 	
 	
-	@Query(value = "FROM Order WHERE orderDay BETWEEN  :startDate AND :endDate", nativeQuery = true)
+	@Query(value = "select o FROM Order o WHERE o.orderDay  BETWEEN  :startDate AND :endDate")
 	public Page<Order> getAllBetweenDates(@Param("startDate") Date startDate, @Param("endDate") Date endDate, Pageable pageable);
 	 
 //	get stack overflow when: infinitive recursive
