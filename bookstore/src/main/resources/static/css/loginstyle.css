@@ -50,6 +50,25 @@
 			box-shadow: none !important;
 			outline: 0px !important;
 		}
+		.username_btn {
+			width: 100%;
+			background: #c0392b !important;
+			color: white !important;
+		}
+		.username_btn:focus {
+			box-shadow: none !important;
+			outline: 0px !important;
+		}
+		.verifycode_btn {
+			width: 100%;
+			background: #c0392b !important;
+			color: white !important;
+		}
+		.verifycode_btn:focus {
+			box-shadow: none !important;
+			outline: 0px !important;
+		}
+		
 		.login_container {
 			padding: 0 2rem;
 		}
