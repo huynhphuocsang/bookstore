@@ -87,11 +87,14 @@ public class OrderServiceImp implements OrderService {
 		// TODO Auto-generated method stub
 		Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) 
 				? Sort.by(sortField).ascending() : Sort.by(sortField).descending() ;
-				Pageable pageable = PageRequest.of(pageNo -1, pageSize,sort);
-				if(status<0) {
-					return orderdao.findAll(pageable);
-				}
-		return orderdao.getAllBetweenDates(startDate, endDate,pageable);
+				
+		Pageable pageable = PageRequest.of(pageNo -1, pageSize,sort);
+		if(status<0) {
+			return orderdao.getAllBetweenDates(startDate, endDate,pageable);
+		}
+		System.out.println(status);
+		return orderdao.getAllBetweenDatesAndStatus(startDate, endDate,status, pageable);		
+		
 	}
 
 	@Override
@@ -198,6 +201,8 @@ public class OrderServiceImp implements OrderService {
 		}
 		return moneyPerMonth;
 	}
+
+	
 
 	
 	

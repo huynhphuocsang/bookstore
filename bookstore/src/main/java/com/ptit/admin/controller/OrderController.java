@@ -35,9 +35,9 @@ public class OrderController {
 	}
 	
 	@GetMapping("/search")
-	public String searchDefault(Model model,@RequestParam Date startDate,@RequestParam Date endDate, ModelMap map) {
-		model.addAttribute("book", new Book());
-		return getOrderSearch(model, 1, "nameOfCustomer", "asc", -1,startDate,endDate);
+	public String searchDefault(Model model,@RequestParam Date startDate,@RequestParam Date endDate, ModelMap map,@RequestParam("statusOrderSearch") int statusOrderSearch) {
+		model.addAttribute("book", new Order());
+		return getOrderSearch(model, 1, "nameOfCustomer", "asc", statusOrderSearch,startDate,endDate);
 		
 	}
 	
@@ -49,6 +49,7 @@ public class OrderController {
 			@RequestParam("status") int status,@RequestParam Date startDate,@RequestParam Date endDate) {
 		int pageSize = 5;
 		int pageFirst = 1;
+		
 		Page<Order> page = orderService.getAllBetweenDates(pageNo, pageSize, sortField, sortDir, status,startDate,endDate);
 		List<Order> listOrder = page.getContent();
 		model.addAttribute("listOrder", listOrder);
