@@ -5,36 +5,14 @@
 	<title th:replace = "/admin/fragments/head-tag.html :: title">Title</title>
 	<th:block th:insert="/admin/fragments/head-tag.html :: link"></th:block>
 	<link th:href="@{/css/admin/book.css}" rel="stylesheet">
+	<link th:href="@{/css/admin/popup.css}" rel="stylesheet">
 </head>
 	
 <body>
 	<div class="main__overlay"></div>
-	<!-- ============================== HEADER ================================= -->
-	<nav class="navbar navbar-dark fixed-top bg-primary flex-md-nowrap p-0 shadow">
-		<a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#" >
-			<img style="max-height: 30px;" alt="book-store" th:src="@{/image/icon-book-shop-64.png}">
-			Book store
-		</a> 
-		
-		<div class="input-group col-sm-6 col-md-5">
-		    <input type="search" class="form-control " placeholder="Search please..">
-		    <div class="input-group-append">
-		      <button class="btn btn-secondary" type="button">
-		        <i class="fa fa-search"></i>
-		      </button>
-		    </div>
-  		</div>
-  		
-		<ul class="navbar-nav px-3">
-			<li class="nav-item text-nowrap">
-				<a class="nav-link text-light mr-1" style="font-size: 25px" th:href="@{/account/check-login}"><i class="far fa-user-circle"></i></a>
-				<!-- <a class="nav-link text-light" href="#">Sign out</a> -->
-			</li>
-		</ul>
-	</nav>
 	
-	<button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!">
-		<span data-feather="home"></button>
+	<!-- ============================== HEADER ================================= -->
+	<div th:replace="/admin/fragments/header.html :: admin-header('/admin/book/search')"></div>
 	
 	<div class="container-fluid">
 		<div class="row">
@@ -44,19 +22,20 @@
 			
 			<!-- ===================MAIN CONTENT=================== -->
 			<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4 position-relative">
-				<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-1 pb-1 mb-1 border-bottom">
+			
+				<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-1 pb-1 mb-1 border-bottom position-relative" >
 					<div class="m-2">
 						<button type="button" class="btn btn-success btn__add--book">
 							<i class="fas fa-plus"></i> Add new</i>
 						</button>
 					</div>
-					<!-- find book -->
-					<form class="form-inline my-2 my-lg-0 col-sm-10 col-md-10" th:action="@{/admin/book/search}">
+					 <!-- find book -->
+					<!--<form class="form-inline my-2 my-lg-0 col-sm-10 col-md-10" th:action="@{/admin/book/search}">
 							<input class="form-control mr-sm-2 col-sm-9 col-md-10" type="search" style="margin-right: 100px" placeholder="Search" aria-label="Search" name="searchvalue">
 							<button class="btn btn-secondary my-2 my-sm-0 " type="submit" style="color: white">
 								<i class="fas fa-search"></i>
 							</button>
-					</form>
+					</form> -->
 						
 						
 					<div class="btn-toolbar mb-2 mb-md-0">
@@ -68,8 +47,9 @@
 							<span data-feather="calendar"></span> This week
 						</button>
 					</div>
+					
 				</div>
-
+				
 				<!-- TABLE VIEW -->
 				<div class="table-responsive rounded-top rounded-bottom">
 					<table class="table table-bordered" id="myTable">
@@ -119,24 +99,19 @@
 							<div class = "col-sm-2">
 								Total Items: [[${totalItem}]]	
 							</div>
-							<div class = "col-sm-1">
-								<a th:if="${currentPage > 1}" th:href="@{'/admin/book/' + ${pageFirst}  + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">First</a>
-								<span th:unless="${currentPage > 1}">First</span>
-							</div>
-							<div class = "col-sm-1">
+							<a class="btn btn-outline-primary" th:if="${currentPage > 1}" th:href="@{'/admin/book/' + ${pageFirst}  + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">First</a>&nbsp; &nbsp;
+							<span class="btn btn-outline-primary active" th:unless="${currentPage > 1}">First</span>&nbsp; &nbsp;
+							
 							<span th:each="i : ${#numbers.sequence(1, totalPage)}">
-								<a th:if="${currentPage != i}" th:href= "@{'/admin/book/' + ${i} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} }">[[${i}]]</a>
-								<span th:unless="${currentPage != i}">[[${i}]]</span> &nbsp; &nbsp;
+								<a class="btn btn-outline-primary" th:if="${currentPage != i}" th:href= "@{'/admin/book/' + ${i} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} }">[[${i}]]</a>
+								<span class="btn btn-outline-primary active" th:unless="${currentPage != i}">[[${i}]]</span> &nbsp; &nbsp;
 							</span>
-							</div >
-							<div class = "col-sm-1">
-								<a th:if="${currentPage < totalPage}" th:href="@{'/admin/book/' + ${currentPage +1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} }">Next</a>
-								<span th:unless="${currentPage < totalPage}">Next </span>
-							</div>
-							<div class = "col-sm-1">
-								<a th:if="${currentPage < totalPage}" th:href="@{'/admin/book/'+${totalPage} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} }">Last</a>
-								<span th:unless="${currentPage < totalPage}">Last</span>
-							</div>
+								
+							<a class="btn btn-outline-primary" th:if="${currentPage < totalPage}" th:href="@{'/admin/book/' + ${currentPage +1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} }">Next</a>&nbsp; &nbsp;
+							<span class="btn btn-outline-primary active" th:unless="${currentPage < totalPage}">Next </span>&nbsp; &nbsp;
+							
+							<a class="btn btn-outline-primary" th:if="${currentPage < totalPage}" th:href="@{'/admin/book/'+${totalPage} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} }">Last</a>
+							<span class="btn btn-outline-primary active" th:unless="${currentPage < totalPage}">Last</span>
 						</div>
 					
 					</div>
@@ -269,7 +244,7 @@
 						</div>
 					</div>
 				</form>
-				
+				 
 			<!-- ===============DIALOG DELETE BOOK =======================-->
 				<form th:action="@{/admin/book/delete}" class="from__confirm" th:method="post">
 					<div class="card">
@@ -297,6 +272,7 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script th:src="@{/script/adminJs/headerHandle.js}" ></script>
 	<script th:src="@{/script/adminJs/book.js}"></script>
+	<script th:src="@{/script/adminJs/popup.js}"></script>
 	<script th:src="@{/script/validate_input.js}"></script>
       <script th:inline="javascript">
         Validator({
@@ -335,6 +311,8 @@
         		
 
         	});
+        	//showSuccess();
+        	
         });
       </script>
 	

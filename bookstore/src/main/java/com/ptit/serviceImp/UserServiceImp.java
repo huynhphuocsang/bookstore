@@ -86,7 +86,14 @@ public class UserServiceImp implements UserService{
 		if(list.size()>0) return true; 
 		return false;
 	}
-
+	
+	@Override 
+	public boolean checkExistEmailInfo(String email) {
+		List<User> list = userDao.findByEmail(email); 
+		if(list.size()>0) return true; 
+		return false;
+	}
+	
 	@Override
 	public User getUserByUsername(String username) {
 		return userDao.findByUsername(username); 

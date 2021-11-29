@@ -76,14 +76,14 @@ function clearnField(){
 	$('#user-confirm').val("");
 }
 
-function addAndEditNewUser()
+function addAndEditNewUser(title="NEW USER", color="#28A745")
 {
 	$(".main__overlay").css("display", "block");//làm mờ background
-	clearnField();
+	//clearnField();
 	frmAddUser.css("display", "block");		// hiển thị form
 	
-	frmAddUser.find(".card-header:first").children("span").text("NEW USER") //đổi tiêu đề form
-	frmAddUser.find(".card-header:first").css({"background-color": "#28A745","color": "white"})// đổi màu form
+	frmAddUser.find(".card-header:first").children("span").text(title) //đổi tiêu đề form
+	frmAddUser.find(".card-header:first").css({"background-color": color,"color": "white"})// đổi màu form
 	
 	/* EVENT CLOSE FORM ADD BOOK */
 	$(".far.btn-close-from").click((e) => {

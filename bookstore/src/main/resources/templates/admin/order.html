@@ -10,34 +10,7 @@
 <body>
 	<div class="main__overlay"></div>
 	<!-- ============================== HEADER ================================= -->
-	<nav
-		class="navbar navbar-dark fixed-top bg-primary flex-md-nowrap p-0 shadow">
-		<a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#"> <img
-			style="max-height: 30px;" alt="book-store"
-			th:src="@{/image/icon-book-shop-64.png}"> Book store
-		</a>
-
-		<div class="input-group col-sm-6 col-md-5">
-			<input type="text" class="form-control "
-				placeholder="Search please..">
-			<div class="input-group-append">
-				<button class="btn btn-secondary" type="button">
-					<i class="fa fa-search"></i>
-				</button>
-			</div>
-		</div>
-
-		<ul class="navbar-nav px-3">
-			<a class="nav-link text-light mr-1" style="font-size: 25px" th:href="@{/account/check-login}"><i class="far fa-user-circle"></i></a>
-			<!-- <li class="nav-item text-nowrap"><a class="nav-link text-light"
-				href="#">Sign out</a></li> -->
-		</ul>
-	</nav>
-
-	<button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0"
-		id="sidebarToggle" href="#!">
-		<span data-feather="home">
-	</button>
+	<div th:replace="/admin/fragments/header.html :: admin-header('none')"></div>
 
 	<div class="container-fluid">
 		<div class="row">
@@ -50,7 +23,7 @@
 			<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
 				<div
 					class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-1 pb-1 mb-1 border-bottom">
-					<div class="m-2">
+					<div class="m-2 col-md-6">
 						<div class="btn-group" role="group"
 							aria-label="Basic outlined example">
 							<a th:if="${status == -1}" class="btn btn-outline-primary active">Tất
@@ -79,26 +52,26 @@
 					</div>
 					
 					<!-- find book -->
-					<form class="form-inline my-2 my-lg-0 col-sm-10 col-md-10" th:action="@{/admin/order/search}">
+					<form class="form-inline my-2 my-lg-0  col-md-6" th:action="@{/admin/order/search}">
 					<div class="form-row">
 					<input type="text" class="form-control input-delete d-none" name="statusOrderSearch" th:value="${status}"></p>
-							<div class="form-group col-md-6">
-											<label for="publish-day">Ngày bắt đầu:</label> 
-											<input name="startDate" class="form-control" id="datepickerfrom"  type="date" />
-											
-										</div>
-										<div class="form-group col-md-6">
-											<label for="publish-day">Ngày kết thúc:</label> 
-											<input name="endDate" class="form-control" id="datepickerfrom"  type="date" />
-											
-										</div>
-					</div>		
+						<div class="form-group col-md-5">
+							<label for="publish-day">Ngày bắt đầu:</label> 
+							<input name="startDate" class="form-control" id="datepickerfrom"  type="date" />
+							
+						</div>
+						<div class="form-group col-md-5">
+							<label for="publish-day">Ngày kết thúc:</label> 
+							<input name="endDate" class="form-control" id="datepickerfrom"  type="date" />&nbsp;&nbsp;
 							<button class="btn btn-secondary my-2 my-sm-0 " type="submit" style="color: white">
 								<i class="fas fa-search"></i>
 							</button>
+						</div>
+					</div>		
+							
 					</form>
 
-					<div class="btn-toolbar mb-2 mb-md-0">
+					<!-- <div class="btn-toolbar mb-2 mb-md-0">
 						<div class="btn-group mr-2">
 							<button class="btn btn-sm btn-outline-secondary">Share</button>
 							<button class="btn btn-sm btn-outline-secondary">Export</button>
@@ -106,9 +79,10 @@
 						<button class="btn btn-sm btn-outline-secondary dropdown-toggle">
 							<span data-feather="calendar"></span> This week
 						</button>
-					</div>
+					</div> -->
+					<br><br><br>
 				</div>
-
+				<br>
 				<!-- TABLE VIEW -->
 				<div class="table-responsive rounded-top rounded-bottom">
 					<table class="table table-bordered" id="myTable">
@@ -183,25 +157,19 @@
 						<!-- old page -->
 						<div class="row col-sm-10">
 							<div class="col-sm-2">Total Items: [[${totalItem}]]</div>
-							<div class="col-sm-1">
-								<a th:if="${currentPage > 1}"
+								<a class="btn btn-outline-primary" th:if="${currentPage > 1}"
 									th:href="@{'/admin/order/' + ${pageFirst}  + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&status=' + ${status}}">First</a>
-								<span th:unless="${currentPage > 1}">First</span>
-							</div>
-							<div class="col-sm-1">
-								<a th:if="${currentPage > 1 }"
+								<span class="btn btn-outline-primary active" th:unless="${currentPage > 1}">First</span>&nbsp; &nbsp;
+								<a class="btn btn-outline-primary" th:if="${currentPage > 1 }"
 									th:href="@{'/admin/order/' + ${currentPage -1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}  + '&status=' + ${status}}">Previous</a>
-								<span th:unless="${currentPage > 1}">Previous </span>
-							</div>
-							<div class="col-sm-3">
+								<span class="btn btn-outline-primary active" th:unless="${currentPage > 1}">Previous </span>&nbsp; &nbsp;
 							
 								<!-- nếu số trang nhỏ hơn 7 -->
 								<th:block th:if="${totalPage <= 7}">
 								<span th:each="i : ${#numbers.sequence(1, totalPage)}">
-											<a th:if="${currentPage != i}"
+											<a class="btn btn-outline-primary" th:if="${currentPage != i}"
 											th:href="@{'/admin/order/' + ${i} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&status=' + ${status} }">[[${i}]]</a>
-											<span th:unless="${currentPage != i}">[[${i}]]</span> &nbsp;
-											&nbsp;
+											<span class="btn btn-outline-primary active" th:unless="${currentPage != i}">[[${i}]]</span> &nbsp;
 										</span>
 								</th:block>
 								
@@ -210,49 +178,41 @@
 									<!-- nếu vị trí đang chọn ở đoạn đầu hoặc đoạn cuối -->
 									<th:block th:if="${currentPage <=3 || currentPage >= totalPage-1}">
 										<span th:each="i : ${#numbers.sequence(1, 3)}">
-											<a th:if="${currentPage != i}"
+											<a class="btn btn-outline-primary" th:if="${currentPage != i}"
 											th:href="@{'/admin/order/' + ${i} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&status=' + ${status} }">[[${i}]]</a>
-											<span th:unless="${currentPage != i}">[[${i}]]</span> &nbsp;
-											&nbsp;
+											<span class="btn btn-outline-primary active" th:unless="${currentPage != i}">[[${i}]]</span> &nbsp;
 										</span>
 										
-										<a th:href="@{'/admin/order/' + 4 + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&status=' + ${status} }">...</a>
+										<a class="btn btn-outline-primary" th:href="@{'/admin/order/' + 4 + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&status=' + ${status} }">...</a>&nbsp;
 										
 										<span th:each="i : ${#numbers.sequence(totalPage-1, totalPage)}">
-											<a th:if="${currentPage != i}"
+											<a class="btn btn-outline-primary" th:if="${currentPage != i}"
 											th:href="@{'/admin/order/' + ${i} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&status=' + ${status} }">[[${i}]]</a>
-											<span th:unless="${currentPage != i}">[[${i}]]</span> &nbsp;
-											&nbsp;
+											<span class="btn btn-outline-primary active" th:unless="${currentPage != i}">[[${i}]]</span> &nbsp;
 										</span>
 									</th:block>
 									<!-- nếu vị trí đang chọn ở đoạn giữa giữa -->
 									<th:block th:if="${currentPage > 3 && currentPage < totalPage-1}">
-										<a th:href="@{'/admin/order/' + ${currentPage-2} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&status=' + ${status} }">...</a>
+										<a class="btn btn-outline-primary" th:href="@{'/admin/order/' + ${currentPage-2} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&status=' + ${status} }">...</a>&nbsp;
 										
 										<span th:each="i : ${#numbers.sequence(currentPage-2, currentPage+2)}">
-											<a th:if="${currentPage != i}"
+											<a class="btn btn-outline-primary" th:if="${currentPage != i}"
 											th:href="@{'/admin/order/' + ${i} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&status=' + ${status} }">[[${i}]]</a>
-											<span th:unless="${currentPage != i}">[[${i}]]</span> &nbsp;
-											&nbsp;
+											<span class="btn btn-outline-primary active" th:unless="${currentPage != i}">[[${i}]]</span> &nbsp;
 										</span>
 										
-										<a th:href="@{'/admin/order/' +  ${currentPage+2} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&status=' + ${status} }">...</a>
+										<a class="btn btn-outline-primary" th:href="@{'/admin/order/' +  ${currentPage+2} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&status=' + ${status} }">...</a>&nbsp;
 									</th:block>
 									
 								</th:block>
 
 
-							</div>
-							<div class="col-sm-1">
-								<a th:if="${currentPage < totalPage }"
+								<a class="btn btn-outline-primary" th:if="${currentPage < totalPage }"
 									th:href="@{'/admin/order/' + ${currentPage +1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}  + '&status=' + ${status}}">Next</a>
-								<span th:unless="${currentPage < totalPage}">Next </span>
-							</div>
-							<div class="col-sm-1 ">
-								<a th:if="${currentPage < totalPage}"
+								<span class="btn btn-outline-primary active" th:unless="${currentPage < totalPage}">Next </span>&nbsp;&nbsp;
+								<a class="btn btn-outline-primary" th:if="${currentPage < totalPage}"
 									th:href="@{'/admin/order/'+${totalPage} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&status=' + ${status} }">Last</a>
-								<span th:unless="${currentPage < totalPage}">Last</span>
-							</div>
+								<span class="btn btn-outline-primary active" th:unless="${currentPage < totalPage}">Last</span>
 
 						</div>
 					</div>

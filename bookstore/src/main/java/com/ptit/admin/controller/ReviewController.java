@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -64,11 +65,54 @@ public class ReviewController {
 				listBookStar.add(emptyStar);
 			}
 		}
-		listBookStar.forEach((ele)->{
-			System.out.println(ele.get(0)[0]+"--"+ele.get(0)[1]);
-		});
 		
-//		 listBookStar.add(reviewDao.getListStar(1));
+		model.addAttribute("listBook", listBook);
+		model.addAttribute("listBookStar", listBookStar);
+		
+		model.addAttribute("sortField", sortField);
+		model.addAttribute("sortDir", sortDir);
+		model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
+		
+		model.addAttribute("pageFirst", pageFirst);
+		model.addAttribute("currentPage", pageNo);
+		model.addAttribute("totalPage", page.getTotalPages());
+		model.addAttribute("totalItem", page.getTotalElements());
+		return "/admin/review";
+	}
+	
+	
+	@GetMapping("/search")
+	public String searchDefault(Model model,@RequestParam String searchvalue, ModelMap map) {
+		model.addAttribute("book", new Book());
+		return getReviewSearch(model, 1, "bookName", "asc",searchvalue);
+		
+	}
+	
+	
+	@GetMapping("/search/{pageNo}")
+	public String getReviewSearch(Model model, @PathVariable(value = "pageNo") int pageNo,
+			@RequestParam("sortField") String sortField, @RequestParam("sortDir") String sortDir,@RequestParam String searchvalue) {
+		int pageSize = 4;
+		int pageFirst = 1;
+		model.addAttribute("book", new Book());
+		Page<Book> page = bookService.findBook(searchvalue, pageNo, pageSize, sortField, sortDir);
+
+		List<Book> listBook = page.getContent();
+		
+		List<List<int[]>> listBookStar = new ArrayList<List<int[]>>();
+		
+		List<int[]> emptyStar=new ArrayList<int[]>();
+		emptyStar.add(new int[] {0,0});
+		
+		for(Book ele: listBook) {
+			if(!reviewDao.getListStar(ele.getIdBook()).isEmpty()) {
+				listBookStar.add(reviewDao.getListStar(ele.getIdBook()));
+			}
+			else {
+				listBookStar.add(emptyStar);
+			}
+		}
+		
 		
 		model.addAttribute("listBook", listBook);
 		model.addAttribute("listBookStar", listBookStar);

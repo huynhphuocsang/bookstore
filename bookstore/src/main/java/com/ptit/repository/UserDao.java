@@ -23,6 +23,7 @@ public interface UserDao extends JpaRepository<User, Long>{
 	public List<User> findByUsernameAllIgnoreCase(String username); 
 	public List<User> findByPhone(String phone); 
 	public User findByUsername(String username);
+	public List<User> findByEmail(String email);
 	public Page<User> findByUsernameContainsAllIgnoreCase(String username,Pageable pageable); 
 	
 	@Transactional

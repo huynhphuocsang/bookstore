@@ -194,11 +194,11 @@ public class UserController {
 		boolean isError=false;
 		
 		Optional<User> user2 = userDao.findById(user.getUserId());
-
+		System.out.println(user2.isPresent());
 		if(!user2.isPresent()) {
 			boolean existUsername=userService.checkExistUsernameInfo(user.getUsername());
-			boolean existPhone=userService.checkExistUsernameInfo(user.getPhone());
-			boolean existEmail=userService.checkExistUsernameInfo(user.getEmail());
+			boolean existPhone=userService.checkExistPhoneInfo(user.getPhone());
+			boolean existEmail=userService.checkExistEmailInfo(user.getEmail());
 			
 			
 			if(existUsername || existPhone || existEmail) {
@@ -208,6 +208,7 @@ public class UserController {
 				ra.addFlashAttribute("existPhone", existPhone);
 				ra.addFlashAttribute("existEmail", existEmail);
 				ra.addFlashAttribute("user2", user);
+				ra.addFlashAttribute("isAdd", true);
 				return "redirect:/admin/customer";
 			}else {
 				Address ad = new Address();
@@ -224,18 +225,19 @@ public class UserController {
 			
 			boolean existPhone=userService.checkExistPhoneInfo(user.getPhone(),user.getUsername());
 			boolean existEmail=userService.checkExistEmailInfo(user.getEmail(),user.getUsername());
-			
+			System.out.println(existPhone+" "+existEmail);
 			if(existPhone || existEmail) {
 				isError=true;
 				ra.addFlashAttribute("isError", isError);
 				ra.addFlashAttribute("existPhone", existPhone);
 				ra.addFlashAttribute("existEmail", existEmail);
 				ra.addFlashAttribute("user2", user);
+				ra.addFlashAttribute("idEdit", true);
 				return "redirect:/admin/customer";
 			}else {
 				
-				String passwordConvert = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(12));  
-				user.setPassword(passwordConvert);
+//				String passwordConvert = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(12));  
+//				user.setPassword(passwordConvert);
 				userService.updateUser(user);
 				boolean edit=false;
 				ra.addFlashAttribute("idEdit", edit);
@@ -244,16 +246,14 @@ public class UserController {
 			
 		}
 		
-		
-		
 		return "redirect:/admin/customer";
 	}
 	
 	
 	@PostMapping("/saveEdit")
 	public String updateUserEdit(@ModelAttribute("user") User user) {
-			String passwordConvert = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(12));  
-			user.setPassword(passwordConvert);	
+//			String passwordConvert = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(12));  
+//			user.setPassword(passwordConvert);	
 			userService.saveUser(user);
 
 		return "redirect:/admin/customer";
@@ -275,16 +275,14 @@ public class UserController {
 		return "redirect:/admin/customer";
 	}
 	
-//	@PostMapping("/delete")
-//	public String updateUser(
-//			@RequestParam(name="id") long id) throws ResourceNotFoundException {
-//		boolean isError=false;
-//		User user = userService.findById(id);
-//		userService.deleteUser(user);
-//		
-//		
-//		return "redirect:/admin/customer";
-//	}
-	
-	
+	@PostMapping("/delete")
+	public String updateUser(
+			@RequestParam(name="id") long id) throws ResourceNotFoundException {
+		boolean isError=false;
+		User user = userService.findById(id);
+		userService.deleteUser(user);
+		
+		
+		return "redirect:/admin/customer";
+	}
 }

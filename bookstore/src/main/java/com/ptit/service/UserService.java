@@ -18,6 +18,7 @@ public interface UserService {
 	public boolean addAccount(String username, String password, String phone);
 	public boolean checkExistAccountInfo(String username, String phone); 
 	
+	public boolean checkExistEmailInfo(String email); 
 	public boolean checkExistPhoneInfo(String phone); 
 	public boolean checkExistUsernameInfo(String username); 
 	public User getUserByUsername(String username); 
