@@ -11,7 +11,7 @@
 <body>
 	<div class="main__overlay"></div>
 	<!-- ============================== HEADER ================================= -->
-	<div th:replace="/admin/fragments/header.html :: admin-header"></div>
+	<div th:replace="/admin/fragments/header.html :: admin-header('/admin/customer/search')"></div>
 
 	<div class="container-fluid">
 		<div class="row">
@@ -35,12 +35,12 @@
 						</form> 
 					</div>
 					<!-- search -->
-					<form class="form-inline my-2 my-lg-0 col-sm-10 col-md-10" th:action="@{/admin/customer/search}">
+					<!-- <form class="form-inline my-2 my-lg-0 col-sm-10 col-md-10" th:action="@{/admin/customer/search}">
 							<input class="form-control mr-sm-2 col-sm-9 col-md-10" type="search" style="margin-right: 100px" placeholder="Search" aria-label="Search" name="searchvalue">
 							<button class="btn btn-secondary my-2 my-sm-0 " type="submit" style="color: white">
 								<i class="fas fa-search"></i>
 							</button>
-					</form>
+					</form> -->
 
 					<!-- <div class="btn-toolbar mb-2 mb-md-0">
 						<div class="btn-group mr-2">
@@ -106,29 +106,24 @@
 					<div th:if="${totalPage > 1}">
 						<div class="row col-sm-10">
 							<div class="col-sm-2">Total Items: [[${totalItem}]]</div>
-							<div class="col-sm-1">
-								<a th:if="${currentPage > 1}"
-									th:href="@{'/admin/customer/' + ${pageFirst}  + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">First</a>
-								<span th:unless="${currentPage > 1}">First</span>
-							</div>
-							<div class="col-sm-1">
-								<span th:each="i : ${#numbers.sequence(1, totalPage)}"> <a
-									th:if="${currentPage != i}"
-									th:href="@{'/admin/customer/' + ${i} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} }">[[${i}]]</a>
-									<span th:unless="${currentPage != i}">[[${i}]]</span> &nbsp;
-									&nbsp;
-								</span>
-							</div>
-							<div class="col-sm-1">
-								<a th:if="${currentPage < totalPage}"
-									th:href="@{'/admin/customer/' + ${currentPage +1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} }">Next</a>
-								<span th:unless="${currentPage < totalPage}">Next </span>
-							</div>
-							<div class="col-sm-1">
-								<a th:if="${currentPage < totalPage}"
-									th:href="@{'/admin/customer/'+${totalPage} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} }">Last</a>
-								<span th:unless="${currentPage < totalPage}">Last</span>
-							</div>
+							
+							<a class="btn btn-outline-primary" th:if="${currentPage > 1}"
+								th:href="@{'/admin/customer/' + ${pageFirst}  + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">First</a>
+							<span class="btn btn-outline-primary active" th:unless="${currentPage > 1}">First</span>&nbsp;&nbsp;
+							
+							<span th:each="i : ${#numbers.sequence(1, totalPage)}"> <a
+								class="btn btn-outline-primary" th:if="${currentPage != i}"
+								th:href="@{'/admin/customer/' + ${i} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} }">[[${i}]]</a>
+								<span class="btn btn-outline-primary active" th:unless="${currentPage != i}">[[${i}]]</span> &nbsp;
+							</span>
+							
+							<a th:if="${currentPage < totalPage}"
+								class="btn btn-outline-primary" th:href="@{'/admin/customer/' + ${currentPage +1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} }">Next</a>
+							<span class="btn btn-outline-primary active" th:unless="${currentPage < totalPage}">Next </span>&nbsp;&nbsp;
+							
+							<a th:if="${currentPage < totalPage}"
+								class="btn btn-outline-primary" th:href="@{'/admin/customer/'+${totalPage} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} }">Last</a>
+							<span class="btn btn-outline-primary active" th:unless="${currentPage < totalPage}">Last</span>
 						</div>
 
 					</div>

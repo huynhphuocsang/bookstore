@@ -9,31 +9,7 @@
 	
 <body>
 	<!-- ============================== HEADER ================================= -->
-	<nav class="navbar navbar-dark fixed-top bg-primary flex-md-nowrap p-0 shadow">
-		<a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#" >
-			<img style="max-height: 30px;" alt="book-store" th:src="@{/image/icon-book-shop-64.png}">
-			Book store
-		</a> 
-		
-		<div class="input-group col-sm-6 col-md-5">
-		    <input type="text" class="form-control " placeholder="Search please..">
-		    <div class="input-group-append">
-		      <button class="btn btn-secondary" type="button">
-		        <i class="fa fa-search"></i>
-		      </button>
-		    </div>
-  		</div>
-  		
-		<ul class="navbar-nav px-3">
-			<li class="nav-item text-nowrap">
-				<a class="nav-link text-light mr-1" style="font-size: 25px" th:href="@{/account/check-login}"><i class="far fa-user-circle"></i></a>
-				<!-- <a class="nav-link text-light" href="#">Sign out</a> -->
-			</li>
-		</ul>
-	</nav>
-	
-	<button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!">
-		<span data-feather="home"></button>
+	<div th:replace="/admin/fragments/header.html :: admin-header('/admin/review/search')"></div>
 	
 	<div class="container-fluid">
 		<div class="row">
@@ -99,22 +75,22 @@
 								Total Items: [[${totalItem}]]	
 							</div>
 							<div class = "col-10 d-flex  align-items-center">
-								<a class="btn btn-outline-primary" th:if="${currentPage > 1}" th:href="@{'/admin/review/' + ${pageFirst}  + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">First</a>&nbsp; &nbsp;
+								<a class="page-links btn btn-outline-primary" th:if="${currentPage > 1}" th:href="@{'/admin/review/' + ${pageFirst}  + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">First</a>
 								<span class="btn btn-outline-primary active" th:unless="${currentPage > 1}">First</span>&nbsp; &nbsp;
 									
-								<a class="btn btn-outline-primary" th:if="${currentPage > 1}" th:href="@{'/admin/review/' + ${currentPage -1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} }">Prev</a>
+								<a class="page-links btn btn-outline-primary" th:if="${currentPage > 1}" th:href="@{'/admin/review/' + ${currentPage -1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} }">Prev</a>
 								<span class="btn btn-outline-primary active" th:unless="${currentPage > 1}">Prev</span>&nbsp; &nbsp;
 								
 									
 								<span th:each="i : ${#numbers.sequence(1, totalPage)}">
-									<a class="btn btn-outline-primary" th:if="${currentPage != i}" th:href= "@{'/admin/review/' + ${i} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} }">[[${i}]]</a>
+									<a class="page-links btn btn-outline-primary" th:if="${currentPage != i}" th:href= "@{'/admin/review/' + ${i} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} }">[[${i}]]</a>
 									<span class="btn btn-outline-primary active" th:unless="${currentPage != i}">[[${i}]]</span> &nbsp;
-								</span>&nbsp; &nbsp;
+								</span>
 								
-								<a class="btn btn-outline-primary" th:if="${currentPage < totalPage}" th:href="@{'/admin/review/' + ${currentPage +1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} }">Next</a>
+								<a class="page-links btn btn-outline-primary" th:if="${currentPage < totalPage}" th:href="@{'/admin/review/' + ${currentPage +1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} }">Next</a>
 								<span class="btn btn-outline-primary" th:unless="${currentPage < totalPage}">Next </span>&nbsp; &nbsp;
 									
-								<a class="btn btn-outline-primary" th:if="${currentPage < totalPage}" th:href="@{'/admin/review/'+${totalPage} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} }">Last</a>
+								<a class="page-links btn btn-outline-primary" th:if="${currentPage < totalPage}" th:href="@{'/admin/review/'+${totalPage} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} }">Last</a>
 								<span class="btn btn-outline-primary active" th:unless="${currentPage < totalPage}">Last</span>
 							</div>
 						</div>
@@ -126,8 +102,22 @@
 	</div>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script th:src="@{/script/adminJs/headerHandle.js}"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
 	<script type="text/javascript">
-	
+	$(document).ready(function(){
+    	//load lại vị trí scroll chuột
+			var lastScrollTop = $.cookie('last-scroll-top');
+			if (lastScrollTop) {
+			    $(window).scrollTop(lastScrollTop);
+			    console.log(lastScrollTop)
+			    $.removeCookie('last-scroll-top');
+			} 
+			
+			//lưu vị trí scroll trước khi chuyển page
+			$(".page-links").on('click',function(){
+				$.cookie('last-scroll-top', $(window).scrollTop());
+			})
+   	  });
 	</script>
 </body>
 </html>

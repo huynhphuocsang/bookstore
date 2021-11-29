@@ -84,7 +84,7 @@ Validator.isNum=function(selector,num){
         selector: selector,
         test: function(value){
             var regex=/^[0-9]\d*$/
-            return (value.length==num && regex.test(value))?undefined:'Vui lòng nhập đúng '+num+' số'
+            return ((!num || value.length==num) && regex.test(value))?undefined:'Vui lòng nhập đúng '+num+' số'
         }
     }
 }

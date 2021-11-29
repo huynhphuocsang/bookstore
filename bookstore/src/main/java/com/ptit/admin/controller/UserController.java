@@ -246,8 +246,6 @@ public class UserController {
 			
 		}
 		
-		
-		
 		return "redirect:/admin/customer";
 	}
 	
@@ -277,38 +275,14 @@ public class UserController {
 		return "redirect:/admin/customer";
 	}
 	
-//	@PostMapping("/delete")
-//	public String updateUser(
-//			@RequestParam(name="id") long id) throws ResourceNotFoundException {
-//		boolean isError=false;
-//		User user = userService.findById(id);
-//		userService.deleteUser(user);
-//		
-//		
-//		return "redirect:/admin/customer";
-//	}
-	
-	public void loadPage(Model model, int pageNo, String sortField, String sortDir) {
-		int pageSize = 5;
-		int pageFirst = 1;
-		model.addAttribute("user", new User());
-		model.addAttribute("address", new Address());
-		Page<User> page = userService.findPaginated(pageNo, pageSize, sortField, sortDir);
-
-		List<User> listUser = page.getContent();
-		//List<User> listUser2 = listUser.stream().filter(u -> 2==userRoleDao.getByUser(u).getRole().getIdRole()).collect(Collectors.toList());
-		model.addAttribute("listUser", listUser);
-		model.addAttribute("sortField", sortField);
-		model.addAttribute("sortDir", sortDir);
-		model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
-
-		model.addAttribute("pageFirst", pageFirst);
-		model.addAttribute("currentPage", pageNo);
-		model.addAttribute("totalPage", page.getTotalPages());
-		model.addAttribute("totalItem", page.getTotalElements());
+	@PostMapping("/delete")
+	public String updateUser(
+			@RequestParam(name="id") long id) throws ResourceNotFoundException {
+		boolean isError=false;
+		User user = userService.findById(id);
+		userService.deleteUser(user);
 		
-		model.addAttribute("village", villageDao.findAll());
-		model.addAttribute("district", districtDao.findAll());
-		model.addAttribute("province", provinceDao.findAll());
+		
+		return "redirect:/admin/customer";
 	}
 }
