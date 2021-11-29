@@ -5,6 +5,7 @@
 <title th:replace="/admin/fragments/head-tag.html :: title">Title</title>
 <th:block th:insert="/admin/fragments/head-tag.html :: link"></th:block>
 <link th:href="@{/css/admin/customer.css}" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker.css" rel="stylesheet"/>
 </head>
 
 <body>
@@ -24,9 +25,9 @@
 				<div
 					class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-1 pb-1 mb-1 border-bottom">
 					<div class="m-2">
-						<button  type="button" class="btn btn-success btn__add--user">
+						<!-- <button  type="button" class="btn btn-success btn__add--user">
 							<i class="fas fa-plus"></i> New User</i>
-						</button> 
+						</button>  -->
 						<form method="get" th:action="@{'/admin/customer/Add/' + ${currentPage}}">
 							<input type="hidden"  name="sortField" th:value="${sortField}"> 
 							<input type="hidden"  name="sortDir" th:value="${sortDir}">
@@ -41,7 +42,7 @@
 							</button>
 					</form>
 
-					<div class="btn-toolbar mb-2 mb-md-0">
+					<!-- <div class="btn-toolbar mb-2 mb-md-0">
 						<div class="btn-group mr-2">
 							<button class="btn btn-sm btn-outline-secondary">Share</button>
 							<button class="btn btn-sm btn-outline-secondary">Export</button>
@@ -49,7 +50,7 @@
 						<button class="btn btn-sm btn-outline-secondary dropdown-toggle">
 							<span data-feather="calendar"></span> This week
 						</button>
-					</div>
+					</div> -->
 				</div>
 
 				<!-- TABLE VIEW -->
@@ -82,20 +83,19 @@
 								<td th:text="${user.email}">##</td>
 								<td th:text="${user.phone}">##</td>
 
-								<td class="align-middle text-center">
-									<!-- <button type="button"
-										class="btn btn-warning m-1 btn__edit--user">
-										<i class="far fa-edit"></i>
-									</button> -->
+								<td class="align-middle d-flex align-items-center">
 									<form method="post" th:action="@{/admin/customer/edit}">
 										<input type="hidden" class="id" name="id"
-											th:value="${user.userId}"> <input type="submit"
-											value="Edit" />
+											th:value="${user.userId}"> 
+										<button type="submit" class="btn btn-warning m-1">
+											<i class="far fa-edit"></i>
+										</button>
 									</form>
-									<button type="button" class="btn btn-danger btn__delete--user"
+									<button type="button" class="btn btn-danger btn__delete--user" style="width: 44px;height: 38px;"
 										th:id="${user.userId}">
 										<i style="color: black;" class="far fa-trash-alt"></i>
-									</button> <input type="hidden" id="userId" name="userId"
+									</button> 
+									<input type="hidden" id="userId" name="userId"
 									th:value="${user.userId}">
 								</td>
 							</tr>
@@ -162,9 +162,9 @@
 								<!-- =================== FIELD TUỔI ================== -->
 								<div class="form-group col-md-6">
 									<div class="form-group col-md-12">
-										<label for="user-age">Tuổi</label> <input th:field="*{age}"
-											type="text" class="form-control" id="user-age"
-											placeholder="VD: 18">
+										<label for="user-age">Năm sinh</label> <input th:field="*{age}"
+											type="text" class="form-control" id="datepicker"
+											placeholder="VD: 2018" autocomplete="off">
 										<p class="form-message">Không hợp lệ !!</p>
 									</div>
 								</div>
@@ -212,7 +212,7 @@
 								</div>
 
 								<!-- =================== FIELD Mật khẩu ================== -->
-								<div class="form-group col-md-6">
+								<div th:if="${idEdit != true}" class="form-group col-md-6">
 									<div class="form-group col-md-12">
 										<label for="user-pass">Mật khẩu</label> <input
 											th:field="*{password}" type="password" class="form-control"
@@ -220,9 +220,7 @@
 										<p class="form-message">Không hợp lệ !!</p>
 									</div>
 								</div>
-							</div>
-
-							<div class="form-row">
+								
 								<!-- =================== Danh sách địa chỉ user ================== -->
 								<div th:if="${idEdit == true}" class="form-group col-md-6">
 									<div class="form-group col-md-12">
@@ -236,10 +234,12 @@
 												class="fas fa-pencil-alt"></i></a>
 										</div>
 									</div>
-								<input name="addressName" class="form-control"  type="hidden">
-								<input name="villageId"  class="form-control"  type="hidden" >
+									<input name="addressName" class="form-control"  type="hidden">
+									<input name="villageId"  class="form-control"  type="hidden" >
 								</div>
+							</div>
 
+							<div class="form-row">
 								<th:block th:if="${idEdit != true}">
 									<!-- =================== FIELD TỈNH ================== -->
 									<div class="form-group col-md-3">
@@ -263,19 +263,18 @@
 											</select>
 										</div>
 									</div>
-								</th:block>
-
-								<!-- =================== FIELD Nhập lại mật khẩu ================== -->
-								<div class="form-group col-md-6">
-									<div class="form-group col-md-12">
-										<label for="user-confirm">Nhập lại mật khẩu</label> <input
-											type="password" class="form-control" id="user-confirm"
-											placeholder="">
-										<p class="form-message">Không hợp lệ !!</p>
-									</div>
-								</div>
 								
-					
+
+									<!-- =================== FIELD Nhập lại mật khẩu ================== -->
+									<div class="form-group col-md-6">
+										<div class="form-group col-md-12">
+											<label for="user-confirm">Nhập lại mật khẩu</label> <input
+												type="password" class="form-control" id="user-confirm"
+												placeholder="">
+											<p class="form-message">Không hợp lệ !!</p>
+										</div>
+									</div>
+								</th:block>
 							</div>
 
 							<th:block th:if="${idEdit != true}">
@@ -301,39 +300,8 @@
 										</div>
 									</div>
 								</div>
-
-
-
-								<!-- <div class="form-row">
-								=================== FIELD Xã ==================
-								<div class="form-group col-md-6">
-									<div class="form-group col-md-12">
-										<lable> Xã </lable>
-										<select name="villageId" class="form-control" id="village">
-											<option th:each="vil : ${village}"
-												th:utext="${vil.villageName}" th:value="${vil.villageId}"></option>
-										</select>
-									</div>
-								</div>
-								=================== FIELD địa chỉ cụ thể ==================
-								<div class="form-group col-md-6">
-									<div class="form-group col-md-12">
-										<label for="user-email">Địa chỉ cụ thể </label> <input
-											name="addressName" type="text" class="form-control"
-											id="address" placeholder="VD: thôn Hiệp Hưng">
-										<p class="form-message">Không hợp lệ !!</p>
-										<p th:if="${existEmail==true}" class="form-message invalid">Email
-											đã được sử dụng !!</p>
-									</div>
-								</div>
-							</div> -->
 							</th:block>
 							
-						
-
-
-
-
 							<!-- BUTTON SUBMIT -->
 							<div style="text-align: center;">
 								<button type="submit" class="btn btn-primary">Xác Nhận</button>
@@ -373,34 +341,19 @@
 	<script th:src="@{/script/adminJs/headerHandle.js}"></script>
 	<script th:src="@{/script/adminJs/customer.js}"></script>
 	<script th:src="@{/script/validate_input.js}"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.js"></script>
 	<script th:inline="javascript">
 		Validator({
 			form : '.from__add--user',
 			rules : [
 					Validator.isRequired('#user-name'),
-					Validator.isRequired('#user-age'),
-					Validator.isNum('#user-phone'),
+					Validator.isNum('#user-phone',10),
+					Validator.checkAge('#datepicker',10),
 					Validator.isEmail('#user-email'),
 					Validator.isRequired('#user-pass'),
 					Validator.confirmMes('#user-confirm', '#user-pass',
 							'Mật khẩu nhập lại không hợp lệ') ]
 		});
-		/*<![CDATA[*/
-		var isError = /*[[${isError}]]*/'default';
-
-		//kiểm tra nếu them user nhận về lỗi thì hiện form nhập và hiện lại các thông tin vừa nhập
-		if (isError) {
-			$(".btn__add--user").click();
-			var user2 = /*[[${user2}]]*/'default';
-			$('#user-name').val(user2.username);
-			$('#user-age').val(user2.age);
-			$('#user-phone').val(user2.phone);
-			$('#user-email').val(user2.email);
-			$('#user-pass').val(user2.password);
-			$('#user-confirm').val(user2.password);
-			
-		}
-		/*]]>*/
 		
 		/*<![CDATA[*/
 		var isAdd = /*[[${isAdd}]]*/'default';
@@ -408,22 +361,46 @@
 		//kiểm tra nếu them user nhận về lỗi thì hiện form nhập và hiện lại các thông tin vừa nhập
 		if (isAdd) {
 			addAndEditNewUser();
+			$('#user-name').val("");
+			$('#datepicker').val("");
+			$('#user-pass').val("");
 		}
 		/*]]>*/
+		
+		
+		/*<![CDATA[*/
+		var isError = /*[[${isError}]]*/'default';
+
+		//kiểm tra nếu them user nhận về lỗi thì hiện form nhập và hiện lại các thông tin vừa nhập
+		if (isError) {
+			var user2 = /*[[${user2}]]*/'default';
+			$('#user-name').val(user2.username);
+			$('#datepicker').val(user2.age);
+			$('#user-phone').val(user2.phone);
+			$('#user-email').val(user2.email);
+			$('#user-pass').val(user2.password);
+			$('#user-confirm').val(user2.password);
+			console.log(user2);
+			
+		}
+		/*]]>*/
+		
+		
 		
 		/*<![CDATA[*/
 		var idEdit = /*[[${idEdit}]]*/'default';
 
 		//kiểm tra nếu them user nhận về lỗi thì hiện form nhập và hiện lại các thông tin vừa nhập
 		if (idEdit) {
-			$(".btn__add--user").click();
+			addAndEditNewUser("EDIT USER","#FFC107")
 			const province = document.querySelector(".province");
 			var address2 = /*[[${address2}]]*/'default';
 			var user3 = /*[[${user3}]]*/'default';
-			console.log(user3.userId);
+			//console.log(user3.userId);
 			$('.card #userId').val(user3.userId);
 			$('#user-name').val(user3.username);
-			$('#user-age').val(user3.age);
+			$('#user-name').attr('readOnly','true');
+			$('#datepicker').val(user3.age);
 			$('#user-phone').val(user3.phone);
 			$('#user-email').val(user3.email);
 			$('#user-pass').val(user3.password);
@@ -501,7 +478,11 @@
     		  
     		})
        
-
+			$("#datepicker").datepicker({
+			    format: "yyyy",
+			    viewMode: "years", 
+			    minViewMode: "years"
+			});
 	</script>
 
 

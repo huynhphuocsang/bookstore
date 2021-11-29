@@ -194,11 +194,11 @@ public class UserController {
 		boolean isError=false;
 		
 		Optional<User> user2 = userDao.findById(user.getUserId());
-
+		System.out.println(user2.isPresent());
 		if(!user2.isPresent()) {
 			boolean existUsername=userService.checkExistUsernameInfo(user.getUsername());
-			boolean existPhone=userService.checkExistUsernameInfo(user.getPhone());
-			boolean existEmail=userService.checkExistUsernameInfo(user.getEmail());
+			boolean existPhone=userService.checkExistPhoneInfo(user.getPhone());
+			boolean existEmail=userService.checkExistEmailInfo(user.getEmail());
 			
 			
 			if(existUsername || existPhone || existEmail) {
@@ -208,6 +208,7 @@ public class UserController {
 				ra.addFlashAttribute("existPhone", existPhone);
 				ra.addFlashAttribute("existEmail", existEmail);
 				ra.addFlashAttribute("user2", user);
+				ra.addFlashAttribute("isAdd", true);
 				return "redirect:/admin/customer";
 			}else {
 				Address ad = new Address();
@@ -224,18 +225,19 @@ public class UserController {
 			
 			boolean existPhone=userService.checkExistPhoneInfo(user.getPhone(),user.getUsername());
 			boolean existEmail=userService.checkExistEmailInfo(user.getEmail(),user.getUsername());
-			
+			System.out.println(existPhone+" "+existEmail);
 			if(existPhone || existEmail) {
 				isError=true;
 				ra.addFlashAttribute("isError", isError);
 				ra.addFlashAttribute("existPhone", existPhone);
 				ra.addFlashAttribute("existEmail", existEmail);
 				ra.addFlashAttribute("user2", user);
+				ra.addFlashAttribute("idEdit", true);
 				return "redirect:/admin/customer";
 			}else {
 				
-				String passwordConvert = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(12));  
-				user.setPassword(passwordConvert);
+//				String passwordConvert = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(12));  
+//				user.setPassword(passwordConvert);
 				userService.updateUser(user);
 				boolean edit=false;
 				ra.addFlashAttribute("idEdit", edit);
@@ -252,8 +254,8 @@ public class UserController {
 	
 	@PostMapping("/saveEdit")
 	public String updateUserEdit(@ModelAttribute("user") User user) {
-			String passwordConvert = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(12));  
-			user.setPassword(passwordConvert);	
+//			String passwordConvert = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(12));  
+//			user.setPassword(passwordConvert);	
 			userService.saveUser(user);
 
 		return "redirect:/admin/customer";
@@ -286,5 +288,27 @@ public class UserController {
 //		return "redirect:/admin/customer";
 //	}
 	
-	
+	public void loadPage(Model model, int pageNo, String sortField, String sortDir) {
+		int pageSize = 5;
+		int pageFirst = 1;
+		model.addAttribute("user", new User());
+		model.addAttribute("address", new Address());
+		Page<User> page = userService.findPaginated(pageNo, pageSize, sortField, sortDir);
+
+		List<User> listUser = page.getContent();
+		//List<User> listUser2 = listUser.stream().filter(u -> 2==userRoleDao.getByUser(u).getRole().getIdRole()).collect(Collectors.toList());
+		model.addAttribute("listUser", listUser);
+		model.addAttribute("sortField", sortField);
+		model.addAttribute("sortDir", sortDir);
+		model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
+
+		model.addAttribute("pageFirst", pageFirst);
+		model.addAttribute("currentPage", pageNo);
+		model.addAttribute("totalPage", page.getTotalPages());
+		model.addAttribute("totalItem", page.getTotalElements());
+		
+		model.addAttribute("village", villageDao.findAll());
+		model.addAttribute("district", districtDao.findAll());
+		model.addAttribute("province", provinceDao.findAll());
+	}
 }

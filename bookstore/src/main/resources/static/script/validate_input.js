@@ -57,15 +57,15 @@ Validator.isEmail=function(selector){
         selector: selector,
         test: function(value){
             var regex=/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
-            return regex.test(value)?undefined:'Email không hợp lệ'
+            return (value===""||regex.test(value))?undefined:'Email không hợp lệ'
         }
     }
 }
-Validator.minLeng=function(selector, num){
+Validator.requiredLeng=function(selector, num){
     return {
         selector: selector,
         test: function(value){
-            return (value.length>=num)? undefined:('Nhập đủ '+num+' kí tự')
+            return (value.length==num)? undefined:('Nhập đủ '+num+' số')
         }
     }
 }
@@ -79,12 +79,21 @@ Validator.confirmMes=function(selector,selector2, message){
         }
     }
 }
-Validator.isNum=function(selector){
+Validator.isNum=function(selector,num){
     return {
         selector: selector,
         test: function(value){
             var regex=/^[0-9]\d*$/
-            return regex.test(value)?undefined:'Vui lòng nhập số'
+            return (value.length==num && regex.test(value))?undefined:'Vui lòng nhập đúng '+num+' số'
+        }
+    }
+}
+
+Validator.checkAge=function(selector,num){
+    return {
+        selector: selector,
+        test: function(value){
+            return (value>=num)?undefined:'Tuổi không hợp lệ, cần phải >= '+num
         }
     }
 }
