@@ -44,11 +44,11 @@ function Validator(option){
 		}
     }
 }
-Validator.isRequired=function(selector){
+Validator.isRequired=function(selector,mess='Vui lòng nhập trường này!!'){
     return{
         selector: selector,
         test: function(value) {
-            return value? undefined:'Vui lòng nhập trường này!!'
+            return value? undefined:mess;
         }
     }
 }
@@ -69,6 +69,7 @@ Validator.requiredLeng=function(selector, num){
         }
     }
 }
+
 Validator.confirmMes=function(selector,selector2, message){
     return{
         selector:selector,

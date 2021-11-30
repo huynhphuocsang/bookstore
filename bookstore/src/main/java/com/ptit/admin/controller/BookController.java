@@ -25,10 +25,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.ptit.exception.ResourceNotFoundException;
 import com.ptit.model.Book;
 import com.ptit.model.Category;
+import com.ptit.model.OrderDetail;
 import com.ptit.service.AuthorService;
 import com.ptit.service.BookService;
 import com.ptit.service.CategoryService;
@@ -49,6 +51,8 @@ public class BookController {
 
 	@Autowired
 	CategoryService categoryService;
+	
+	
 
 	@GetMapping("/book")
 	public String getHomeBook(Model model) {
@@ -91,6 +95,7 @@ public class BookController {
 
 	@PostMapping("/book/save")
 	public String saveBook(@ModelAttribute("book") Book book, 
+			RedirectAttributes ra,
 			@RequestParam("fileImage") MultipartFile fileImage,
 			@RequestParam(name="authorName") String authorName,
 			@RequestParam(name="companyName") String companyName,
@@ -117,6 +122,7 @@ public class BookController {
 				System.out.println(filePath.toFile().getAbsolutePath());
 	
 				Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
+				ra.addFlashAttribute("successMes", "Thêm sách thành công");
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -124,6 +130,7 @@ public class BookController {
 		else {
 			try {
 				book.setPicture(bookService.getBookById(book.getIdBook()).getPicture());
+				ra.addFlashAttribute("successMes", "Cập nhập sách thành công");
 			} catch (ResourceNotFoundException e) {
 				//do nothing
 			}
@@ -133,6 +140,7 @@ public class BookController {
 		book.setCompany(publishingCompanyService.selectOrUpdateCompany(companyName));
 		bookService.save(book);
 		
+		
 //		System.out.println(authorService.selectOrUpdateAuthor(authorName).getIdAuthor()+" "+authorService.selectOrUpdateAuthor(authorName).getName());
 //		System.out.println(categoryName+" "+categoryService.getCategoryIdByName(categoryName));
 //		System.out.println(companyName+" "+publishingCompanyService.getCompanyIdByName(companyName));
@@ -140,9 +148,11 @@ public class BookController {
 	}
 	
 	@PostMapping("/book/delete")
-	public String deleteBook(@RequestParam("id") Long idBook) {
+	public String deleteBook(@RequestParam("id") Long idBook,RedirectAttributes ra) {
 		
-		bookService.deleteById(idBook);
+		int status=bookService.deleteById(idBook);
+		if(status==0) ra.addFlashAttribute("erorrMes", "Xóa thất bại, Sách đã được đặt hàng");
+		else ra.addFlashAttribute("successMes", "Xóa sách thành công");
 		return "redirect:/admin/book";
 	}
 	

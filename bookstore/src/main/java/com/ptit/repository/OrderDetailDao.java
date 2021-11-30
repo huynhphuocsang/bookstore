@@ -37,4 +37,6 @@ public interface OrderDetailDao extends JpaRepository<OrderDetail, Long>{
 			+ "where o.order_id = d.order_id\r\n"
 			+ "and d.order_status = 2",nativeQuery = true)
 	public int getTotalEarning();
+	
+	public List<OrderDetail> findByBook(Book book);
 }

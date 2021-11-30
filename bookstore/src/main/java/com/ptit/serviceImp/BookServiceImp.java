@@ -22,7 +22,10 @@ import com.ptit.exception.ResourceNotFoundException;
 import com.ptit.model.Author;
 import com.ptit.model.Book;
 import com.ptit.model.Category;
+import com.ptit.model.OrderDetail;
 import com.ptit.repository.BookDao;
+import com.ptit.repository.OrderDao;
+import com.ptit.repository.OrderDetailDao;
 import com.ptit.service.BookService;
 
 
@@ -30,6 +33,9 @@ import com.ptit.service.BookService;
 public class BookServiceImp implements BookService{
 	@Autowired
 	BookDao bookdao; 
+	
+	@Autowired
+	OrderDetailDao orderdetaildao;
 	
 	@Override
 	public Page<Book> getAllBooks(Pageable page) {
@@ -122,8 +128,21 @@ public class BookServiceImp implements BookService{
 	}
 
 	@Override
-	public void deleteById(long idBook) {
-		bookdao.deleteById(idBook);
+	public int deleteById(long idBook) {
+		try {
+			List<OrderDetail> listOrder= orderdetaildao.findByBook(getBookById(idBook));
+			if(listOrder.size()>0) return 0;
+			else {
+				bookdao.deleteById(idBook);
+				return 1;
+			}
+			
+		} catch (ResourceNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return 0;
+		}
+		
 	
 		
 	}

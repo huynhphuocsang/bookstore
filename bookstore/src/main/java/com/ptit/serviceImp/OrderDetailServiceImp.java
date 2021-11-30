@@ -36,6 +36,9 @@ public class OrderDetailServiceImp implements OrderDetailService{
 		return orderDetailDao.getListBookOfOrderDetail(idOrder);
 	}
 
-	
+	@Override
+	public List<OrderDetail> getListDetailByBook(Book book){
+		return orderDetailDao.findByBook(book);
+	}
 
 }

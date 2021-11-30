@@ -41,19 +41,19 @@ function toast({title='',mess='',type='info',duration=3000}){
 }
 
 
-function showSuccess(){
+function showSuccess(message){
     toast({
     title: "Success",
-    mess: "Hệ thống đã thực hiện giao dịch thành công",
+    mess: message,
     type:"success",
-    duration: 100000
+    duration: 4000
     });
 }
-function showError(){
+function showError(message){
     toast({
     title: "Error",
-    mess: "Thất bại! vui lòng xem lại",
+    mess: message,
     type:"error",
-    duration: 1000
+    duration: 4000
     });
 }

@@ -21,7 +21,7 @@ public interface BookService{
 	public Page<Book> findPaginated(int pageNo, int pageSize, String sortField, String sortDirection);
 	public Page<Book> getPageViaCategory(int pageNo, int pageSize, String sortField,String sortDirection,Category category); 
 	public int save(Book book);
-	public void deleteById(long idBook);
+	public int deleteById(long idBook);
 	
 	public List<Book> getTopBook();
 	public List<Book> getNewBook();

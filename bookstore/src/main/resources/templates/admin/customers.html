@@ -6,9 +6,11 @@
 <th:block th:insert="/admin/fragments/head-tag.html :: link"></th:block>
 <link th:href="@{/css/admin/customer.css}" rel="stylesheet">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker.css" rel="stylesheet"/>
+<link th:href="@{/css/admin/popup.css}" rel="stylesheet">
 </head>
 
 <body>
+	<div id="toast"></div>
 	<div class="main__overlay"></div>
 	<!-- ============================== HEADER ================================= -->
 	<div th:replace="/admin/fragments/header.html :: admin-header('/admin/customer/search')"></div>
@@ -135,13 +137,14 @@
 				
 					<div class="card">
 						<div class="card-header ">
-							<span>NEW USER</span><i style="z-index: 1000;"
-								class="far fa-times-circle btn-close-from"></i>
+							<span>NEW USER</span>
+							<a style="color:white" th:href="@{'/admin/customer/' + ${currentPage}  + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">
+							<i style="z-index: 1000;" class="far fa-times-circle btn-close-from"></i></a>
 						</div>
 						<div class="card-body ">
 							<div class="form-row">
 								<!-- =================== FIELD ID ================== -->
-								<input th:field="*{userId}" type="hidden">
+								<input th:field="*{userId}" type="hidden" id="user-form-id">
 
 								<!-- =================== FIELD TÊN NGƯỜI DÙNG ================== -->
 								<div class="form-group col-md-6">
@@ -221,7 +224,7 @@
 									<div class="form-group col-md-12">
 										<label>Địa chỉ</label>
 										<div class="d-flex align-items-center">
-											<select name="villageId" class="form-control" id="village">
+											<select name="villageId" class="form-control" id="list-village">
 												<option th:each="addr : ${address}"
 													th:utext="${addr.addressName}"></option>
 											</select> <a class="btn btn-outline-warning ml-2" id="linkAddress"
@@ -336,6 +339,7 @@
 	<script th:src="@{/script/adminJs/headerHandle.js}"></script>
 	<script th:src="@{/script/adminJs/customer.js}"></script>
 	<script th:src="@{/script/validate_input.js}"></script>
+	<script th:src="@{/script/adminJs/popup.js}"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.js"></script>
 	<script th:inline="javascript">
 		Validator({
@@ -349,7 +353,18 @@
 					Validator.confirmMes('#user-confirm', '#user-pass',
 							'Mật khẩu nhập lại không hợp lệ') ]
 		});
-		
+		/*<![CDATA[*/
+	    var successMes = /*[[${successMes}]]*/ 'default';
+	    var erorrMes = /*[[${erorrMes}]]*/ 'default';
+	/*]]>*/
+	if(successMes){
+		showSuccess(successMes);
+	}
+	if(erorrMes){
+		showError(erorrMes)
+		console.log("erorr")
+	}
+	console.log(erorrMes)
 		/*<![CDATA[*/
 		var isAdd = /*[[${isAdd}]]*/'default';
 
@@ -369,14 +384,18 @@
 		//kiểm tra nếu them user nhận về lỗi thì hiện form nhập và hiện lại các thông tin vừa nhập
 		if (isError) {
 			var user2 = /*[[${user2}]]*/'default';
+			$('#user-form-id').val(user2.userId);
 			$('#user-name').val(user2.username);
 			$('#datepicker').val(user2.age);
 			$('#user-phone').val(user2.phone);
 			$('#user-email').val(user2.email);
 			$('#user-pass').val(user2.password);
 			$('#user-confirm').val(user2.password);
-			console.log(user2);
-			
+			var listAddress=user2.setAddress.map((ele,i)=>
+				"<option value="+ele.village.villageId+">"+ele.addressName+"-"+ele.village.villageName+"</option>")
+			$("#list-village").html(listAddress)
+			$("#linkAddress").attr("href",$("#linkAddress").attr("href")+user2.userId)
+			console.log(user2)
 		}
 		/*]]>*/
 		
@@ -391,23 +410,23 @@
 			const province = document.querySelector(".province");
 			var address2 = /*[[${address2}]]*/'default';
 			var user3 = /*[[${user3}]]*/'default';
-			//console.log(user3.userId);
-			$('.card #userId').val(user3.userId);
-			$('#user-name').val(user3.username);
-			$('#user-name').attr('readOnly','true');
-			$('#datepicker').val(user3.age);
-			$('#user-phone').val(user3.phone);
-			$('#user-email').val(user3.email);
-			$('#user-pass').val(user3.password);
-			$('#user-confirm').val(user3.password);
-			console.log(user3);
-			/* for(let i = 0 ; i < address.length ; i++){
-				console.log(address[i].addressName);
-			} */
-			var listAddress=user3.setAddress.map((ele,i)=>
-				"<option value="+ele.village.villageId+">"+ele.addressName+"-"+ele.village.villageName+"</option>")
-			$("#village").html(listAddress)
-			$("#linkAddress").attr("href",$("#linkAddress").attr("href")+user3.userId)
+			if(user3){
+				$('#user-form-id').val(user3.userId);
+				$('#user-name').val(user3.username);
+				$('#user-name').attr('readOnly','true');
+				$('#datepicker').val(user3.age);
+				$('#user-phone').val(user3.phone);
+				$('#user-email').val(user3.email);
+				$('#user-pass').val(user3.password);
+				$('#user-confirm').val(user3.password);
+				
+				var listAddress=user3.setAddress.map((ele,i)=>
+					"<option value="+ele.village.villageId+">"+ele.addressName+"-"+ele.village.villageName+"</option>")
+				$("#list-village").html(listAddress)
+				$("#linkAddress").attr("href",$("#linkAddress").attr("href")+user3.userId)
+				console.log(user3)
+			}
+			
 		}
 		/*]]>*/
 		
@@ -462,7 +481,7 @@
        				}
        			})
     		}
-        
+        	
     		document.addEventListener("DOMContentLoaded",function () {  
     		   province.addEventListener("change",function () {
     		       getDistrict(this.value); 
@@ -478,6 +497,8 @@
 			    viewMode: "years", 
 			    minViewMode: "years"
 			});
+    		
+    		
 	</script>
 
 
