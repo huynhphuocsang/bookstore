@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.ptit.model.Book;
 import com.ptit.model.Category;
@@ -80,7 +81,7 @@ public class OrderController {
 		
 		
 		
-		int pageSize = 2;
+		int pageSize = 6;
 		int pageFirst = 1;
 		Page<Order> page = orderService.findPaginated(pageNo, pageSize, sortField, sortDir, status);
 		List<Order> listOrder = page.getContent();
@@ -107,6 +108,7 @@ public class OrderController {
 	
 	@GetMapping("/save/{pageNo}")
 	public String saveStatus(Model model,@PathVariable(value = "pageNo") int pageNo,
+			RedirectAttributes ra,
 			@RequestParam("idOrder") long idOrder,
 			@RequestParam("statusNew") int statusNew,
 			@RequestParam("statusOld") int statusOld
@@ -114,12 +116,13 @@ public class OrderController {
 		
 		int i = orderService.updateOrderStatus(idOrder, statusNew);
 		if(i > 0 ) {
-			model.addAttribute("messeger", "thanh cong");
+			ra.addFlashAttribute("successMes", "Cập nhập trạng thái thành công");
 		}else {
-			model.addAttribute("messeger", "that bai");
+			ra.addFlashAttribute("erorrMes", "Cập nhập trạng thái thất bại");
 		}
-
-		return getOrder(model, pageNo, "nameOfCustomer", "asc", statusOld);
+		
+		//return getOrder(model, pageNo, "nameOfCustomer", "asc", statusOld);
+		return "redirect:/admin/order/"+pageNo+"?sortField=nameOfCustomer"+"&sortDir=asc"+"&status="+statusOld;
 	}
 	
 	

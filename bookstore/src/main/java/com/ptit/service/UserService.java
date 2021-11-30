@@ -41,7 +41,7 @@ public interface UserService {
 	public User findById(long id) throws ResourceNotFoundException;
 	public void saveUser(User user);
 	public UserDto convertUserDto(User user);
-	public void deleteUser(User user);
+	public int deleteUser(User user);
 	public void updateUser(User user);
 	
 	public Page<User> findUserByUsername(int pageNo, int pageSize, String sortField, String sortDirection,String key);

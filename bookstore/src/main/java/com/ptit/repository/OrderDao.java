@@ -57,6 +57,7 @@ public interface OrderDao extends JpaRepository<Order, Long>{
 			+ "ORDER BY order_day desc", nativeQuery = true)
 	public List<Integer> getListYear();
 	
+	public List<Order> findByUser(User user);
 }
 
 

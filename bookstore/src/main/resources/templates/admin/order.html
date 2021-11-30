@@ -5,9 +5,11 @@
 	<title th:replace = "/admin/fragments/head-tag.html :: title">Title</title>
 	<th:block th:insert="/admin/fragments/head-tag.html :: link"></th:block>
 	<link th:href="@{/css/admin/order.css}" rel="stylesheet">
+	<link th:href="@{/css/admin/popup.css}" rel="stylesheet">
 </head>
 
 <body>
+	<div id="toast"></div>
 	<div class="main__overlay"></div>
 	<!-- ============================== HEADER ================================= -->
 	<div th:replace="/admin/fragments/header.html :: admin-header('none')"></div>
@@ -52,34 +54,28 @@
 					</div>
 					
 					<!-- find book -->
-					<form class="form-inline my-2 my-lg-0  col-md-6" th:action="@{/admin/order/search}">
-					<div class="form-row">
-					<input type="text" class="form-control input-delete d-none" name="statusOrderSearch" th:value="${status}"></p>
-						<div class="form-group col-md-5">
-							<label for="publish-day">Ngày bắt đầu:</label> 
-							<input name="startDate" class="form-control" id="datepickerfrom"  type="date" />
-							
-						</div>
-						<div class="form-group col-md-5">
-							<label for="publish-day">Ngày kết thúc:</label> 
-							<input name="endDate" class="form-control" id="datepickerfrom"  type="date" />&nbsp;&nbsp;
-							<button class="btn btn-secondary my-2 my-sm-0 " type="submit" style="color: white">
-								<i class="fas fa-search"></i>
-							</button>
-						</div>
-					</div>		
-							
+					<form class="form-inline my-2 my-lg-0  col-md-6 form-search-order" th:action="@{/admin/order/search}">
+						<div class="form-row">
+							<input type="text" class="form-control input-delete d-none" name="statusOrderSearch" th:value="${status}">
+							<div class="form-group col-md-5">
+								<label for="publish-day">Ngày bắt đầu:</label> 
+								<input name="startDate" class="form-control start-Date" id="datepickerfrom"  type="date" />
+								<p class="form-message" >Không hợp lệ !!</p>
+								
+							</div>
+							<div class="form-group col-md-5">
+								<label for="publish-day">Ngày kết thúc:</label> 
+								<input name="endDate" class="form-control col-md-9 end-Date" id="datepickerfrom"  type="date" />
+								<p class="form-message" >Không hợp lệ !!</p>
+							</div>
+							<div class="form-group col-md-2">
+								<button class="btn btn-secondary my-2 my-sm-0" type="submit" style="color: white">
+									<i class="fas fa-search"></i>
+								</button>
+							</div>
+						</div>		
 					</form>
 
-					<!-- <div class="btn-toolbar mb-2 mb-md-0">
-						<div class="btn-group mr-2">
-							<button class="btn btn-sm btn-outline-secondary">Share</button>
-							<button class="btn btn-sm btn-outline-secondary">Export</button>
-						</div>
-						<button class="btn btn-sm btn-outline-secondary dropdown-toggle">
-							<span data-feather="calendar"></span> This week
-						</button>
-					</div> -->
 					<br><br><br>
 				</div>
 				<br>
@@ -215,8 +211,8 @@
 								<span class="btn btn-outline-primary active" th:unless="${currentPage < totalPage}">Last</span>
 
 						</div>
-					</div>
-
+					</div> 
+				</div>
 
 
 					<div class="container-order-detail">
@@ -252,7 +248,16 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script th:src="@{/script/adminJs/headerHandle.js}"></script>
 	<script th:src="@{/script/adminJs/order.js}"></script>
+	<script th:src="@{/script/adminJs/popup.js}"></script>
+	<script th:src="@{/script/validate_input.js}"></script>
 	<script th:inline="javascript">
+	Validator({
+        form: '.form-search-order',
+        rules:[
+          Validator.isRequired('.start-Date','Vui lòng chọn ngày bắt đầu'),
+          Validator.isRequired('.end-Date','Vui lòng chọn ngày kết thúc')
+        ]
+      });
 		$(document).ready(function() {
 			$('table #button_detail').on('click',function() {
 				var id = $(this).parent().find('#orderId').val();
@@ -265,6 +270,16 @@
 						})
 			});
 		});
+		/*<![CDATA[*/
+		    var successMes = /*[[${successMes}]]*/ 'default';
+		    var erorrMes = /*[[${erorrMes}]]*/ 'default';
+		/*]]>*/
+		if(successMes){
+			showSuccess(successMes);
+		}
+		if(erorrMes){
+			showError(erorrMes)
+		}
 	</script>
 </body>
 </html>

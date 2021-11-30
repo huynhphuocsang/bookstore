@@ -11,4 +11,6 @@ import com.ptit.model.OrderDetail;
 public interface OrderDetailService {
 	public List<OrderDetail> getListDetailByOrderId(long idOrder);
 	public List<Book> getListBookOfOrderDetail(long idOrder);
+	
+	public List<OrderDetail> getListDetailByBook(Book book);
 }

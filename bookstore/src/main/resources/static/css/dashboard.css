@@ -135,3 +135,14 @@ body {
 	border-radius: 15px;
 	display: none;
 }
+
+.form-message{
+	visibility: hidden;
+	margin:2px 0 0 4px; 
+	color:red; 
+	font-size: 10px
+}
+
+.form-message.invalid{
+	visibility: visible;
+}

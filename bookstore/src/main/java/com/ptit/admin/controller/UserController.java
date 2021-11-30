@@ -190,17 +190,19 @@ public class UserController {
 	public String updateUser(@ModelAttribute("user") User user, 
 			RedirectAttributes ra,
 			@RequestParam(name="addressName") String addressName,
-			@RequestParam(name="villageId") String villageId) {
+			@RequestParam(name="villageId") String villageId) throws ResourceNotFoundException {
 		boolean isError=false;
 		
 		Optional<User> user2 = userDao.findById(user.getUserId());
-		System.out.println(user2.isPresent());
+		
+		//Nếu người dùng ko tồn tại (thêm mới)
 		if(!user2.isPresent()) {
+			//kt trùng
 			boolean existUsername=userService.checkExistUsernameInfo(user.getUsername());
 			boolean existPhone=userService.checkExistPhoneInfo(user.getPhone());
 			boolean existEmail=userService.checkExistEmailInfo(user.getEmail());
 			
-			
+			//trả về lỗi nếu có
 			if(existUsername || existPhone || existEmail) {
 				isError=true;
 				ra.addFlashAttribute("isError", isError);
@@ -209,30 +211,42 @@ public class UserController {
 				ra.addFlashAttribute("existEmail", existEmail);
 				ra.addFlashAttribute("user2", user);
 				ra.addFlashAttribute("isAdd", true);
+				ra.addFlashAttribute("erorrMes", "Thêm user thất bại, vui lòng kiểm tra lại");
 				return "redirect:/admin/customer";
-			}else {
+			}else {// tiến hành thêm nếu ko có lỗi
 				Address ad = new Address();
 				ad.setAddressName(addressName);
+				
+				//mã hóa mk
 				String passwordConvert = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(12));  
 				user.setPassword(passwordConvert);
+				
 				ad.setVillage(villageService.getById(villageId));
 				user.getSetAddress().add(ad);
+				
 				userService.saveUser(user);
+				//cập nhập lại trạng thái 
 				boolean edit=false;
-				ra.addFlashAttribute("idEdit", edit);
+				ra.addFlashAttribute("idEdit", edit);//trạng thái edit
+				ra.addFlashAttribute("successMes", "Thêm user thành công");// trạng thái lỗi
 			}
-		}else {
+		}else {//nếu người dùng đã tồn tại (thực hiện cập nhập)
 			
+			//kt trùng
 			boolean existPhone=userService.checkExistPhoneInfo(user.getPhone(),user.getUsername());
 			boolean existEmail=userService.checkExistEmailInfo(user.getEmail(),user.getUsername());
-			System.out.println(existPhone+" "+existEmail);
+			
+			//nếu trùng trả về lỗi
 			if(existPhone || existEmail) {
 				isError=true;
+				User editUser = userService.findById(user.getUserId());
+				user.setSetAddress(editUser.getSetAddress());
 				ra.addFlashAttribute("isError", isError);
 				ra.addFlashAttribute("existPhone", existPhone);
 				ra.addFlashAttribute("existEmail", existEmail);
 				ra.addFlashAttribute("user2", user);
 				ra.addFlashAttribute("idEdit", true);
+				ra.addFlashAttribute("erorrMes", "Cập nhập user thất bại, vui lòng kiểm tra lại thông tin");
 				return "redirect:/admin/customer";
 			}else {
 				
@@ -241,6 +255,7 @@ public class UserController {
 				userService.updateUser(user);
 				boolean edit=false;
 				ra.addFlashAttribute("idEdit", edit);
+				ra.addFlashAttribute("successMes", "Cập nhập user thành công");
 			}
 			
 			
@@ -277,10 +292,13 @@ public class UserController {
 	
 	@PostMapping("/delete")
 	public String updateUser(
-			@RequestParam(name="id") long id) throws ResourceNotFoundException {
-		boolean isError=false;
+			@RequestParam(name="id") long id,RedirectAttributes ra) throws ResourceNotFoundException {
 		User user = userService.findById(id);
-		userService.deleteUser(user);
+		int status=userService.deleteUser(user);
+		
+		if(status==0) ra.addFlashAttribute("erorrMes", "Xóa user thất bại, người dùng đã có đơn hàng trong hệ thống");
+		else ra.addFlashAttribute("successMes", "Xóa user thành công");
+		
 		
 		
 		return "redirect:/admin/customer";

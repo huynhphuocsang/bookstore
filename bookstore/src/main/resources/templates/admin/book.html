@@ -10,7 +10,7 @@
 	
 <body>
 	<div class="main__overlay"></div>
-	
+	 <div id="toast"></div>
 	<!-- ============================== HEADER ================================= -->
 	<div th:replace="/admin/fragments/header.html :: admin-header('/admin/book/search')"></div>
 	
@@ -99,18 +99,18 @@
 							<div class = "col-sm-2">
 								Total Items: [[${totalItem}]]	
 							</div>
-							<a class="btn btn-outline-primary" th:if="${currentPage > 1}" th:href="@{'/admin/book/' + ${pageFirst}  + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">First</a>&nbsp; &nbsp;
+							<a class="page-links btn btn-outline-primary" th:if="${currentPage > 1}" th:href="@{'/admin/book/' + ${pageFirst}  + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">First</a>&nbsp; &nbsp;
 							<span class="btn btn-outline-primary active" th:unless="${currentPage > 1}">First</span>&nbsp; &nbsp;
 							
 							<span th:each="i : ${#numbers.sequence(1, totalPage)}">
-								<a class="btn btn-outline-primary" th:if="${currentPage != i}" th:href= "@{'/admin/book/' + ${i} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} }">[[${i}]]</a>
+								<a class="page-links btn btn-outline-primary" th:if="${currentPage != i}" th:href= "@{'/admin/book/' + ${i} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} }">[[${i}]]</a>
 								<span class="btn btn-outline-primary active" th:unless="${currentPage != i}">[[${i}]]</span> &nbsp; &nbsp;
 							</span>
 								
-							<a class="btn btn-outline-primary" th:if="${currentPage < totalPage}" th:href="@{'/admin/book/' + ${currentPage +1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} }">Next</a>&nbsp; &nbsp;
+							<a class="page-links btn btn-outline-primary" th:if="${currentPage < totalPage}" th:href="@{'/admin/book/' + ${currentPage +1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} }">Next</a>&nbsp; &nbsp;
 							<span class="btn btn-outline-primary active" th:unless="${currentPage < totalPage}">Next </span>&nbsp; &nbsp;
 							
-							<a class="btn btn-outline-primary" th:if="${currentPage < totalPage}" th:href="@{'/admin/book/'+${totalPage} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} }">Last</a>
+							<a class="page-links btn btn-outline-primary" th:if="${currentPage < totalPage}" th:href="@{'/admin/book/'+${totalPage} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} }">Last</a>
 							<span class="btn btn-outline-primary active" th:unless="${currentPage < totalPage}">Last</span>
 						</div>
 					
@@ -239,7 +239,7 @@
 							
 							<!-- BUTTON SUBMIT -->
 							<div style="text-align: center;">
-								<button type="submit" class="btn btn-primary">Xác Nhận</button>
+								<button type="submit" class="btn btn-primary btn-submit">Xác Nhận</button>
 							</div>
 						</div>
 					</div>
@@ -270,6 +270,7 @@
 	</div>
 	<br> <br>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
 	<script th:src="@{/script/adminJs/headerHandle.js}" ></script>
 	<script th:src="@{/script/adminJs/book.js}"></script>
 	<script th:src="@{/script/adminJs/popup.js}"></script>
@@ -311,7 +312,32 @@
         		
 
         	});
-        	//showSuccess();
+        	
+        	/*<![CDATA[*/
+	    	    var successMes = /*[[${successMes}]]*/ 'default';
+	    	    var erorrMes = /*[[${erorrMes}]]*/ 'default';
+			/*]]>*/
+			if(successMes){
+				showSuccess(successMes);
+			}
+        	if(erorrMes){
+        		showError(erorrMes)
+        	}
+          	//load lại vị trí scroll chuột
+   			var lastScrollTop = $.cookie('last-scroll-top');
+   			if (lastScrollTop) {
+   			    $(window).scrollTop(lastScrollTop);
+   			    console.log(lastScrollTop)
+   			    $.removeCookie('last-scroll-top');
+   			} 
+   			
+   			//lưu vị trí scroll trước khi chuyển page
+   			$(".page-links").on('click',function(){
+   				$.cookie('last-scroll-top', $(window).scrollTop());
+   			})
+   			$('.btn-submit').on('click',function(){
+   				$.cookie('last-scroll-top', $(window).scrollTop());
+   			})
         	
         });
       </script>

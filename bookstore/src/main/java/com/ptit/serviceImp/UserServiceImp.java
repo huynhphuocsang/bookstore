@@ -15,9 +15,13 @@ import org.springframework.stereotype.Service;
 
 import com.ptit.dto.UserDto;
 import com.ptit.exception.ResourceNotFoundException;
+import com.ptit.model.Order;
+import com.ptit.model.OrderDetail;
 import com.ptit.model.Role;
 import com.ptit.model.User;
 import com.ptit.model.UserRole;
+import com.ptit.repository.OrderDao;
+import com.ptit.repository.OrderDetailDao;
 import com.ptit.repository.RoleDao;
 import com.ptit.repository.UserDao;
 import com.ptit.repository.UserRoleDao;
@@ -35,6 +39,8 @@ public class UserServiceImp implements UserService{
 	@Autowired
 	UserRoleDao userRoleDao; 
 	
+	@Autowired
+	OrderDao orderdao;
 	
 
 	
@@ -209,8 +215,17 @@ public class UserServiceImp implements UserService{
 	}
 
 	@Override
-	public void deleteUser(User user) {
-		userDao.delete(user);
+	public int deleteUser(User user) {
+		List<Order> listOrder= orderdao.findByUser(user);
+		if(listOrder.size()>0) return 0;
+		else {
+			List<UserRole> listRole= userRoleDao.findByUser(user); 
+			for(UserRole role :listRole ) {
+				userRoleDao.delete(role);
+			}
+			userDao.delete(user);
+			return 1;
+		}
 		
 	}
 

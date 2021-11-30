@@ -10,31 +10,7 @@
 <body style="background-color: #F5F5F5">
 	<div class="main__overlay"></div>
 	<!-- ============================== HEADER ================================= -->
-	<nav class="navbar navbar-dark fixed-top bg-primary flex-md-nowrap p-0 shadow">
-		<a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#" >
-			<img style="max-height: 30px;" alt="book-store" th:src="@{/image/icon-book-shop-64.png}">
-			Book store
-		</a> 
-		
-		<div class="input-group col-sm-6 col-md-5">
-		    <input type="text" class="form-control " placeholder="Search please..">
-		    <div class="input-group-append">
-		      <button class="btn btn-secondary" type="button">
-		        <i class="fa fa-search"></i>
-		      </button>
-		    </div>
-  		</div>
-  		
-		<ul class="navbar-nav px-3">
-			<li class="nav-item text-nowrap">
-				<a class="nav-link text-light mr-1" style="font-size: 25px" th:href="@{/account/check-login}"><i class="far fa-user-circle"></i></a>
-				<!-- <a class="nav-link text-light" href="#">Sign out</a> -->
-			</li>
-		</ul>
-	</nav>
-	
-	<button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!">
-		<span data-feather="home"></button>
+	<div th:replace="/admin/fragments/header.html :: admin-header('none')"></div>
 	
 	<div class="container-fluid">
 		<div class="row">
