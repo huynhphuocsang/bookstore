@@ -8,6 +8,7 @@
 </head>
 	
 <body style="background-color: #F5F5F5">
+	<div id="toast"></div>
 	<div class="main__overlay"></div>
 	<!-- ============================== HEADER ================================= -->
 	<div th:replace="/admin/fragments/header.html :: admin-header('none')"></div>
@@ -136,7 +137,14 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
 	<script th:src="@{/script/adminJs/headerHandle.js}"></script>
-	<script type="text/javascript">
+	<script th:src="@{/script/adminJs/popup.js}"></script>
+	<script th:inline="javascript" type="text/javascript">
+	/*<![CDATA[*/
+	    var successMes = /*[[${successMes}]]*/ 'default';
+	    var erorrMes = /*[[${erorrMes}]]*/ 'default';
+	/*]]>*/
+	checkPopup(successMes,erorrMes)
+	
 		$(document).ready(function() {
 			//load lại vị trí scroll chuột
 			var lastScrollTop = $.cookie('last-scroll-top');

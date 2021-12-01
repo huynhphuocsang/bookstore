@@ -54,18 +54,18 @@
 					</div>
 					
 					<!-- find book -->
-					<form class="form-inline my-2 my-lg-0  col-md-6 form-search-order" th:action="@{/admin/order/search}">
+					<form class="form-inline col-md-5 form-search-order" th:action="@{/admin/order/search}">
 						<div class="form-row">
 							<input type="text" class="form-control input-delete d-none" name="statusOrderSearch" th:value="${status}">
 							<div class="form-group col-md-5">
-								<label for="publish-day">Ngày bắt đầu:</label> 
-								<input name="startDate" class="form-control start-Date" id="datepickerfrom"  type="date" />
+								<label for="datepickerfrom">Ngày bắt đầu:</label> 
+								<input name="startDate" class="form-control col-md-12 start-Date" id="datepickerfrom"  type="date" />
 								<p class="form-message" >Không hợp lệ !!</p>
 								
 							</div>
 							<div class="form-group col-md-5">
-								<label for="publish-day">Ngày kết thúc:</label> 
-								<input name="endDate" class="form-control col-md-9 end-Date" id="datepickerfrom"  type="date" />
+								<label for="datepickerfrom">Ngày kết thúc:</label> 
+								<input name="endDate" class="form-control col-md-12 end-Date" id="datepickerfrom"  type="date" />
 								<p class="form-message" >Không hợp lệ !!</p>
 							</div>
 							<div class="form-group col-md-2">
@@ -274,12 +274,8 @@
 		    var successMes = /*[[${successMes}]]*/ 'default';
 		    var erorrMes = /*[[${erorrMes}]]*/ 'default';
 		/*]]>*/
-		if(successMes){
-			showSuccess(successMes);
-		}
-		if(erorrMes){
-			showError(erorrMes)
-		}
+		checkPopup(successMes,erorrMes)
+		
 	</script>
 </body>
 </html>

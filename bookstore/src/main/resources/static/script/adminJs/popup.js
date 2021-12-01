@@ -46,7 +46,7 @@ function showSuccess(message){
     title: "Success",
     mess: message,
     type:"success",
-    duration: 4000
+    duration: 2000
     });
 }
 function showError(message){
@@ -54,6 +54,15 @@ function showError(message){
     title: "Error",
     mess: message,
     type:"error",
-    duration: 4000
+    duration: 2000
     });
+}
+
+function checkPopup(successMes,erorrMes){
+	if(successMes){
+		showSuccess(successMes);
+	}
+	if(erorrMes){
+		showError(erorrMes)
+	}
 }

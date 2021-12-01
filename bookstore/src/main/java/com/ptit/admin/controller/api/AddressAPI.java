@@ -57,6 +57,7 @@ public class AddressAPI {
     private List<String> getAddressById(@PathVariable("id") long addressId){
     	Address address=addressDao.findByAddressId(addressId);
     	List<String> listAddressValues= new ArrayList<>();
+    	listAddressValues.add(String.valueOf(address.getAddressId()));
     	listAddressValues.add(address.getAddressName());
     	listAddressValues.add(address.getVillage().getVillageId());
     	listAddressValues.add(address.getVillage().getDistrict().getDistrictId());

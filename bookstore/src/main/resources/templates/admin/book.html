@@ -215,7 +215,7 @@
 										&nbsp; &nbsp;<p class="form-message" >Vui lòng chọn ảnh !!</p>
 									</div>
 									<label for="picture" class="display-img border">
-										<img  id="img-output" style="max-height: 300px;" class="card-img-top " th:src="@{/image/choosing-img-icon.png}"
+										<img  id="img-output" style="height:300px;width:auto;" class="card-img-top " th:src="@{/image/choosing-img-icon.png}"
 											alt="Book image">
 									</label>
 								</div>
@@ -255,7 +255,7 @@
 							<input type="text" class="form-control input-delete d-none" name="id" th:value="${book.idBook}"></p>
 							<div class="btns-comfirm d-flex justify-content-end">
 														
-								<a href="#" class="btn btn-secondary btn-cancel mr-3">Hủy</a>
+								<a style="color: white;cursor: pointer;" class="btn btn-secondary btn-cancel mr-3">Hủy</a>
 								
 								<button type="submit" class="btn btn-primary">Xác Nhận</button>
 								
@@ -317,12 +317,8 @@
 	    	    var successMes = /*[[${successMes}]]*/ 'default';
 	    	    var erorrMes = /*[[${erorrMes}]]*/ 'default';
 			/*]]>*/
-			if(successMes){
-				showSuccess(successMes);
-			}
-        	if(erorrMes){
-        		showError(erorrMes)
-        	}
+			checkPopup(successMes,erorrMes)
+			
           	//load lại vị trí scroll chuột
    			var lastScrollTop = $.cookie('last-scroll-top');
    			if (lastScrollTop) {

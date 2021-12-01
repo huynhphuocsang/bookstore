@@ -67,16 +67,15 @@ public class UserAddressController {
 	
 	@PostMapping("/save")
 	public String save(Model model, 
-			@RequestParam(value = "userId") long userId,
+			@RequestParam(value = "userId") String userId,
 			@ModelAttribute("address") Address address,
 			RedirectAttributes ra) throws ResourceNotFoundException {
 		
-		
-		User user =userService.findById(userId);
-		addressService.addOrUpdateAddress(address, user);
+		User user =userService.findById(Integer.parseInt(userId));
+		int status=addressService.addOrUpdateAddress(address, user);
 		ra.addAttribute("user", user);
-	
-
+		if(status==1) ra.addFlashAttribute("successMes", "Thêm địa chỉ thành công");
+		else ra.addFlashAttribute("successMes", "Cập nhập địa chỉ thành công");
 		
 		return "redirect:/admin/userAddress/";
 	}
@@ -113,7 +112,7 @@ public class UserAddressController {
 		userService.saveUser(user);
 		addressService.deleteAddress(addressService.findById(idAddress));
 		ra.addAttribute("user", user);
-		
+		ra.addFlashAttribute("successMes", "Xóa địa chỉ thành công");
 		return "redirect:/admin/userAddress/";
 	}
 	

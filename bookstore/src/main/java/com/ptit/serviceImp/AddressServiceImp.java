@@ -36,15 +36,20 @@ public class AddressServiceImp implements AddressService{
 		
 	}
 	@Override
-	public void addOrUpdateAddress(Address address, User user) {
+	public int addOrUpdateAddress(Address address, User user) {
 		Optional<Address> add = addressDao.findById(address.getAddressId());
 
 		if(!add.isPresent()) {
 			addressDao.save(address);
 			user.addAddress(address);
 			userService.saveUser(user);
+			return 1;//thêm
 			
-		}else addressDao.save(address);
+		}else {
+			address.setSetUsers(add.get().getSetUsers());
+			addressDao.save(address);
+			return 2;//sửa
+		}
 		
 		
 	}
