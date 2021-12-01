@@ -115,7 +115,7 @@ public class OrderControllerAdminApi {
 					+ "									<strong class=\"text-danger text-boild\">"+NumberFormat.getNumberInstance(java.util.Locale.UK).format(order.getTotalPrice())+" VNĐ </strong>\r\n "
 					+ "								</p>\r\n"
 					+ "								<hr>\r\n"
-					+ "								<a href=\"#\" class=\"btn btn-warning btn-close-from\" onclick=\"closeOrderDetail()\"\r\n"
+					+ "								<a style=\"color: white;cursor: pointer;\" class=\"btn btn-warning btn-close-from\" onclick=\"closeOrderDetail()\"\r\n"
 					+ "									data-abc=\"true\"> <i class=\"fa fa-chevron-left\"></i> Trở về\r\n"
 					+ "								</a>\r\n"
 					+ "							</div>");
