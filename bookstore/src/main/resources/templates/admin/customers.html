@@ -33,7 +33,7 @@
 						<form method="get" th:action="@{'/admin/customer/Add/' + ${currentPage}}">
 							<input type="hidden"  name="sortField" th:value="${sortField}"> 
 							<input type="hidden"  name="sortDir" th:value="${sortDir}">
-							<button type="submit" class="btn btn-success">Add</button> 
+							<button type="submit" class="btn btn-success">New User</button> 
 						</form> 
 					</div>
 					<!-- search -->
@@ -308,7 +308,7 @@
 					</div>
 				</form>
 
-				<!-- ===============DIALOG DELETE BOOK =======================-->
+				<!-- ===============DIALOG DELETE =======================-->
 				<form th:action="@{/admin/customer/delete}" class="from__confirm"
 					th:method="post">
 					<div class="card">
@@ -322,7 +322,7 @@
 							</p>
 							<div class="btns-comfirm d-flex justify-content-end">
 
-								<a href="#" class="btn btn-secondary btn-cancel mr-3">Hủy</a>
+								<a style="color: white;cursor: pointer;" class="btn btn-secondary btn-cancel mr-3">Hủy</a>
 
 								<button type="submit" class="btn btn-primary">Xác Nhận</button>
 
@@ -354,17 +354,11 @@
 							'Mật khẩu nhập lại không hợp lệ') ]
 		});
 		/*<![CDATA[*/
-	    var successMes = /*[[${successMes}]]*/ 'default';
-	    var erorrMes = /*[[${erorrMes}]]*/ 'default';
-	/*]]>*/
-	if(successMes){
-		showSuccess(successMes);
-	}
-	if(erorrMes){
-		showError(erorrMes)
-		console.log("erorr")
-	}
-	console.log(erorrMes)
+		    var successMes = /*[[${successMes}]]*/ 'default';
+		    var erorrMes = /*[[${erorrMes}]]*/ 'default';
+		/*]]>*/
+		checkPopup(successMes,erorrMes)
+		
 		/*<![CDATA[*/
 		var isAdd = /*[[${isAdd}]]*/'default';
 

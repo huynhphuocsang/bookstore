@@ -26,7 +26,7 @@ const btnEditUserAddress = $(".btn__edit--userAddress");/* btn edit  user */
 btnEditUserAddress.click(() => {
 	$(".main__overlay").css("display", "block");
 	frmAddUserAddress.css("display", "block");
-	frmAddUserAddress.find(".card-header:first").children("span").text("EDIT USER") 
+	frmAddUserAddress.find(".card-header:first").children("span").text("EDIT USER ADDRESS") 
 	frmAddUserAddress.find(".card-header:first").css({"background-color": "#FFC107","color": "black"})
 	
 	/* EVENT CLOSE FORM ADD BOOK */
@@ -65,7 +65,7 @@ btnDeleteUserAddress.click((e) => {
 });
 
 function clearnField(){
-	$('.form-row #addressId').val(0);
+	$('.card-body #addressId').val(0);
 	$('#province option').removeAttr('selected').filter('[0]').attr('selected', true)
 	$('#district option').removeAttr('selected').filter('[0]').attr('selected', true)
 	$('#village option').removeAttr('selected').filter('[0]').attr('selected', true)

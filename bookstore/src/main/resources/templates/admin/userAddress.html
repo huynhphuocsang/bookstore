@@ -8,6 +8,7 @@
 </head>
 
 <body>
+	<div id="toast"></div>
 	<div class="main__overlay"></div>
 	<!-- ============================== HEADER ================================= -->
 	<div th:replace="/admin/fragments/header.html :: admin-header('none')"></div>
@@ -85,8 +86,8 @@
 						</div>
 						<div class="card-body">
 								<!-- =================== FIELD ID ================== -->
-								<input type="hidden" class="id" name="userId" th:value="${user.userId}" >
-								<input th:field="*{addressId}" type="hidden">
+								<input type="hidden" class="id" id="userId" name="userId" th:value="${user.userId}" >
+								<input th:field="*{addressId}" id="addressId" type="hidden">
 								
 							<div class="form-row">
 								<!-- =================== FIELD TỈNH ================== -->
@@ -170,12 +171,19 @@
 		src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script th:src="@{/script/adminJs/headerHandle.js}"></script>
 	<script th:src="@{/script/adminJs/userAddress.js}"></script>
+	<script th:src="@{/script/adminJs/popup.js}"></script>
 	<script th:src="@{/script/validate_input.js}"></script>
 	<script th:inline="javascript">
 	
 	const province = document.getElementById("province");
 	const district = document.getElementById("district");
 	const village = document.getElementById("village");
+	/*<![CDATA[*/
+	    var successMes = /*[[${successMes}]]*/ 'default';
+	    var erorrMes = /*[[${erorrMes}]]*/ 'default';
+	/*]]>*/
+	checkPopup(successMes,erorrMes)
+	
 	function getProvince() {
 		$.ajax({ type : 'GET',
 			url : '/api/address/province',
@@ -231,11 +239,12 @@
 			$.ajax({ type : 'GET',
    				url : '/api/address/'+addressId,
    				success : function(data) {
-   					$('#province option').removeAttr('selected').filter('[value='+data[3]+']').attr('selected', true)
-   					$('#district option').removeAttr('selected').filter('[value='+data[2]+']').attr('selected', true)
-   					$('#village option').removeAttr('selected').filter('[value='+data[1]+']').attr('selected', true)
-   			        $("#addressName").val(data[0])
-   			     	$('.card-body #addressId').val(addressId);
+   					$('#province option').removeAttr('selected').filter('[value='+data[4]+']').attr('selected', true)
+   					$('#district option').removeAttr('selected').filter('[value='+data[3]+']').attr('selected', true)
+   					$('#village option').removeAttr('selected').filter('[value='+data[2]+']').attr('selected', true)
+   			        $("#addressName").val(data[1])
+   			        $('.card-body #addressId').val(data[0]);
+   					console.log(data[0])
    				}
    			})
 		}

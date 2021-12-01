@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.ptit.exception.ResourceNotFoundException;
 import com.ptit.model.Book;
@@ -146,9 +147,11 @@ public class ReviewController {
 	
 	@PostMapping("/bookReviews/delete")
 	public String deleteReview(@RequestParam("idBook") long idBook,@RequestParam(value = "leng",defaultValue = "0") int leng,
+								RedirectAttributes ra,
 								@RequestParam("idUser") long idUser) throws ResourceNotFoundException {
 		ReviewId reviewId=new ReviewId(idUser,idBook);
 		reviewService.deleteById(reviewId);
+		ra.addFlashAttribute("successMes", "Xóa bình luận thành công");
 		return "redirect:/admin/review/bookReviews/"+idBook+"?leng="+ leng;
 	}
 }
