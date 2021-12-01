@@ -23,9 +23,11 @@ import com.ptit.model.Author;
 import com.ptit.model.Book;
 import com.ptit.model.Category;
 import com.ptit.model.OrderDetail;
+import com.ptit.model.Review;
 import com.ptit.repository.BookDao;
 import com.ptit.repository.OrderDao;
 import com.ptit.repository.OrderDetailDao;
+import com.ptit.repository.ReviewDao;
 import com.ptit.service.BookService;
 
 
@@ -36,6 +38,9 @@ public class BookServiceImp implements BookService{
 	
 	@Autowired
 	OrderDetailDao orderdetaildao;
+	
+	@Autowired
+	ReviewDao reviewDao; 
 	
 	@Override
 	public Page<Book> getAllBooks(Pageable page) {
@@ -131,16 +136,17 @@ public class BookServiceImp implements BookService{
 	public int deleteById(long idBook) {
 		try {
 			List<OrderDetail> listOrder= orderdetaildao.findByBook(getBookById(idBook));
-			if(listOrder.size()>0) return 0;
-			else {
-				bookdao.deleteById(idBook);
-				return 1;
-			}
+			List<Review> listReview= reviewDao.findByIdIdBook(idBook);
+			if(listOrder.size()>0) {return 0;}//ko thành công vì có đơn đặt
+			if(listReview.size()>0) {return 1;}//ko thành công vì có đánh giá
+			
+			bookdao.deleteById(idBook);
+			return 2;
 			
 		} catch (ResourceNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return 0;
+			return -1;
 		}
 		
 	

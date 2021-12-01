@@ -151,7 +151,8 @@ public class BookController {
 	public String deleteBook(@RequestParam("id") Long idBook,RedirectAttributes ra) {
 		
 		int status=bookService.deleteById(idBook);
-		if(status==0) ra.addFlashAttribute("erorrMes", "Xóa thất bại, Sách đã được đặt hàng");
+		if(status==0) ra.addFlashAttribute("erorrMes", "Xóa thất bại, Sách đã có đơn hàng trong hệ thống. (Gợi ý: Cập nhập lại số lượng sách về 0)");
+		else if(status==1) ra.addFlashAttribute("erorrMes", "Xóa thất bại, Sách đã có lượt bình luận trong hệ thống. (Gợi ý: Xóa các lượt bình luận)");
 		else ra.addFlashAttribute("successMes", "Xóa sách thành công");
 		return "redirect:/admin/book";
 	}

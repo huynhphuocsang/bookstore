@@ -122,7 +122,7 @@
 	                    <span class="title" id="book-name">[[${product.bookName}]] <br> 
 	                        <span class="text-muted">[[${product.author.name}]] </span>
 	                    </span>
-	                    <span class="text-danger font-weight-bold" id="book-price">[[${#numbers.formatCurrency(product.price)}]]</span>
+	                    <span class="text-danger font-weight-bold" id="book-price">[[${#numbers.formatDecimal(product.price, 0, 'POINT', 0, 'POINT')+' đ'}]]</span>
 	                </span>
 	            </a>
 	            </div>
@@ -148,7 +148,7 @@
 			                    <span class="title" id="book-name">[[${product.bookName}]] <br> 
 			                        <span class="text-muted">[[${product.author.name}]] </span>
 			                    </span>
-			                    <span class="text-danger font-weight-bold" id="book-price">[[${#numbers.formatCurrency(product.price)}]]</span>
+			                    <span class="text-danger font-weight-bold" id="book-price">[[${#numbers.formatDecimal(product.price, 0, 'POINT', 0, 'POINT')+' đ'}]]</span>
 			                </span>
 			            </a> <br>
 			        </li>	
@@ -174,7 +174,7 @@
 			                    <span class="title" id="book-name">[[${product.bookName}]] <br> 
 			                        <span class="text-muted">[[${product.author.name}]] </span>
 			                    </span>
-			                    <span class="text-danger font-weight-bold" id="book-price">[[${#numbers.formatCurrency(product.price)}]]</span>
+			                    <span class="text-danger font-weight-bold" id="book-price">[[${#numbers.formatDecimal(product.price, 0, 'POINT', 0, 'POINT')+' đ'}]]</span>
 			                </span>
 			            </a> <br>
 			        </li>	
@@ -210,17 +210,17 @@
 		<div class="container-md ">
 			<div class="row">
 				<div class="col-md-4 wow tada">
-					<p style="font-size: 32px">THÔNG TIN STORE</p>
-					<p class="about">Bookstore là một công ty TNHH 3 thành viên thiếu uy tín chuyên mua bán sách được thành lập năm 2021</p>
+					<p style="font-size: 20px">THÔNG TIN STORE</p>
+					<p class="about text-muted">Bookstore là một công ty TNHH 3 thành viên thiếu uy tín chuyên mua bán sách được thành lập năm 2021</p>
 					
 				</div>
-				<div class="col-md-4 wow tada">
-					<p style="font-size: 32px">LIÊN HỆ</p>
-					<p class="about">Địa chỉ: 97 Man Thiện, phường Hiệp Phú, quận 9, thành phố Hồ Chí Minh</p>
-					<p class="about">Số điện thoại: 0922 350 064(Mr. Quan Black)</p>
+				<div class="col-md-4 wow tada ">
+					<p style="font-size: 20px">LIÊN HỆ</p>
+					<p class="about  text-muted">Địa chỉ: 97 Man Thiện, phường Hiệp Phú, quận 9, thành phố Hồ Chí Minh</p>
+					<p class="about  text-muted">Số điện thoại: 0922 350 064(Mr. Quan Black)</p>
 				</div>
 				<div class="col-md-4 wow tada">
-					<p style="font-size: 32px;font-style: italic;">QUÂN SANG TRƯỜNG Ltd</p>
+					<p style="font-size: 20px;font-style: italic;">QUÂN SANG TRƯỜNG Ltd</p>
 					<img  th:src="@{/image/quansangtruong.jpg}" style="width:33%">
 	
 				</div>

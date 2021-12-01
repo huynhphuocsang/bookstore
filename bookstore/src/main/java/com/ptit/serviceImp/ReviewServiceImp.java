@@ -58,12 +58,10 @@ public class ReviewServiceImp implements ReviewService{
 		List<Review> listAll=reviewDao.findByIdIdBook(id);
 		
 		//Sắp xếp đánh giá theo tgian
-		/*
-		 * Collections.sort(listAll, new Comparator<Review>() {
-		 * 
-		 * @Override public int compare(Review o1, Review o2) { return
-		 * o1.getTime().compareTo(o2.getTime()); } });
-		 */
+		Collections.sort(listAll, new Comparator<Review>() {
+		 @Override public int compare(Review o1, Review o2) { return
+		 o2.getTime().compareTo(o1.getTime()); } });
+		 
 		if(leng>listAll.size()) leng=listAll.size();
 		return listAll.subList(0, leng); 
 	}

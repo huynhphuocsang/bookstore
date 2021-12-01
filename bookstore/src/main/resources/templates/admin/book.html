@@ -77,7 +77,7 @@
 									<img style="height:120px;width:auto;" class="card-img-top " th:src="@{'/image/' + ${book.getPicture()}}"
 										alt="Card image cap">
 								</td>
-								<td th:text="${#numbers.formatDecimal(book.getPrice(),3,0)}">##</td>
+								<td th:text="${#numbers.formatDecimal(book.price, 0, 'POINT', 0, 'POINT')+' đ'}">##</td>
 								<td th:text="${book.getTotalQuantity}">##</td>
 								 
 								<td class="align-middle text-center">

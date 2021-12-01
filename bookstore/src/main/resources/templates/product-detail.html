@@ -63,7 +63,7 @@
 								<p>Ngày xuất bản: <strong>[[${#dates.format(book.publishDay, 'dd-MM-yyyy')}]]</strong></p> 
 							</div>
 						</div>
-						<h4 class="text-danger font-weight-bold">[[${#numbers.formatCurrency(book.price)}]]</h4>
+						<h4 class="text-danger font-weight-bold">[[${#numbers.formatDecimal(book.price, 0, 'POINT', 0, 'POINT')+' đ'}]]</h4>
 						<p class="text-muted">Số lượng tồn: <strong>[[${book.totalQuantity}]]</strong></p> 
 						<table class="table" style="width: 50%">
 							<thead class="thead-dark">
@@ -111,7 +111,7 @@
                     <span class="title" id="book-name">[[${product.bookName}]] <br> 
                         <span class="text-muted">[[${product.author.name}]] </span>
                     </span>
-                    <span class="text-danger font-weight-bold" id="book-price">[[${#numbers.formatCurrency(product.price)}]]</span>
+                    <span class="text-danger font-weight-bold" id="book-price">[[${#numbers.formatDecimal(product.price, 0, 'POINT', 0, 'POINT')+' đ'}]]</span>
                 </span>
             </a>
             </div>
@@ -227,7 +227,7 @@
 			
 			<div class="card-body d-flex flex-column" >
 				<ul class="row list-product">
-			        <li class="col-md-3 col-lg-2 wow bounceIn mb-3" th:each="product, state: ${listCategoryBook}">
+			        <li class="col-md-4 col-lg-3 wow bounceIn mb-3" th:each="product, state: ${listCategoryBook}">
 			            <a th:href="@{'/book/'+${product.idBook}}"  class="itemside border mb-3">
 			                <span class="aside text-center">
 			                    <img th:src="@{'../../image/' + ${product.picture}}"  class="img-sm">
@@ -236,7 +236,7 @@
 			                    <span class="title" id="book-name">[[${product.bookName}]] <br> 
 			                        <span class="text-muted">[[${product.author.name}]] </span>
 			                    </span>
-			                    <span class="text-danger font-weight-bold" id="book-price">[[${#numbers.formatCurrency(product.price)}]]</span>
+			                    <span class="text-danger font-weight-bold" id="book-price">[[${#numbers.formatDecimal(product.price, 0, 'POINT', 0, 'POINT')+' đ'}]]</span>
 			                </span>
 			            </a>
 			        </li>
