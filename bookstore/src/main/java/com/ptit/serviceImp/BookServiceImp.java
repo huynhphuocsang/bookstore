@@ -22,9 +22,11 @@ import com.ptit.exception.ResourceNotFoundException;
 import com.ptit.model.Author;
 import com.ptit.model.Book;
 import com.ptit.model.Category;
+import com.ptit.model.Items;
 import com.ptit.model.OrderDetail;
 import com.ptit.model.Review;
 import com.ptit.repository.BookDao;
+import com.ptit.repository.ItemsDao;
 import com.ptit.repository.OrderDao;
 import com.ptit.repository.OrderDetailDao;
 import com.ptit.repository.ReviewDao;
@@ -41,6 +43,9 @@ public class BookServiceImp implements BookService{
 	
 	@Autowired
 	ReviewDao reviewDao; 
+	
+	@Autowired
+	ItemsDao itemsDao;
 	
 	@Override
 	public Page<Book> getAllBooks(Pageable page) {
@@ -137,11 +142,14 @@ public class BookServiceImp implements BookService{
 		try {
 			List<OrderDetail> listOrder= orderdetaildao.findByBook(getBookById(idBook));
 			List<Review> listReview= reviewDao.findByIdIdBook(idBook);
+			List<Items> listItems= itemsDao.findAllByBook(getBookById(idBook));
+			
 			if(listOrder.size()>0) {return 0;}//ko thành công vì có đơn đặt
 			if(listReview.size()>0) {return 1;}//ko thành công vì có đánh giá
+			if(listItems.size()>0) {return 2;}//ko thành công vì có đánh giá
 			
 			bookdao.deleteById(idBook);
-			return 2;
+			return 3;
 			
 		} catch (ResourceNotFoundException e) {
 			// TODO Auto-generated catch block
