@@ -18,6 +18,7 @@ public interface ItemsDao extends JpaRepository<Items, Long>{
 	
 	public Items findByUserAndBook(User user, Book book);
 	public List<Items> findAllByUser(User user);
+	public List<Items> findAllByBook(Book book);
 	
 	@Transactional
 	public void deleteByUser(User user); 

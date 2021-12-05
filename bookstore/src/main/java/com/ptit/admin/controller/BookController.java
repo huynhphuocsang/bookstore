@@ -153,6 +153,7 @@ public class BookController {
 		int status=bookService.deleteById(idBook);
 		if(status==0) ra.addFlashAttribute("erorrMes", "Xóa thất bại, Sách đã có đơn hàng trong hệ thống. (Gợi ý: Cập nhập lại số lượng sách về 0)");
 		else if(status==1) ra.addFlashAttribute("erorrMes", "Xóa thất bại, Sách đã có lượt bình luận trong hệ thống. (Gợi ý: Xóa các lượt bình luận)");
+		else if(status==2) ra.addFlashAttribute("erorrMes", "Xóa thất bại, Sách đã được thêm vào giỏ hàng trong hệ thống. (Gợi ý: Kiểm tra lại các giỏ hàng)");
 		else ra.addFlashAttribute("successMes", "Xóa sách thành công");
 		return "redirect:/admin/book";
 	}

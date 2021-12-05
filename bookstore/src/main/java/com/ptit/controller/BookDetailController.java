@@ -96,6 +96,8 @@ public class BookDetailController {
 			map.addAttribute("listAuthorBook", listAuthorBook); 
 			map.addAttribute("listCategoryBook", listCategoryBook); 
 			
+			String[] listDescription=book.getDescribeBook().split("\n");
+			map.addAttribute("listDescription", listDescription); 
 			return "product-detail"; 
 		}
 		

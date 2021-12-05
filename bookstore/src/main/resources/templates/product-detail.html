@@ -94,7 +94,7 @@
 	<div class="row mt-4 book-detail bg-white rounded">
 		<div  class="p-2">
 			<h5>Mô Tả Sản Phẩm</h5>
-			 <p class="text-muted">[[${book.describeBook}]]</p>
+			 <p th:each="desc: ${listDescription}" class="text-muted">[[${desc}]]</p>
 		</div>
 	</div>
 	

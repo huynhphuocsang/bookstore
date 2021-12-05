@@ -21,15 +21,15 @@
 			
 			<!-- ===================MAIN CONTENT=================== -->
 			<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4 mb-3 main-content">
-				<div class="row book-detail p-2">
-					<div class="col-xs-2 col-md-2">
+				<div class="row book-detail p-2 ml-4 mr-5 ">
+					<div class="col-md-2">
 						<img style="height:180px;width:auto;" class="card-img-top " th:src="@{'/image/'+${book.picture}}"
 												alt="Card image cap">
 					</div>
-					<div class="col-xs-10 col-md-9">
+					<div class="col-md-9">
 						<h3>[[${book.bookName}]]</h3>
 						<div class="row">
-							<div class="col-xs-6 col-md-7 border-right">
+							<div class="col-md-9">
 								<div class="row">
 									<div class="col-xs-6 col-md-6">
 										<p>Tác giả: <strong>[[${book.author.name}]]</strong></p> 
@@ -49,9 +49,7 @@
 								<h5 class="text-danger">[[${#numbers.formatDecimal(book.price, 0, 'POINT', 0, 'POINT')+' đ'}]]</h5>
 								<p class="text-muted">Số lượng tồn: <strong>[[${book.totalQuantity}]]</strong></p> 
 							</div>
-							<div class="col-xs-6 col-md-5 border-left">
-								<p>Mô tả: <i  class="text-muted">[[${book.describeBook}]]</i></p> 
-							</div>
+							
 						</div>
 					</div>
 					
