@@ -6,7 +6,9 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.ptit.exception.ResourceNotFoundException;
@@ -69,5 +71,13 @@ public class CategoryServiceImp implements CategoryService{
 			id=this.save(newCategory);
 			return categorydao.getById(id);
 		}
+	}
+	
+	@Override
+	public Page<Category> findPaginated(int pageNo, int pageSize){
+		Sort sort = Sort.by("name").ascending() ;
+		
+		Pageable pageable = PageRequest.of(pageNo -1, pageSize,sort);
+		return categorydao.findAll(pageable);
 	}
 }

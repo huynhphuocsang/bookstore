@@ -17,4 +17,6 @@ public interface CategoryService {
 	public long getCategoryIdByName(String name) throws ResourceNotFoundException;
 	public int save(Category category);
 	public Category selectOrUpdateCategory(String name);
+	
+	public Page<Category> findPaginated(int pageNo, int pageSize);
 }
