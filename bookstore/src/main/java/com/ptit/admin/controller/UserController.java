@@ -265,14 +265,14 @@ public class UserController {
 	}
 	
 	
-	@PostMapping("/saveEdit")
-	public String updateUserEdit(@ModelAttribute("user") User user) {
-//			String passwordConvert = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(12));  
-//			user.setPassword(passwordConvert);	
-			userService.saveUser(user);
-
-		return "redirect:/admin/customer";
-	}
+	/*
+	 * @PostMapping("/saveEdit") public String
+	 * updateUserEdit(@ModelAttribute("user") User user) { // String passwordConvert
+	 * = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(12)); //
+	 * user.setPassword(passwordConvert); userService.saveUser(user);
+	 * 
+	 * return "redirect:/admin/customer"; }
+	 */
 	
 	@PostMapping("/edit")
 	public String edit(Model model,

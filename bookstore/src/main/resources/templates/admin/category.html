@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title th:replace = "/admin/fragments/head-tag.html :: title">Title</title>
+	<th:block th:insert="/admin/fragments/head-tag.html :: link"></th:block>
+	<link th:href="@{/css/admin/book.css}" rel="stylesheet">
+	<link th:href="@{/css/admin/popup.css}" rel="stylesheet">
+</head>
+	
+<body>
+	<div class="main__overlay"></div>
+	 <div id="toast"></div>
+	<!-- ============================== HEADER ================================= -->
+	<div th:replace="/admin/fragments/header.html :: admin-header('/admin/book/search')"></div>
+	
+	<div class="container-fluid">
+		<div class="row">
+		
+			<!-- ================= NAVIGATION =================== -->
+			<nav th:replace="/admin/fragments/navigation.html :: admin-nav('Category')"></nav>
+			
+			<!-- ===================MAIN CONTENT=================== -->
+			<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4 position-relative">
+			
+				<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-1 pb-1 mb-1 border-bottom position-relative" >
+					<div class="m-2">
+						<button type="button" class="btn btn-success btn__add--book">
+							<i class="fas fa-plus"></i> Add new</i>
+						</button>
+					</div>
+						
+						
+					<div class="btn-toolbar mb-2 mb-md-0">
+						<div class="btn-group mr-2">
+							<button class="btn btn-sm btn-outline-secondary">Share</button>
+							<button class="btn btn-sm btn-outline-secondary">Export</button>
+						</div>
+						<button class="btn btn-sm btn-outline-secondary dropdown-toggle">
+							<span data-feather="calendar"></span> This week
+						</button>
+					</div>
+					
+				</div>
+				
+				<!-- TABLE VIEW -->
+				<div class="table-responsive rounded-top rounded-bottom">
+					<table class="table table-bordered" id="myTable">
+						<thead>
+							<tr class="table-warning">
+								<th scope="col">ID</th>
+						      	<th scope="col">Name</th>
+						      	<th class="align-middle" style=" width:10%;" scope="col">Alter</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="category : ${listBook}">
+								<td th:text="${category.categoryId}">##</td>
+								<td th:text="${category.name}">##</td>
+								<td class="align-middle text-center">
+									<button type="button" class="btn btn-warning m-1 btn__edit--book">
+							          <i class="far fa-edit"></i>
+							        </button>
+							        <button type="button" class="btn btn-danger btn__delete--book" th:id="${category.categoryId}">
+							          <i style="color:black;" class="far fa-trash-alt"></i>
+							        </button>
+							       <input type="hidden" id="idBook" name="idBook" th:value="${category.categoryId}" >
+						      </td>
+							</tr>
+						</tbody>
+					</table>
+					
+					
+					<div th:if = "${totalPage > 1}">
+						<div class = "row col-sm-10">
+							<div class = "col-sm-2">
+								Total Items: [[${totalItem}]]	
+							</div>
+							<a class="page-links btn btn-outline-primary" th:if="${currentPage > 1}" th:href="@{'/admin/category/' + ${pageFirst} }">First</a>&nbsp; &nbsp;
+							<span class="btn btn-outline-primary active" th:unless="${currentPage > 1}">First</span>&nbsp; &nbsp;
+							
+							<span th:each="i : ${#numbers.sequence(1, totalPage)}">
+								<a class="page-links btn btn-outline-primary" th:if="${currentPage != i}" th:href= "@{'/admin/category/' + ${i}}">[[${i}]]</a>
+								<span class="btn btn-outline-primary active" th:unless="${currentPage != i}">[[${i}]]</span> &nbsp; &nbsp;
+							</span>
+								
+							<a class="page-links btn btn-outline-primary" th:if="${currentPage < totalPage}" th:href="@{'/admin/category/' + ${currentPage +1} }">Next</a>&nbsp; &nbsp;
+							<span class="btn btn-outline-primary active" th:unless="${currentPage < totalPage}">Next </span>&nbsp; &nbsp;
+							
+							<a class="page-links btn btn-outline-primary" th:if="${currentPage < totalPage}" th:href="@{'/admin/category/'+${totalPage}}">Last</a>
+							<span class="btn btn-outline-primary active" th:unless="${currentPage < totalPage}">Last</span>
+						</div>
+					
+					</div>
+					
+				</div>
+			
+			<!-- ===============FORM ADD BOOK =========================-->
+				<form th:action="@{/admin/book/save}" th:object="${category}" method="post"
+				enctype="multipart/form-data" class="from__add--book">
+					<div class="card">
+						<div style="" class="card-header ">
+							<span>NEW BOOK</span><i style="z-index: 1000;" class="far fa-times-circle btn-close-from"></i>
+						</div>
+						<div class="card-body ">
+							<div class="form-row">
+								<div class="form-group col-md-6">
+									<div class="form-row">
+									<!-- =================== FIELD ID ================== -->
+									<input th:field="*{categoryId}" type="hidden" >
+									<!-- =================== FIELD TÊN SÁCH ================== -->
+										<div class="form-group col-md-12">
+											<label for="book-name">Tên Sách</label> 
+											<input th:field="*{name}" type="text" class="form-control" id="book-name" placeholder="VD: Đắc nhân tâm">
+												<p class="form-message" >Không hợp lệ !!</p>
+										</div>
+									</div>
+								</div>
+							</div>
+									
+							
+							<!-- BUTTON SUBMIT -->
+							<div style="text-align: center;">
+								<button type="submit" class="btn btn-primary btn-submit">Xác Nhận</button>
+							</div>
+						</div>
+					</div>
+				</form>
+				 
+			<!-- ===============DIALOG DELETE BOOK =======================-->
+				<form th:action="@{/admin/book/delete}" class="from__confirm" th:method="post">
+					<div class="card">
+						<div class="card-header">Xác nhận xóa</div>
+						
+						<div class="card-body" style="text-align: center;">
+							<p class="card-text ">Bạn chắc chắn muốn xóa sách có id: <strong id="book-id"></strong>
+							<input type="text" class="form-control input-delete d-none" name="id" th:value="${category.categoryId}"></p>
+							<div class="btns-comfirm d-flex justify-content-end">
+														
+								<a style="color: white;cursor: pointer;" class="btn btn-secondary btn-cancel mr-3">Hủy</a>
+								
+								<button type="submit" class="btn btn-primary">Xác Nhận</button>
+								
+							</div>
+							
+						</div>
+					</div>
+				</form>			
+			
+			</main>
+		</div>
+	</div>
+	<br> <br>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+	<script th:src="@{/script/adminJs/headerHandle.js}" ></script>
+	<script th:src="@{/script/adminJs/book.js}"></script>
+	<script th:src="@{/script/adminJs/popup.js}"></script>
+	<script th:src="@{/script/validate_input.js}"></script>
+      <script th:inline="javascript">
+        Validator({
+          form: '.from__add--book',
+          rules:[
+            Validator.isRequired('#book-name'),
+          ]
+        });
+        
+        $(document).ready(function() {
+        	
+        	/*<![CDATA[*/
+	    	    var successMes = /*[[${successMes}]]*/ 'default';
+	    	    var erorrMes = /*[[${erorrMes}]]*/ 'default';
+			/*]]>*/
+			checkPopup(successMes,erorrMes)
+			
+          	//load lại vị trí scroll chuột
+   			var lastScrollTop = $.cookie('last-scroll-top');
+   			if (lastScrollTop) {
+   			    $(window).scrollTop(lastScrollTop);
+   			    console.log(lastScrollTop)
+   			    $.removeCookie('last-scroll-top');
+   			} 
+   			
+   			//lưu vị trí scroll trước khi chuyển page
+   			$(".page-links").on('click',function(){
+   				$.cookie('last-scroll-top', $(window).scrollTop());
+   			})
+   			$('.btn-submit').on('click',function(){
+   				$.cookie('last-scroll-top', $(window).scrollTop());
+   			})
+        	
+        });
+      </script>
+	
+</body>
+</html>
