@@ -9,7 +9,7 @@
 </head>
 	
 <body>
-	<div class="main__overlay"></div>
+	<div class="main__overlay animated fadeIn"></div>
 	 <div id="toast"></div>
 	<!-- ============================== HEADER ================================= -->
 	<div th:replace="/admin/fragments/header.html :: admin-header('/admin/book/search')"></div>
@@ -25,28 +25,11 @@
 			
 				<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-1 pb-1 mb-1 border-bottom position-relative" >
 					<div class="m-2">
-						<button type="button" class="btn btn-success btn__add--book">
+						<button type="button" class="btn btn-success btn__add--book wow fadeInLeft">
 							<i class="fas fa-plus"></i> Add new</i>
 						</button>
 					</div>
-					 <!-- find book -->
-					<!--<form class="form-inline my-2 my-lg-0 col-sm-10 col-md-10" th:action="@{/admin/book/search}">
-							<input class="form-control mr-sm-2 col-sm-9 col-md-10" type="search" style="margin-right: 100px" placeholder="Search" aria-label="Search" name="searchvalue">
-							<button class="btn btn-secondary my-2 my-sm-0 " type="submit" style="color: white">
-								<i class="fas fa-search"></i>
-							</button>
-					</form> -->
-						
-						
-					<div class="btn-toolbar mb-2 mb-md-0">
-						<div class="btn-group mr-2">
-							<button class="btn btn-sm btn-outline-secondary">Share</button>
-							<button class="btn btn-sm btn-outline-secondary">Export</button>
-						</div>
-						<button class="btn btn-sm btn-outline-secondary dropdown-toggle">
-							<span data-feather="calendar"></span> This week
-						</button>
-					</div>
+					
 					
 				</div>
 				
@@ -120,7 +103,7 @@
 			
 			<!-- ===============FORM ADD BOOK =========================-->
 				<form th:action="@{/admin/book/save}" th:object="${book}" method="post"
-				enctype="multipart/form-data" class="from__add--book">
+				enctype="multipart/form-data" class="from__add--book animated bounceInDown ">
 					<div class="card">
 						<div style="" class="card-header ">
 							<span>NEW BOOK</span><i style="z-index: 1000;" class="far fa-times-circle btn-close-from"></i>
@@ -272,10 +255,13 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
 	<script th:src="@{/script/adminJs/headerHandle.js}" ></script>
+	<script th:src="@{/script/wow.js}"></script>
+	<script th:src="@{/script/wow.min.js}"></script>
 	<script th:src="@{/script/adminJs/book.js}"></script>
 	<script th:src="@{/script/adminJs/popup.js}"></script>
 	<script th:src="@{/script/validate_input.js}"></script>
       <script th:inline="javascript">
+      new WOW().init();
         Validator({
           form: '.from__add--book',
           rules:[

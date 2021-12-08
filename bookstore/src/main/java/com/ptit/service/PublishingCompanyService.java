@@ -25,4 +25,7 @@ public interface PublishingCompanyService {
 	public boolean checkNameExitWhenInsert(String name);
 	
 	public boolean checkExitPublishingCompanyInBook(PublishingCompany category);
+	
+	public int deleteById(long id);
+	public Page<PublishingCompany> findCompany(String key,int pageNo, int pageSize); 
 }

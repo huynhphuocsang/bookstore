@@ -114,4 +114,17 @@ public class AuthorServiceImp implements AuthorService{
 		}
 		return false;
 	}
+	
+	@Override
+	public int deleteById(long id) {
+		authorDao.deleteById(id);
+		return 1;
+	}
+	
+	@Override
+	public Page<Author> findAuthor(String key,int pageNo, int pageSize){
+		Sort sort = Sort.by("name").ascending() ;
+		Pageable pageable = PageRequest.of(pageNo -1, pageSize,sort);
+		return authorDao.findByNameContainsAllIgnoreCaseOrderByNameAsc(key,pageable);
+	}
 }

@@ -3,6 +3,8 @@ package com.ptit.repository;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -21,4 +23,6 @@ public interface AuthorDao extends JpaRepository<Author, Long>{
 	
 	@Query(value = "select * from bookstore.author  where author.author_name = :name and author.id_author != :id", nativeQuery = true)
 	public List<Author> findAuthorWhenUpdate(String name,long id); 
+	
+	public Page<Author> findByNameContainsAllIgnoreCaseOrderByNameAsc(String name, Pageable pageable); 
 }

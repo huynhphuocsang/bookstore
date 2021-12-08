@@ -4,6 +4,7 @@ const btnAddBook = $(".btn__add--book");/* btn Add new book */
 const frmAddBook = $(".from__add--book");/* Form add new book */
 
 btnAddBook.click(() => {
+	frmAddBook.removeClass("bounceOutUp")
 	$(".main__overlay").css("display", "block");//làm mờ background
 	frmAddBook.css("display", "block");		// hiển thị form
 	
@@ -13,9 +14,12 @@ btnAddBook.click(() => {
 	/* EVENT CLOSE FORM ADD BOOK */
 	$(".far.btn-close-from").click((e) => {
 		$(".main__overlay").css("display", "none");
-		frmAddBook.css("display", "none");
+		frmAddBook.addClass("bounceOutUp")
 		$(".form-message.invalid").removeClass("invalid")
 		clearnField();
+		setTimeout(function(){frmAddBook.css("display", "none")},500)
+		
+		
 		
 	})
 });
@@ -24,6 +28,7 @@ btnAddBook.click(() => {
 const btnEditBook = $(".btn__edit--book");/* btn edit  book */
 
 btnEditBook.click(() => {
+	frmAddBook.removeClass("bounceOutUp")
 	$(".main__overlay").css("display", "block");
 	frmAddBook.css("display", "block");
 	//frmAddBook.attr("action","/admin/book/save")
@@ -33,10 +38,10 @@ btnEditBook.click(() => {
 	/* EVENT CLOSE FORM ADD BOOK */
 	$(".far.btn-close-from").click((e) => {
 		$(".main__overlay").css("display", "none");
-		frmAddBook.css("display", "none");
+		frmAddBook.addClass("bounceOutUp")
 		$(".form-message.invalid").removeClass("invalid")
 		clearnField();
-		
+		setTimeout(function(){frmAddBook.css("display", "none")},500)
 	})
 });
 
