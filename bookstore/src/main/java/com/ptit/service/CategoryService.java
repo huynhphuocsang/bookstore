@@ -19,4 +19,12 @@ public interface CategoryService {
 	public Category selectOrUpdateCategory(String name);
 	
 	public Page<Category> findPaginated(int pageNo, int pageSize);
+	
+	public boolean checkNameExitWhenUpdate(String name,long id);
+	public boolean checkNameExitWhenInsert(String name);
+	
+	public boolean checkExitCategoryInBook(Category category);
+	
+	
+	
 }

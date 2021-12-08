@@ -68,12 +68,28 @@ public class CategoryController {
 	}
 
 	@PostMapping("/category/save")
-	public String saveCategory(@ModelAttribute("category") Category category, @RequestParam("oldValue") String oldValue,
+	public String saveCategory(@ModelAttribute("category") Category category,
 			RedirectAttributes ra)
 			throws IOException, ResourceNotFoundException {
 		Optional<Category> category2 = categoryDao.findById(category.getCategoryId());
 		
-		
+		if(!category2.isPresent()) {
+			boolean checkName = categoryService.checkNameExitWhenInsert(category.getName());
+			// nếu tồn tại
+			if(checkName) {
+				
+			}else { // nếu không tồn tại
+				categoryService.save(category);
+			}
+		}else {
+			boolean checkName = categoryService.checkNameExitWhenUpdate(category.getName(), category.getCategoryId());
+			// nếu tồn tại
+			if(checkName) {
+				
+			}else { // nếu không tồn tại
+				categoryService.save(category);
+			}
+		}
 		
 		
 		
@@ -82,9 +98,18 @@ public class CategoryController {
 	}
 	
 	@PostMapping("/category/delete")
-	public String deleteCategory(@RequestParam("id") Long idBook,RedirectAttributes ra) {
+	public String deleteCategory(@RequestParam("id") Long id,RedirectAttributes ra) {
 		
-		
+		try {
+			if(categoryService.checkExitCategoryInBook(categoryService.getCategoryById(id))) {
+				// nếu như tồn tại
+			}
+		} catch (ResourceNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return "redirect:/admin/category";
 	}
+	
+	
 }
