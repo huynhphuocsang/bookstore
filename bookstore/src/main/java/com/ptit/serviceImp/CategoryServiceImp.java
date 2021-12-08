@@ -109,4 +109,17 @@ public class CategoryServiceImp implements CategoryService{
 		}
 		return false;
 	}
+	
+	@Override
+	public int deleteById(long id) {
+		categorydao.deleteById(id);
+		return 1;
+	}
+	
+	@Override
+	public Page<Category> findCategory(String key,int pageNo, int pageSize){
+		Sort sort = Sort.by("name").ascending() ;
+		Pageable pageable = PageRequest.of(pageNo -1, pageSize,sort);
+		return categorydao.findByNameContainsAllIgnoreCaseOrderByNameAsc(key,pageable);
+	}
 }

@@ -7,19 +7,26 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.ptit.exception.ResourceNotFoundException;
+import com.ptit.model.Author;
+import com.ptit.model.Book;
 import com.ptit.model.PublishingCompany;
 import com.ptit.repository.PublishingCompanyDao;
 import com.ptit.service.PublishingCompanyService;
 
+@Controller
+@RequestMapping("/admin")
 public class PublishingCompanyController {
 	
 	
@@ -38,10 +45,36 @@ public class PublishingCompanyController {
 
 	@GetMapping("/company/{pageNo}")
 	public String getcompany(Model model, @PathVariable(value = "pageNo") int pageNo) {
-		int pageSize = 2;
+		int pageSize = 6;
 		int pageFirst = 1;
 		model.addAttribute("company", new PublishingCompany());
 		Page<PublishingCompany> page = publishingCompanyService.findPaginated(pageNo, pageSize);
+
+		List<PublishingCompany> listCompany = page.getContent();
+		model.addAttribute("listCompany", listCompany);
+
+		model.addAttribute("pageFirst", pageFirst);
+		model.addAttribute("currentPage", pageNo);
+		model.addAttribute("totalPage", page.getTotalPages());
+		model.addAttribute("totalItem", page.getTotalElements());
+
+		return "/admin/company";
+	}
+	
+	@GetMapping("/company/search")
+	public String searchDefault(Model model,@RequestParam String searchvalue, ModelMap map) {
+		model.addAttribute("book", new Book());
+		return getCompanySearch(model, 1,searchvalue);
+		
+	}
+	
+	
+	@GetMapping("/company/search/{pageNo}")
+	public String getCompanySearch(Model model, @PathVariable(value = "pageNo") int pageNo,@RequestParam String searchvalue) {
+		int pageSize = 6;
+		int pageFirst = 1;
+		model.addAttribute("company", new PublishingCompany());
+		Page<PublishingCompany> page = publishingCompanyService.findCompany(searchvalue,pageNo, pageSize);
 
 		List<PublishingCompany> listCompany = page.getContent();
 		model.addAttribute("listCompany", listCompany);
@@ -64,22 +97,21 @@ public class PublishingCompanyController {
 			boolean checkName = publishingCompanyService.checkNameExitWhenInsert(publishingCompany.getName());
 			// nếu tồn tại
 			if(checkName) {
-				
+				ra.addFlashAttribute("erorrMes", "Thêm thất bại, Nhà xuất bản \""+publishingCompany.getName()+"\" đã có trong hệ thống.");
 			}else { // nếu không tồn tại
 				publishingCompanyService.save(publishingCompany);
+				ra.addFlashAttribute("successMes", "Thêm nhà xuất bản thành công");
 			}
 		}else {
 			boolean checkName = publishingCompanyService.checkNameExitWhenUpdate(publishingCompany.getName(), publishingCompany.getIdCompany());
 			// nếu tồn tại
 			if(checkName) {
-				
+				ra.addFlashAttribute("erorrMes", "Sửa thất bại, Nhà xuất bản \""+publishingCompany.getName()+"\" đã có trong hệ thống.");
 			}else { // nếu không tồn tại
 				publishingCompanyService.save(publishingCompany);
+				ra.addFlashAttribute("successMes", "Sửa nhà xuất bản thành công");
 			}
 		}
-		
-		
-		
 		
 		return "redirect:/admin/company";
 	}
@@ -90,6 +122,10 @@ public class PublishingCompanyController {
 		try {
 			if(publishingCompanyService.checkExitPublishingCompanyInBook(publishingCompanyService.getCompanyById(id))) {
 				// nếu như tồn tại
+				ra.addFlashAttribute("erorrMes", "Xóa thất bại, Đã có sách thuộc Nhà xuất bản này trong hệ thống.");
+			}else {
+				publishingCompanyService.deleteById(id);
+				ra.addFlashAttribute("successMes", "Xoá nhà xuất bản thành công");
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

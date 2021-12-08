@@ -14,6 +14,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -51,13 +52,39 @@ public class CategoryController {
 
 	@GetMapping("/category/{pageNo}")
 	public String getCategory(Model model, @PathVariable(value = "pageNo") int pageNo) {
-		int pageSize = 2;
+		int pageSize = 6;
 		int pageFirst = 1;
 		model.addAttribute("category", new Category());
 		Page<Category> page = categoryService.findPaginated(pageNo, pageSize);
 
 		List<Category> listCategory = page.getContent();
-		model.addAttribute("listBook", listCategory);
+		model.addAttribute("listCategory", listCategory);
+
+		model.addAttribute("pageFirst", pageFirst);
+		model.addAttribute("currentPage", pageNo);
+		model.addAttribute("totalPage", page.getTotalPages());
+		model.addAttribute("totalItem", page.getTotalElements());
+
+		return "/admin/category";
+	}
+	
+	@GetMapping("/category/search")
+	public String searchDefault(Model model,@RequestParam String searchvalue, ModelMap map) {
+		model.addAttribute("book", new Book());
+		return getCategorySearch(model, 1,searchvalue);
+		
+	}
+	
+	
+	@GetMapping("/category/search/{pageNo}")
+	public String getCategorySearch(Model model, @PathVariable(value = "pageNo") int pageNo,@RequestParam String searchvalue) {
+		int pageSize = 6;
+		int pageFirst = 1;
+		model.addAttribute("category", new Category());
+		Page<Category> page = categoryService.findCategory(searchvalue,pageNo, pageSize);
+
+		List<Category> listCategory = page.getContent();
+		model.addAttribute("listCategory", listCategory);
 
 		model.addAttribute("pageFirst", pageFirst);
 		model.addAttribute("currentPage", pageNo);
@@ -77,23 +104,21 @@ public class CategoryController {
 			boolean checkName = categoryService.checkNameExitWhenInsert(category.getName());
 			// nếu tồn tại
 			if(checkName) {
-				
+				ra.addFlashAttribute("erorrMes", "Thêm thất bại, Thể loại \""+category.getName()+"\" đã có trong hệ thống.");
 			}else { // nếu không tồn tại
 				categoryService.save(category);
+				ra.addFlashAttribute("successMes", "Thêm thể loại thành công");
 			}
 		}else {
 			boolean checkName = categoryService.checkNameExitWhenUpdate(category.getName(), category.getCategoryId());
 			// nếu tồn tại
 			if(checkName) {
-				
+				ra.addFlashAttribute("erorrMes", "Sửa thất bại, Thể loại \""+category.getName()+"\" đã có trong hệ thống.");
 			}else { // nếu không tồn tại
 				categoryService.save(category);
+				ra.addFlashAttribute("successMes", "Sửa thể loại thành công");
 			}
 		}
-		
-		
-		
-		
 		return "redirect:/admin/category";
 	}
 	
@@ -103,6 +128,12 @@ public class CategoryController {
 		try {
 			if(categoryService.checkExitCategoryInBook(categoryService.getCategoryById(id))) {
 				// nếu như tồn tại
+				ra.addFlashAttribute("erorrMes", "Xóa thất bại, Đã có sách thuộc thể loại này trong hệ thống.");
+				return "redirect:/admin/category";
+			}
+			else {
+				categoryService.deleteById(id);
+				ra.addFlashAttribute("successMes", "Xóa thể loại thành công");
 			}
 		} catch (ResourceNotFoundException e) {
 			// TODO Auto-generated catch block

@@ -37,6 +37,6 @@ public interface BookDao extends JpaRepository<Book, Long>,JpaSpecificationExecu
 	List<Book> getNewBook();
 	
 	public List<Book> findByAuthor(Author author); 
-	public List<Book> findByPublishingCompany(PublishingCompany p); 
+	public List<Book> findByCompany(PublishingCompany p); 
 
 }

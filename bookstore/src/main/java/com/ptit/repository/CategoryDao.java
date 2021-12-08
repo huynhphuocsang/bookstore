@@ -3,6 +3,8 @@ package com.ptit.repository;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -20,4 +22,6 @@ public interface CategoryDao extends JpaRepository<Category, Long>{
 	
 	@Query(value = "select * from bookstore.category where category.name = :name and category.category_id != :id", nativeQuery = true)
 	public List<Category> findCategoryWhenUpdate(String name,long id); 
+	
+	public Page<Category> findByNameContainsAllIgnoreCaseOrderByNameAsc(String name, Pageable pageable); 
 }

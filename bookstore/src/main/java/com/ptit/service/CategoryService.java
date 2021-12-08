@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.ptit.exception.ResourceNotFoundException;
+import com.ptit.model.Book;
 import com.ptit.model.Category;
 
 public interface CategoryService {
@@ -25,6 +26,7 @@ public interface CategoryService {
 	
 	public boolean checkExitCategoryInBook(Category category);
 	
-	
+	public int deleteById(long id);
+	public Page<Category> findCategory(String key,int pageNo, int pageSize); 
 	
 }

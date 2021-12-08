@@ -12,13 +12,13 @@
 	<div class="main__overlay"></div>
 	 <div id="toast"></div>
 	<!-- ============================== HEADER ================================= -->
-	<div th:replace="/admin/fragments/header.html :: admin-header('/admin/category/search')"></div>
+	<div th:replace="/admin/fragments/header.html :: admin-header('/admin/company/search')"></div>
 	
 	<div class="container-fluid">
 		<div class="row">
 		
 			<!-- ================= NAVIGATION =================== -->
-			<nav th:replace="/admin/fragments/navigation.html :: admin-nav('Category')"></nav>
+			<nav th:replace="/admin/fragments/navigation.html :: admin-nav('Company')"></nav>
 			
 			<!-- ===================MAIN CONTENT=================== -->
 			<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4 position-relative">
@@ -29,9 +29,9 @@
 							<i class="fas fa-plus"></i> Add new
 						</button>
 						<!-- ===============FORM ADD BOOK =========================-->
-						<form th:action="@{/admin/category/save}" th:object="${category}" method="post" class="from__add--book-propterty d-none">
+						<form th:action="@{/admin/company/save}" th:object="${company}" method="post" class="from__add--book-propterty d-none">
 							<!-- =================== FIELD ID ================== -->
-							<input th:field="*{categoryId}" type="hidden" class="addId" >
+							<input th:field="*{idCompany}" type="hidden" class="addId" >
 							<!-- =================== FIELD TÊN SÁCH ================== -->
 							<div class="d-flex align-items-start ">
 							<div>
@@ -56,12 +56,12 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr th:each="category : ${listCategory}">
-								<td th:text="${category.categoryId}">##</td>
-								<td> <p class="content"> [[${category.name}]]</p>
-									<form th:action="@{/admin/category/save}" th:object="${category}" method="post" class="from__edit--book-propterty d-none w-100">
+							<tr th:each="company : ${listCompany}">
+								<td th:text="${company.idCompany}">##</td>
+								<td> <p class="content"> [[${company.name}]]</p>
+									<form th:action="@{/admin/company/save}" th:object="${company}" method="post" class="from__edit--book-propterty d-none w-100">
 										<!-- =================== FIELD ID ================== -->
-										<input th:field="*{categoryId}" id="category-id" type="hidden">
+										<input th:field="*{idCompany}" id="company-id" type="hidden">
 										<!-- =================== FIELD TÊN SÁCH ================== -->
 										<div class="d-flex align-items-start ">
 										<div style="width: 90%;">
@@ -74,10 +74,10 @@
 									</form>	
 								</td>
 								<td class="align-middle text-center">
-									<button type="button" class="btn btn-warning m-1 btn__edit--book-propterty" th:id="${category.categoryId}">
+									<button type="button" class="btn btn-warning m-1 btn__edit--book-propterty" th:id="${company.idCompany}">
 							          <i class="far fa-edit"></i>
 							        </button>
-							        <button type="button" class="btn btn-danger btn__delete--book-propterty" th:id="${category.categoryId}">
+							        <button type="button" class="btn btn-danger btn__delete--book-propterty" th:id="${company.idCompany}">
 							          <i style="color:black;" class="far fa-trash-alt"></i>
 							        </button>
 						      </td>
@@ -91,18 +91,18 @@
 							<div class = "col-sm-2">
 								Total Items: [[${totalItem}]]	
 							</div>
-							<a class="page-links btn btn-outline-primary" th:if="${currentPage > 1}" th:href="@{'/admin/category/' + ${pageFirst} }">First</a>&nbsp; &nbsp;
+							<a class="page-links btn btn-outline-primary" th:if="${currentPage > 1}" th:href="@{'/admin/company/' + ${pageFirst} }">First</a>&nbsp; &nbsp;
 							<span class="btn btn-outline-primary active" th:unless="${currentPage > 1}">First</span>&nbsp; &nbsp;
 							
 							<span th:each="i : ${#numbers.sequence(1, totalPage)}">
-								<a class="page-links btn btn-outline-primary" th:if="${currentPage != i}" th:href= "@{'/admin/category/' + ${i}}">[[${i}]]</a>
+								<a class="page-links btn btn-outline-primary" th:if="${currentPage != i}" th:href= "@{'/admin/company/' + ${i}}">[[${i}]]</a>
 								<span class="btn btn-outline-primary active" th:unless="${currentPage != i}">[[${i}]]</span> &nbsp; &nbsp;
 							</span>
 								
-							<a class="page-links btn btn-outline-primary" th:if="${currentPage < totalPage}" th:href="@{'/admin/category/' + ${currentPage +1} }">Next</a>&nbsp; &nbsp;
+							<a class="page-links btn btn-outline-primary" th:if="${currentPage < totalPage}" th:href="@{'/admin/company/' + ${currentPage +1} }">Next</a>&nbsp; &nbsp;
 							<span class="btn btn-outline-primary active" th:unless="${currentPage < totalPage}">Next </span>&nbsp; &nbsp;
 							
-							<a class="page-links btn btn-outline-primary" th:if="${currentPage < totalPage}" th:href="@{'/admin/category/'+${totalPage}}">Last</a>
+							<a class="page-links btn btn-outline-primary" th:if="${currentPage < totalPage}" th:href="@{'/admin/company/'+${totalPage}}">Last</a>
 							<span class="btn btn-outline-primary active" th:unless="${currentPage < totalPage}">Last</span>
 						</div>
 					
@@ -110,13 +110,13 @@
 					
 				</div>
 			<!-- ===============DIALOG DELETE BOOK =======================-->
-				<form th:action="@{/admin/category/delete}" class="from__confirm" th:method="post">
+				<form th:action="@{/admin/company/delete}" class="from__confirm" th:method="post">
 					<div class="card">
 						<div class="card-header">Xác nhận xóa</div>
 						
 						<div class="card-body" style="text-align: center;">
 							<span class="card-text ">Bạn chắc chắn muốn Thể loại:</span><br> <strong id="form-content"></strong>
-							<input type="text" class="form-control input-delete d-none" name="id" th:value="${category.categoryId}">
+							<input type="text" class="form-control input-delete d-none" name="id" th:value="${company.idCompany}">
 							<div class="btns-comfirm d-flex justify-content-end" style="margin-top: 15px;">
 														
 								<a style="color: white;cursor: pointer;" class="btn btn-secondary btn-cancel mr-3">Hủy</a>
@@ -171,15 +171,15 @@
    			
         	$('.btn__edit--book-propterty').on('click',function(){
         		/*<![CDATA[*/
-	        	    var listCategory = /*[[${listCategory}]]*/ 'default';
+	        	    var listcompany = /*[[${listCompany}]]*/ 'default';
         		/*]]>*/
         		
         	    var id = $(this).attr('id')
-        	    var category =listCategory.find(element=>element.categoryId==id)
-    			$('.from__edit--book-propterty #category-id').val(category.categoryId);
-    			$('.from__edit--book-propterty #name-edit').val(category.name);
+        	    var company =listcompany.find(element=>element.idCompany==id)
+    			$('.from__edit--book-propterty #company-id').val(company.idCompany);
+    			$('.from__edit--book-propterty #name-edit').val(company.name);
     			
-    			const btnEdit = $(this);/* btn edit  Category */
+    			const btnEdit = $(this);/* btn edit  company */
     			const frmEdit = $(this).parents("tr").find("form");
         	});
  	    			

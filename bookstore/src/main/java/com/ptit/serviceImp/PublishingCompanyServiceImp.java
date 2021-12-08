@@ -107,10 +107,23 @@ public class PublishingCompanyServiceImp implements PublishingCompanyService{
 
 	@Override
 	public boolean checkExitPublishingCompanyInBook(PublishingCompany publishingCompany) {
-		List<Book> list = bookDao.findByPublishingCompany(publishingCompany);
+		List<Book> list = bookDao.findByCompany(publishingCompany);
 		if(list.size() > 0) {
 			return true;
 		}
 		return false;
+	}
+	
+	@Override
+	public int deleteById(long id) {
+		publishingCompanyDao.deleteById(id);
+		return 1;
+	}
+	
+	@Override
+	public Page<PublishingCompany> findCompany(String key,int pageNo, int pageSize){
+		Sort sort = Sort.by("name").ascending() ;
+		Pageable pageable = PageRequest.of(pageNo -1, pageSize,sort);
+		return publishingCompanyDao.findByNameContainsAllIgnoreCaseOrderByNameAsc(key,pageable);
 	}
 }
