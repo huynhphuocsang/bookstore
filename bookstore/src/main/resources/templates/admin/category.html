@@ -96,8 +96,7 @@
 				</div>
 			
 			<!-- ===============FORM ADD BOOK =========================-->
-				<form th:action="@{/admin/book/save}" th:object="${category}" method="post"
-				enctype="multipart/form-data" class="from__add--book">
+				<form th:action="@{/admin/category/save}" th:object="${category}" method="post" class="from__add--book">
 					<div class="card">
 						<div style="" class="card-header ">
 							<span>NEW BOOK</span><i style="z-index: 1000;" class="far fa-times-circle btn-close-from"></i>
@@ -190,6 +189,9 @@
    			})
         	
         });
+        
+        
+        
       </script>
 	
 </body>

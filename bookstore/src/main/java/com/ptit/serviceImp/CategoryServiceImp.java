@@ -12,7 +12,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.ptit.exception.ResourceNotFoundException;
+import com.ptit.model.Book;
 import com.ptit.model.Category;
+import com.ptit.repository.BookDao;
 import com.ptit.repository.CategoryDao;
 import com.ptit.service.CategoryService;
 
@@ -21,6 +23,9 @@ public class CategoryServiceImp implements CategoryService{
 
 	@Autowired
 	CategoryDao categorydao; 
+	
+	@Autowired
+	BookDao bookDao;
 	
 	@Override
 	public Category getCategoryById(long id) throws ResourceNotFoundException {
@@ -76,8 +81,32 @@ public class CategoryServiceImp implements CategoryService{
 	@Override
 	public Page<Category> findPaginated(int pageNo, int pageSize){
 		Sort sort = Sort.by("name").ascending() ;
-		
 		Pageable pageable = PageRequest.of(pageNo -1, pageSize,sort);
 		return categorydao.findAll(pageable);
+	}
+	@Override
+	public boolean checkNameExitWhenUpdate(String name, long id) {
+
+		List<Category> list = categorydao.findCategoryWhenUpdate(name, id);
+		if(list.size() > 0) {
+			return true;
+		}
+		return false;
+	}
+	@Override
+	public boolean checkNameExitWhenInsert(String name) {
+		Optional<Category> category = categorydao.findByNameAllIgnoreCase(name);
+		if(!category.isPresent()) {
+			return false;
+		}
+		return true;
+	}
+	@Override
+	public boolean checkExitCategoryInBook(Category category) {
+		List<Book> list = bookDao.findByCategory(category);
+		if(list.size() > 0) {
+			return true;
+		}
+		return false;
 	}
 }

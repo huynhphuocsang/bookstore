@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import com.ptit.model.Author;
 import com.ptit.model.Book;
 import com.ptit.model.Category;
+import com.ptit.model.PublishingCompany;
 
 @Repository
 public interface BookDao extends JpaRepository<Book, Long>,JpaSpecificationExecutor<Book>{
@@ -36,4 +37,6 @@ public interface BookDao extends JpaRepository<Book, Long>,JpaSpecificationExecu
 	List<Book> getNewBook();
 	
 	public List<Book> findByAuthor(Author author); 
+	public List<Book> findByPublishingCompany(PublishingCompany p); 
+
 }
