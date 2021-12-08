@@ -43,7 +43,7 @@ public class AuthorController {
 		Page<Author> page = authorService.findPaginated(pageNo, pageSize);
 
 		List<Author> listauthor = page.getContent();
-		model.addAttribute("listBook", listauthor);
+		model.addAttribute("listauthor", listauthor);
 
 		model.addAttribute("pageFirst", pageFirst);
 		model.addAttribute("currentPage", pageNo);
