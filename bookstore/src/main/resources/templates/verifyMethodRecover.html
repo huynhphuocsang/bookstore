@@ -26,7 +26,7 @@
 
 					<form>
 						
-						<div class="d-flex justify-content-center mt-3 login_container">
+						<div class="d-flex justify-content-center mt-3 login_container" th:if="${smsMethod ==true }">
 							<a th:href="@{/verify/verifyMethodRecover?pickedMethod=2}">	<button name="button" type="button" class="btn recoverpass_btn">Khôi phục bằng số điện thoại</button></a>
 						</div>
 						

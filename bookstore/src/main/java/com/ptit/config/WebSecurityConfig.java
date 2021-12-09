@@ -58,7 +58,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         
         // Nếu chưa login, nó sẽ redirect tới trang /login.
-        http.authorizeRequests().antMatchers("/account/userInfo/**").access("hasAnyRole('ROLE_USER')");
+        http.authorizeRequests().antMatchers("/account/userInfo/**").access("hasAnyRole('ROLE_ADMIN,ROLE_USER')");
 
         // Trang chỉ dành cho ADMIN
         http.authorizeRequests().antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')");

@@ -46,11 +46,19 @@ public class RecoverAccountController {
 		if(user==null) {
 			return "redirect:/verify/username?userNotExist=true&inputUsername="+username; 
 		}
-		if(user.getEmail()==null) {
+		if(user.getEmail()==null|| user.getEmail()=="") {
 				model.addAttribute("emaiMethod", false); 
-		}else {
+		}
+		else {
 				session.setAttribute(env.getProperty("SESSION_EMAIL_VERIFY"), user.getEmail()); 
 				model.addAttribute("emaiMethod", true); 
+		}
+		
+		if(user.getPhone()==null) {
+			model.addAttribute("smsMethod", false);
+		}else {
+			session.setAttribute(env.getProperty("SESSION_SMS_VERIFY"), user.getPhone()); 
+			model.addAttribute("smsMethod", true); 
 		}
 
 		session.setAttribute(env.getProperty("SESSION_USERNAME_VERIFY"), username); 
@@ -70,11 +78,13 @@ public class RecoverAccountController {
 		}
 		//verify by phone
 		else if(pickedMethod==2){
+			javaSenderService.sendSmsVerifyCode((String) session.getAttribute(env.getProperty("SESSION_SMS_VERIFY")), code);
 			System.out.println("The verify code is: "+code);
 		}
 		
 		//remove session email because do not use it anymore 
 		session.removeAttribute(env.getProperty("SESSION_EMAIL_VERIFY")); 
+		session.removeAttribute(env.getProperty("SESSION_SMS_VERIFY")); 
 		
 		//create session
 		session.setAttribute(env.getProperty("SESSION_CODE_VERIFY"), code); 
