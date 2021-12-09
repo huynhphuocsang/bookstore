@@ -4,6 +4,7 @@
 
 /* =================EVENT BUTTON OPEN DETAIL============== */
 btnEditOrder.click(() => {
+	frmOrderDetail.removeClass("bounceOutUp")
 	$(".main__overlay").css("display", "block");
 	frmOrderDetail.css("display", "block");
 	/* EVENT CLOSE FORM  */
@@ -14,10 +15,15 @@ btnEditOrder.click(() => {
 });
 
 function closeOrderDetail(){
-	$(".main__overlay").css("display", "none");
+	frmOrderDetail.addClass("bounceOutUp")
+	
+	setTimeout(function(){
 		frmOrderDetail.css("display", "none");
-	const detail = document.querySelector(".container-order-detail .card");
-	detail.innerHTML = "";
+		$(".main__overlay").css("display", "none");
+		const detail = document.querySelector(".container-order-detail .card");
+		detail.innerHTML = "";
+	},500)
+		
 }
 
 /* =================EVENT BUTTON CHANGE STATUS============== */

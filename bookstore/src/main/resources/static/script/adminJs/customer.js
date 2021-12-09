@@ -4,6 +4,7 @@ const btnAddUser = $(".btn__add--user");/* btn Add new book */
 const frmAddUser = $(".from__add--user");/* Form add new book */
 
 btnAddUser.click(() => {
+	frmAddUser.removeClass("bounceOutUp")
 	$(".main__overlay").css("display", "block");//làm mờ background
 	clearnField();
 	frmAddUser.css("display", "block");		// hiển thị form
@@ -13,10 +14,13 @@ btnAddUser.click(() => {
 	
 	/* EVENT CLOSE FORM ADD BOOK */
 	$(".far.btn-close-from").click((e) => {
-		$(".main__overlay").css("display", "none");
-		frmAddUser.css("display", "none");
 		$(".form-message.invalid").removeClass("invalid")
-		clearnField();
+		frmAddUser.addClass("bounceOutUp")
+		setTimeout(function(){
+			frmAddUser.css("display", "none");
+			$(".main__overlay").css("display", "none");
+			clearnField();
+		},500)
 		
 	})
 });

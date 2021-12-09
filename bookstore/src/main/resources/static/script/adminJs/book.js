@@ -13,14 +13,14 @@ btnAddBook.click(() => {
 	
 	/* EVENT CLOSE FORM ADD BOOK */
 	$(".far.btn-close-from").click((e) => {
-		$(".main__overlay").css("display", "none");
+		
 		frmAddBook.addClass("bounceOutUp")
 		$(".form-message.invalid").removeClass("invalid")
-		clearnField();
-		setTimeout(function(){frmAddBook.css("display", "none")},500)
-		
-		
-		
+		setTimeout(function(){
+			frmAddBook.css("display", "none")
+			$(".main__overlay").css("display", "none");
+			clearnField();
+		},500)
 	})
 });
 
@@ -35,13 +35,18 @@ btnEditBook.click(() => {
 	frmAddBook.find(".card-header:first").children("span").text("EDIT BOOK") 
 	frmAddBook.find(".card-header:first").css({"background-color": "#FFC107","color": "black"})
 	
-	/* EVENT CLOSE FORM ADD BOOK */
+	/* EVENT CLOSE FORM edit BOOK */
 	$(".far.btn-close-from").click((e) => {
-		$(".main__overlay").css("display", "none");
 		frmAddBook.addClass("bounceOutUp")
 		$(".form-message.invalid").removeClass("invalid")
-		clearnField();
-		setTimeout(function(){frmAddBook.css("display", "none")},500)
+		
+		setTimeout(function(){
+			frmAddBook.css("display", "none")
+			$(".main__overlay").css("display", "none");
+			clearnField();
+		
+		},500)
+		
 	})
 });
 

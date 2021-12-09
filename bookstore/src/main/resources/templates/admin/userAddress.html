@@ -9,7 +9,7 @@
 
 <body>
 	<div id="toast"></div>
-	<div class="main__overlay"></div>
+	<div class="main__overlay animated fadeIn"></div>
 	<!-- ============================== HEADER ================================= -->
 	<div th:replace="/admin/fragments/header.html :: admin-header('none')"></div>
 
@@ -78,7 +78,7 @@
 				</div>
 				<!-- ===============FORM ADD USER ADDRESS =========================-->
 				<form th:action="@{/admin/userAddress/save}" th:object="${address}"
-					method="post" enctype="multipart/form-data" class="from__add--userAddress">
+					method="post" enctype="multipart/form-data" class="from__add--userAddress animated bounceInDown">
 					<div class="card">
 						<div class="card-header ">
 							<span>NEW USER</span><i style="z-index: 1000;"

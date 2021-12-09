@@ -11,7 +11,7 @@
 
 <body>
 	<div id="toast"></div>
-	<div class="main__overlay"></div>
+	<div class="main__overlay animated fadeIn"></div>
 	<!-- ============================== HEADER ================================= -->
 	<div th:replace="/admin/fragments/header.html :: admin-header('/admin/customer/search')"></div>
 
@@ -27,32 +27,12 @@
 				<div
 					class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-1 pb-1 mb-1 border-bottom">
 					<div class="m-2">
-						<!-- <button  type="button" class="btn btn-success btn__add--user">
-							<i class="fas fa-plus"></i> New User</i>
-						</button>  -->
 						<form method="get" th:action="@{'/admin/customer/Add/' + ${currentPage}}">
 							<input type="hidden"  name="sortField" th:value="${sortField}"> 
 							<input type="hidden"  name="sortDir" th:value="${sortDir}">
 							<button type="submit" class="btn btn-success">New User</button> 
 						</form> 
 					</div>
-					<!-- search -->
-					<!-- <form class="form-inline my-2 my-lg-0 col-sm-10 col-md-10" th:action="@{/admin/customer/search}">
-							<input class="form-control mr-sm-2 col-sm-9 col-md-10" type="search" style="margin-right: 100px" placeholder="Search" aria-label="Search" name="searchvalue">
-							<button class="btn btn-secondary my-2 my-sm-0 " type="submit" style="color: white">
-								<i class="fas fa-search"></i>
-							</button>
-					</form> -->
-
-					<!-- <div class="btn-toolbar mb-2 mb-md-0">
-						<div class="btn-group mr-2">
-							<button class="btn btn-sm btn-outline-secondary">Share</button>
-							<button class="btn btn-sm btn-outline-secondary">Export</button>
-						</div>
-						<button class="btn btn-sm btn-outline-secondary dropdown-toggle">
-							<span data-feather="calendar"></span> This week
-						</button>
-					</div> -->
 				</div>
 
 				<!-- TABLE VIEW -->
@@ -133,7 +113,7 @@
 				</div>
 				<!-- ===============FORM ADD USER =========================-->
 				<form th:action="@{/admin/customer/save}" th:object="${user}"
-									method="post" enctype="multipart/form-data" class="from__add--user">
+									method="post" enctype="multipart/form-data" class="from__add--user animated bounceInDown">
 				
 					<div class="card">
 						<div class="card-header ">

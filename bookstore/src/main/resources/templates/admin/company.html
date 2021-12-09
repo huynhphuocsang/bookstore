@@ -29,13 +29,13 @@
 							<i class="fas fa-plus"></i> Add new
 						</button>
 						<!-- ===============FORM ADD BOOK =========================-->
-						<form th:action="@{/admin/company/save}" th:object="${company}" method="post" class="from__add--book-propterty d-none">
+						<form th:action="@{/admin/company/save}" th:object="${company}" method="post" class="from__add--book-propterty d-none animated fadeInLeft">
 							<!-- =================== FIELD ID ================== -->
 							<input th:field="*{idCompany}" type="hidden" class="addId" >
 							<!-- =================== FIELD TÊN SÁCH ================== -->
 							<div class="d-flex align-items-start ">
 							<div>
-								<input th:field="*{name}" type="text" class="form-control input-add" id="name-add" placeholder="Tên thể loại">
+								<input th:field="*{name}" type="text" class="form-control input-add" id="name-add" placeholder="Tên NXB">
 									<p class="form-message" >Không hợp lệ !!</p>
 							</div>&nbsp;
 							<!-- BUTTON SUBMIT -->
@@ -59,13 +59,13 @@
 							<tr th:each="company : ${listCompany}">
 								<td th:text="${company.idCompany}">##</td>
 								<td> <p class="content"> [[${company.name}]]</p>
-									<form th:action="@{/admin/company/save}" th:object="${company}" method="post" class="from__edit--book-propterty d-none w-100">
+									<form th:action="@{/admin/company/save}" th:object="${company}" method="post" class="from__edit--book-propterty d-none w-100 animated fadeIn">
 										<!-- =================== FIELD ID ================== -->
 										<input th:field="*{idCompany}" id="company-id" type="hidden">
 										<!-- =================== FIELD TÊN SÁCH ================== -->
 										<div class="d-flex align-items-start ">
 										<div style="width: 90%;">
-											<input th:field="*{name}" type="text" class="form-control input w-100" id="name-edit" placeholder="Tên thể loại">
+											<input th:field="*{name}" type="text" class="form-control input w-100" id="name-edit" placeholder="Tên NXB">
 											<p class="form-message" >Không hợp lệ !!</p>
 										</div>&nbsp;
 										<!-- BUTTON SUBMIT -->

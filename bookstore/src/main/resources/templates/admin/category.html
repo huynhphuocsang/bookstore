@@ -29,7 +29,7 @@
 							<i class="fas fa-plus"></i> Add new
 						</button>
 						<!-- ===============FORM ADD BOOK =========================-->
-						<form th:action="@{/admin/category/save}" th:object="${category}" method="post" class="from__add--book-propterty d-none">
+						<form th:action="@{/admin/category/save}" th:object="${category}" method="post" class="from__add--book-propterty d-none animated fadeInLeft">
 							<!-- =================== FIELD ID ================== -->
 							<input th:field="*{categoryId}" type="hidden" class="addId" >
 							<!-- =================== FIELD TÊN SÁCH ================== -->
@@ -59,7 +59,7 @@
 							<tr th:each="category : ${listCategory}">
 								<td th:text="${category.categoryId}">##</td>
 								<td> <p class="content"> [[${category.name}]]</p>
-									<form th:action="@{/admin/category/save}" th:object="${category}" method="post" class="from__edit--book-propterty d-none w-100">
+									<form th:action="@{/admin/category/save}" th:object="${category}" method="post" class="from__edit--book-propterty d-none w-100 animated fadeIn">
 										<!-- =================== FIELD ID ================== -->
 										<input th:field="*{categoryId}" id="category-id" type="hidden">
 										<!-- =================== FIELD TÊN SÁCH ================== -->
