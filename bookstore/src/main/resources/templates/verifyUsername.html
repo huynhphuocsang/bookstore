@@ -43,6 +43,16 @@
 					Xác thực thất bại<br />Tên đăng nhập không tồn tại!
 
 				</div>
+				<div th:if="${#request.getParameter('userNotExist') == 'errorEmail'}"
+					style="color: red; margin: 10px 0px;">
+					Xác thực thất bại<br />Email của bạn không hợp lệ !!
+
+				</div>
+				<div th:if="${#request.getParameter('userNotExist') == 'errorSMS'}"
+					style="color: red; margin: 10px 0px;">
+					Xác thực thất bại<br />SĐT của bạn hiện chưa được xác thực
+
+				</div>
 				<div class="mt-4">
 					<div class="d-flex justify-content-center links">
 						Bạn chưa có tài khoản <a href="/account/signup" class="ml-2">Đăng ký</a>

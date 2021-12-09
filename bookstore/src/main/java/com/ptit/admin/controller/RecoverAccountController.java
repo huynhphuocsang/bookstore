@@ -46,7 +46,7 @@ public class RecoverAccountController {
 		if(user==null) {
 			return "redirect:/verify/username?userNotExist=true&inputUsername="+username; 
 		}
-		if(user.getEmail()==null|| user.getEmail()=="") {
+		if(user.getEmail()==null || user.getEmail().isEmpty()) {
 				model.addAttribute("emaiMethod", false); 
 		}
 		else {
@@ -54,7 +54,7 @@ public class RecoverAccountController {
 				model.addAttribute("emaiMethod", true); 
 		}
 		
-		if(user.getPhone()==null) {
+		if(user.getPhone()==null || user.getPhone().isEmpty()) {
 			model.addAttribute("smsMethod", false);
 		}else {
 			session.setAttribute(env.getProperty("SESSION_SMS_VERIFY"), user.getPhone()); 
@@ -72,14 +72,23 @@ public class RecoverAccountController {
 		
 		//1: verify by email
 		if(pickedMethod==1) {
-			//send mail: 
-			javaSenderService.sendMailVerifyCode((String) session.getAttribute(env.getProperty("SESSION_EMAIL_VERIFY")), "Mã xác minh của bạn là: "+code);
-
+			try {
+				//send mail: 
+				javaSenderService.sendMailVerifyCode((String) session.getAttribute(env.getProperty("SESSION_EMAIL_VERIFY")), "Mã xác minh của bạn là: "+code);
+			} catch (Exception e) {
+				// TODO: handle exception
+				return "redirect:/verify/username?userNotExist=errorEmail&inputUsername="+(String) session.getAttribute(env.getProperty("SESSION_USERNAME_VERIFY"));
+			}
 		}
 		//verify by phone
 		else if(pickedMethod==2){
-			javaSenderService.sendSmsVerifyCode((String) session.getAttribute(env.getProperty("SESSION_SMS_VERIFY")), code);
-			System.out.println("The verify code is: "+code);
+			try {
+				javaSenderService.sendSmsVerifyCode((String) session.getAttribute(env.getProperty("SESSION_SMS_VERIFY")), code);
+			} catch (Exception e) {
+				// TODO: handle exception
+				return "redirect:/verify/username?userNotExist=errorSMS&inputUsername="+(String) session.getAttribute(env.getProperty("SESSION_USERNAME_VERIFY")); 
+			}
+			
 		}
 		
 		//remove session email because do not use it anymore 
