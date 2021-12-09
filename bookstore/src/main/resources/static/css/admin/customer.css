@@ -15,7 +15,7 @@ input[type=number]::-webkit-outer-spin-button, input[type=number]::-webkit-inner
 	position: fixed;
 	width: 60%;
 	height: 70%;
-	left: 55%;
+	left: 25%;
 	top: 3%;
 	transform: translateX(-50%);
 	background-color: white;

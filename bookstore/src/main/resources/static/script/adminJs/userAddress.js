@@ -3,6 +3,7 @@ const btnAddUserAddress = $(".btn__add--userAddress");/* btn Add new book */
 const frmAddUserAddress = $(".from__add--userAddress");/* Form add new book */
 
 btnAddUserAddress.click(() => {
+	frmAddUserAddress.removeClass("bounceOutUp")
 	$(".main__overlay").css("display", "block");//làm mờ background
 	clearnField();
 	frmAddUserAddress.css("display", "block");		// hiển thị form
@@ -12,9 +13,13 @@ btnAddUserAddress.click(() => {
 	
 	/* EVENT CLOSE FORM ADD BOOK */
 	$(".far.btn-close-from").click((e) => {
-		$(".main__overlay").css("display", "none");
-		frmAddUserAddress.css("display", "none");
+		frmAddUserAddress.addClass("bounceOutUp")
+		
 		$(".form-message.invalid").removeClass("invalid")
+		setTimeout(function(){
+			frmAddUserAddress.css("display", "none");
+			$(".main__overlay").css("display", "none");
+		},500)
 		clearnField();
 		
 	})
@@ -24,6 +29,7 @@ btnAddUserAddress.click(() => {
 const btnEditUserAddress = $(".btn__edit--userAddress");/* btn edit  user */
 
 btnEditUserAddress.click(() => {
+	frmAddUserAddress.removeClass("bounceOutUp")
 	$(".main__overlay").css("display", "block");
 	frmAddUserAddress.css("display", "block");
 	frmAddUserAddress.find(".card-header:first").children("span").text("EDIT USER ADDRESS") 
@@ -31,9 +37,12 @@ btnEditUserAddress.click(() => {
 	
 	/* EVENT CLOSE FORM ADD BOOK */
 	$(".far.btn-close-from").click((e) => {
-		$(".main__overlay").css("display", "none");
-		frmAddUserAddress.css("display", "none");
+		frmAddUserAddress.addClass("bounceOutUp")
 		$(".form-message.invalid").removeClass("invalid")
+		setTimeout(function(){
+			frmAddUserAddress.css("display", "none");
+			$(".main__overlay").css("display", "none");
+		},500)
 		//clearnField();
 		
 	})
