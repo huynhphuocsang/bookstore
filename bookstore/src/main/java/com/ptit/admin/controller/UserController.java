@@ -200,7 +200,7 @@ public class UserController {
 			//kt trùng
 			boolean existUsername=userService.checkExistUsernameInfo(user.getUsername());
 			boolean existPhone=userService.checkExistPhoneInfo(user.getPhone());
-			boolean existEmail=userService.checkExistEmailInfo(user.getEmail());
+			boolean existEmail=user.getEmail().isEmpty()?false: userService.checkExistEmailInfo(user.getEmail());
 			
 			//trả về lỗi nếu có
 			if(existUsername || existPhone || existEmail) {
@@ -234,7 +234,7 @@ public class UserController {
 			
 			//kt trùng
 			boolean existPhone=userService.checkExistPhoneInfo(user.getPhone(),user.getUsername());
-			boolean existEmail=userService.checkExistEmailInfo(user.getEmail(),user.getUsername());
+			boolean existEmail=user.getEmail().isEmpty()?false:userService.checkExistEmailInfo(user.getEmail(),user.getUsername());
 			
 			//nếu trùng trả về lỗi
 			if(existPhone || existEmail) {
