@@ -65,7 +65,7 @@ selects.forEach((select,index)=>{
 	/*EVENTS CLOSE SECLECT BOX */
 	select.onchange=(e)=>{
 		select.style.display="none";
-		input.value=(select.options.item(select.value-1).text)
+		input.value=(select.options.item(select.selectedIndex).text)
 		input.parentElement.querySelector('.form-message').classList.remove('invalid');   
 		
 	}
