@@ -63,6 +63,16 @@
 								<p>Ngày xuất bản: <strong>[[${#dates.format(book.publishDay, 'dd-MM-yyyy')}]]</strong></p> 
 							</div>
 						</div>
+						
+						<!-- số sao trung bình -->
+						<div th:if="${star>=1}" class= "wow bounceIn" style="font-size: 30px; text-align: center; display: inline;">
+							<label th:if="${star==1}" style="color: orange">☆</label> <label
+							th:if="${star==2}" style="color: orange">☆☆</label> <label
+							th:if="${star==3}" style="color: orange">☆☆☆</label> <label
+							th:if="${star==4}" style="color: orange">☆☆☆☆</label> <label
+							th:if="${star==5}" style="color: orange">☆☆☆☆☆</label> <br>
+						</div>
+						
 						<h4 class="text-danger font-weight-bold">[[${#numbers.formatDecimal(book.price, 0, 'POINT', 0, 'POINT')+' đ'}]]</h4>
 						<p class="text-muted">Số lượng tồn: <strong>[[${book.totalQuantity}]]</strong></p> 
 						<table class="table" style="width: 50%">
