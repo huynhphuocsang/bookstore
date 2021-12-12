@@ -76,12 +76,24 @@ public class OrderServiceImp implements OrderService {
 		}
 		return orderdao.findByOrderStatus(status, pageable);
 	}
+	
+	@Override
+	public Page<Order> findPaginatedListOrderFindByUser(int pageNo, int pageSize, String sortField, String sortDirection, int status,User user){
+		Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) 
+				? Sort.by(sortField).ascending() : Sort.by(sortField).descending() ;
+		
+		Pageable pageable = PageRequest.of(pageNo -1, pageSize,sort);
+		if(status<0) {
+			return orderdao.findByUserOrderByOrderIdDesc(user, pageable);
+		}
+		return orderdao.findByOrderStatus(status, pageable);
+	}
 	@Override
 	public int save(Order order) {
 		orderdao.save(order);
 		return 1;
 	}
-
+	
 	@Override
 	public Page<Order> getAllBetweenDates(int pageNo, int pageSize, String sortField, String sortDirection, int status,Date startDate, Date endDate) {
 		// TODO Auto-generated method stub

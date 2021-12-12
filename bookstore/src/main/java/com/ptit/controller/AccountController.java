@@ -276,7 +276,7 @@ public class AccountController {
 				
 				try {
 					pageNoOffical = Integer.parseInt(pageNo.get()); 
-					
+					if(pageNoOffical<1) return "redirect:/account/getAllOrder/1"; 
 				}catch (Exception e) {
 					return "redirect:/account/getAllOrder/1"; 
 				}
@@ -284,7 +284,7 @@ public class AccountController {
 				com.ptit.model.User user = userService.getUserByUsername(principal.getName()); 
 				
 				
-				Page<Order> page = orderService.findPaginated(pageNoOffical, pageSize, sortField, sortDir, -1); 
+				Page<Order> page = orderService.findPaginatedListOrderFindByUser(pageNoOffical, pageSize, sortField, sortDir, -1,user); 
 				List<Order> orders = page.getContent(); 
 				
 				model.addAttribute("currentPage", pageNoOffical); 
@@ -293,7 +293,6 @@ public class AccountController {
 				
 				model.addAttribute("orders", orders); 
 				model.addAttribute("username",principal.getName()); 
-				
 				return "userOrders"; 
 			}
 			return "redirect:/account/login"; 

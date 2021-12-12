@@ -30,4 +30,6 @@ public interface OrderService {
 	public List<Order> getOrdersByUser(User user);
 	public void cancelOrder(long orderId); 
 	public List<Float> getMoneyPerMonthByYear(int year);
+	Page<Order> findPaginatedListOrderFindByUser(int pageNo, int pageSize, String sortField, String sortDirection,
+			int status, User user);
 }

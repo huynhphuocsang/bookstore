@@ -24,7 +24,7 @@ public class ReviewServiceImp implements ReviewService{
 	
 	@Override
 	public List<Review> getAllReviewViaBook(Book book) {
-		return reviewDao.findByIdIdBook(book.getIdBook()); 
+		return reviewDao.findByIdIdBookOrderByTimeDesc(book.getIdBook()); 
 	}
 
 	@Override
