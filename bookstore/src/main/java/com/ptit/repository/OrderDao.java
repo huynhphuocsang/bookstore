@@ -44,8 +44,8 @@ public interface OrderDao extends JpaRepository<Order, Long>{
 	public Page<Order> getAllBetweenDatesAndStatus(@Param("startDate") Date startDate, @Param("endDate") Date endDate, @Param("orderStatus") int orderStatus, Pageable pageable);
 	 
 //	get stack overflow when: infinitive recursive
-	public List<Order> findByUserOrderByOrderIdDesc (User user); 
-	
+	public Page<Order> findByUserOrderByOrderIdDesc (User user,Pageable pageable); 
+	public List<Order> findByUserOrderByOrderIdDesc (User user);
 //	@Query(value = "SELECT * FROM Orders WHERE user_id = :userId", nativeQuery = true)
 //	List<Order> getAllOrdersByUserid(@Param("userId") long userId);
 	

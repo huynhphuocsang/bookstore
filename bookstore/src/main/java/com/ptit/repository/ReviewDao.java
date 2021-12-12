@@ -13,6 +13,7 @@ import com.ptit.model.ReviewId;
 @Repository
 public interface ReviewDao extends JpaRepository<Review, ReviewId>{
 	public List<Review> findByIdIdBook(long idBook); 
+	public List<Review> findByIdIdBookOrderByTimeDesc(long idBook); 
 	public Review findByIdIdBookAndIdUserId(long idBook, long userId); 
 	
 	
